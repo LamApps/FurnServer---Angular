@@ -1,0 +1,84 @@
+<nb-card>
+    <nb-card-header>
+      Permission Assign
+    </nb-card-header>
+  
+    <nb-card-body>
+        <div class="mt-3 d-flex">
+            <label for="select-company" class="col-md-3">Company</label>
+            <select 
+                id="select-company"
+                class="col-md-9 form-control" 
+                style="position: relative"
+                (ngModelChange)="onChangeCompany($event)"
+                [ngModel]="selected_company">
+                <option *ngFor="let company of companyList" [value]="company.id" >{{ company.name }}</option>
+            </select>
+        </div>
+        <div class="mt-3 d-flex flex-column">
+            <label for="select-company" class="col-md-12">Permissions</label>
+            <nb-card class="mt-3 py-3">
+                <div class="d-flex flex-row flex-wrap mt-1 align-items-center" style="background-color: #007bff;">
+                    <span class="col-md-8 align-middle px-2" style="font-weight: bold;">Link</span>
+                    <div class="col-md-4 d-flex py-1 flex-row justify-content-end align-items-center" >
+                        <input type="radio" id="p-none-all" name="menu-all" value="none" 
+                            [checked]="all_permission == 'none'"
+                            (change)="onClickAll('none')">
+                        <span for="p-none" class="align-middle mx-1" style="font-weight: bold; width: 40px;">ALL </span>
+
+                        <input type="radio" id="p-view-all" name="menu-all" value="view" 
+                            [checked]="all_permission == 'view'" 
+                            (change)="onClickAll('view')">
+                        <span for="p-view" class="align-middle mx-1" style="font-weight: bold; width: 40px;">ALL </span>
+
+                        <input type="radio" id="p-read-all" name="menu-all" value="read" 
+                            [checked]="all_permission == 'read'"
+                            (change)="onClickAll('read')">
+                        <span for="p-read" class="align-middle mx-1" style="font-weight: bold; width: 40px;">ALL </span>
+
+                        <input type="radio" id="p-write-all" name="menu-all" value="write" 
+                            [checked]="all_permission == 'write'" 
+                            (change)="onClickAll('write')">
+                        <span for="p-write" class="align-middle mx-1" style="font-weight: bold; width: 40px;">ALL </span>
+                    </div>
+                </div>
+                <div *ngFor="let menu of menuList" class="d-flex flex-row flex-wrap mt-1 align-items-center" style="background-color: #d3d3d315;">
+                    <span class="col-md-8 align-middle px-2">{{ menu.link }}</span>
+                    <div class="col-md-4 d-flex py-1 flex-row justify-content-end align-items-center" >
+                        <input type="radio" id="p-none" [name]="menu.id" value="none" 
+                            [checked]="menu.permission && menu.permission == 'none'" 
+                            (change)="onPermisionChange(menu, 'none')">
+                        <span for="p-none" class="align-middle mx-1" style="width: 40px;">None</span>
+
+                        <input type="radio" id="p-view" [name]="menu.id" value="view" 
+                            [checked]="menu.permission && menu.permission == 'view'" 
+                            (change)="onPermisionChange(menu, 'view')">
+                        <span for="p-view" class="align-middle mx-1" style="width: 40px;">View</span>
+
+                        <input type="radio" id="p-read" [name]="menu.id" value="read" 
+                            [checked]="menu.permission && menu.permission == 'read'"     
+                            (change)="onPermisionChange(menu, 'read')">
+                        <span for="p-read" class="align-middle mx-1" style="width: 40px;">Read</span>
+
+                        <input type="radio" id="p-write" [name]="menu.id" value="write" 
+                            [checked]="menu.permission && menu.permission == 'write'" 
+                            (change)="onPermisionChange(menu, 'write')">
+                        <span for="p-write" class="align-middle mx-1" style="width: 40px;">Write</span>
+                    </div>
+                </div>                
+            </nb-card>
+        </div>
+        <div class="mt-4">
+            <button nbButton matRipple 
+              status="primary" 
+              class="col-3"
+              [disabled]="submitted || menuList.length == 0 || companyList.length == 0"
+              (click)="submit()" >
+                Submit
+            </button>
+            <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                Cancel
+            </button>    
+        </div>
+    </nb-card-body>
+  </nb-card>

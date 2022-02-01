@@ -1,0 +1,118 @@
+<h1 id="title" class="title" style="background-color: #00a2e8;"><span style="color:white">Furn</span><span style="color:black">Serve</span></h1>
+
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+  <ul class="alert-message-list">
+    <li *ngFor="let error of errors" class="alert-message" style="margin-bottom: 0rem; color: red; font-size: 20px;">{{ error }}</li>
+  </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+  <ul class="alert-message-list">
+    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+  </ul>
+</nb-alert>
+
+<div [formGroup]="loginForm" aria-labelledby="title" class="mt-3">
+  <div  *ngIf="!isAdmin" class="form-control-group">
+    <label for="input-company-id">Company ID</label>
+    <input  nbInput
+            fullWidth
+            class="input-auth"
+            id="input-company-id"
+            formControlName="company_id"
+            (keyup)="userChange()"
+            [status]="company_id.dirty ? (company_id.invalid  ? 'danger' : 'success') : 'basic'"
+            [attr.aria-invalid]="company_id.invalid && company_id.touched ? true : null"
+            placeholder="Enter your company ID">
+    <ngx-validation-message label="Company ID" 
+      [showPattern]="company_id?.hasError('pattern')"
+      [showRequired]="company_id?.errors?.required"
+    ></ngx-validation-message>
+  </div>
+
+  <div class="form-control-group">
+    <label for="input-username">Username</label>
+    <input  nbInput
+            fullWidth
+            class="input-auth"
+            id="input-username"
+            formControlName="username"
+            (keyup)="userChange()"
+            [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : 'basic'"
+            [attr.aria-invalid]="username.invalid && username.touched ? true : null"
+            placeholder="Enter your username">
+    <ngx-validation-message label="Username" 
+      [showPattern]="username?.hasError('pattern')"
+      [showRequired]="username?.errors?.required"></ngx-validation-message>
+  </div>
+
+  <div class="form-control-group">
+    <label for="input-password">Password</label>
+    <div class="input-group w-100"
+      style="border-style: solid; border-width: 1px; border-color: rgba(0, 0, 0, 0.42); border-radius: 0.25rem;"
+      >
+      <input  nbInput
+        id="input-password"
+        formControlName="password"
+        type="password"
+        class="flex-grow-1 input-auth"
+        style="max-width: none; border-width: 0px"
+        (keyup.enter)="login()"
+        #x
+        placeholder="Enter your password">
+
+      <div class="input-group-append">
+        <span class="input-group-text"
+          style="background-color: transparent; border-style: none;"
+          >
+          <i
+            class="fa"
+            style="width: 20px;"
+            [ngClass]="{
+              'fa-eye-slash': x.type=='password',
+              'fa-eye': x.type!='password'
+            }"
+            (click)="x.type=x.type=='password'?'text':'password'"
+          ></i>
+        </span>
+      </div>
+    </div>
+
+    <ngx-validation-message label="Password" 
+      [showMinLength]="password?.hasError('minlength')"
+      [showRequired]="password?.errors?.required"
+      [minLength]="6"
+      [noUppercaseOrLowercase]="password.errors?.noUppercaseOrLowercase"
+      [noNumeric]="password.errors?.noNumeric"
+      ></ngx-validation-message>
+  </div>
+
+  <div class="form-control-group accept-group">
+    <div *ngIf="!isAdmin" class="md-6">
+      <nb-checkbox formControlName="remember_company_id" name="remember_company_id">Remember Company ID</nb-checkbox>
+    </div>
+    <div class="md-6">
+      <nb-checkbox formControlName="remember_username" name="remember_username">Remember Username</nb-checkbox>
+    </div>
+  </div>
+
+
+  <div *ngIf="!isAdmin" class="form-control-group">
+    <label for="select-company_database">Company Database</label>
+    <select 
+      id="select-company_database"
+      formControlName="company_database"
+      class="form-control"
+      [(ngModel)]="default_database">
+      <option *ngFor="let db of database" [value]="db" >{{ db }}</option>
+    </select>
+  </div>
+
+  <button nbButton fullWidth status="primary" size="large" style="background-color: #228be6; color: white; margin-bottom: 50px;"
+   (click)="login()" [disabled]="submitted"
+    [class.btn-pulse]="submitted">
+    Sign In
+  </button>
+</div>
+
+

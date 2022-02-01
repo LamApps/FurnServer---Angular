@@ -1,0 +1,15 @@
+<nb-card>
+    <nb-card-header>
+      Company
+    </nb-card-header>
+  
+    <nb-card-body>
+      <ng2-smart-table class="company-table"
+                      [settings]="settings"
+                      [source]="source"
+                      (create)="createUser()"
+                      (edit)="onEdit($event)"
+                      (delete)="onDelete($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>

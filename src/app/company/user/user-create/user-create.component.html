@@ -1,0 +1,193 @@
+<div class="row">
+    <div class="col-lg-8">
+      <nb-card>
+        <nb-card-header>{{ title }}</nb-card-header>
+        <nb-card-body>
+        <div [formGroup]="formGroup" aria-labelledby="title">
+            <div class="form-control-group mt-3">
+                <label for="input-database" class="col-md-3">Database</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-database"
+                        formControlName="database"
+                        [status]="database.dirty ? (database.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="database.invalid && database.touched ? true : null"
+                        placeholder="Enter Database"
+                        (keyup)="databseFormat($event)"
+                        (focusout)="focusoutDatabase()"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3" style="display:flex;">
+                <label for="input-default_database" class="col-md-3">Default Database</label>
+                <select 
+                    id="select-default_database"
+                    formControlName="default_database"
+                    class="col-md-9 form-control" 
+                    style="position: relative"
+                    [(ngModel)]="selected_database">
+                    <option *ngFor="let option of database_list" [value]="option" >{{ option }}</option>
+                </select>
+            </div>
+            <div *ngIf="!editing" class="form-control-group mt-3">
+                <label for="input-username" class="col-md-3">Username</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-username"
+                        formControlName="username"
+                        [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="username.invalid && username.touched ? true : null"
+                        placeholder="Enter Username"
+                        class="col-md-9">
+            </div>
+            <div *ngIf="!editing" class="form-control-group mt-3">
+                <label for="input-password" class="col-md-3">Password</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-password"
+                        formControlName="password"
+                        [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="password.invalid && password.touched ? true : null"
+                        placeholder="Enter Password"
+                        class="col-md-9">
+            </div>
+            <div *ngIf="!editing" class="form-control-group mt-3">
+                <label for="input-confirm" class="col-md-3">Confirm Password</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-confirm"
+                        formControlName="confirm"
+                        [status]="confirm.dirty ? (confirm.invalid || password.value != confirm.value ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="confirm.invalid && confirm.touched ? true : null"
+                        placeholder="Enter Confirm Password"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3" style="display:flex;">
+                <label for="select-role" class="col-md-3">Role</label>
+                <select [value]="0" 
+                        class="col-md-9 form-control" 
+                        id="select-role" 
+                        style="position: relative"
+                        formControlName="role">
+                    <option *ngFor="let role of roleList" [value]="role.id">{{ role.name }}</option>
+                </select>
+            </div>
+            <div *ngIf="!editing" class="form-control-group mt-3">
+                <label for="input-salesperson_code" class="col-md-3">Salesperson Code</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-salesperson_code"
+                        formControlName="salesperson_code"
+                        (keyup)="keyup(salesperson_code)"
+                        [status]="salesperson_code.dirty ? (salesperson_code.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="salesperson_code.invalid && salesperson_code.touched ? true : null"
+                        placeholder="Enter Salesperson Code"
+                        class="col-md-9">
+            </div>
+            <div *ngIf="!editing" class="form-control-group mt-3">
+                <label for="input-selling_location" class="col-md-3">Selling Location</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-selling_location"
+                        formControlName="selling_location"
+                        (keyup)="keyup(selling_location)"
+                        [status]="selling_location.dirty ? (selling_location.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="selling_location.invalid && selling_location.touched ? true : null"
+                        placeholder="Enter Selling Location"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-email" class="col-md-3">Email</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-email"
+                        formControlName="email"
+                        type="email"
+                        [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="email.invalid && email.touched ? true : null"
+                        placeholder="Enter Email"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-firstname" class="col-md-3">First Name</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-firstname"
+                        formControlName="firstname"
+                        [status]="firstname.dirty ? (firstname.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="firstname.invalid && firstname.touched ? true : null"
+                        placeholder="Enter First Name"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-lastname" class="col-md-3">Last Name</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-lastname"
+                        formControlName="lastname"
+                        [status]="lastname.dirty ? (lastname.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="lastname.invalid && lastname.touched ? true : null"
+                        placeholder="Enter Last Name"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-position" class="col-md-3">Position</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-position"
+                        formControlName="position"
+                        [status]="position.dirty ? (position.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="position.invalid && position.touched ? true : null"
+                        placeholder="Enter Position"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-birthday" class="col-md-3">Birthday</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-birthday"
+                        formControlName="birthday"
+                        placeholder="Enter Birthday"
+                        (keyup)="onBirthdayChange()"
+                        maxlength="10"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-timeout" class="col-md-3">Timeout</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-timeout"
+                        formControlName="timeout"
+                        [status]="timeout.dirty ? (timeout.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="timeout.invalid && timeout.touched ? true : null"
+                        placeholder="00:00"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label class="col-md-3">Active</label>
+                <nb-checkbox formControlName="active" id="check-active" class="col-md-9 px-0"></nb-checkbox>
+            </div>
+            <button *ngIf="editing"
+                nbButton matRipple 
+                status="primary" 
+                class="col-sm-6" 
+                (click)="reset_password()">
+                Reset Password
+            </button>
+            <div class="mt-4">
+                <button nbButton matRipple 
+                  status="primary" 
+                  class="col-3" 
+                  (click)="submit()" 
+                  [disabled]="!valid_submit()"
+                  [class.btn-pulse]="submitted">
+                    Submit
+                </button>
+                <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                    Cancel
+                </button>    
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</div>

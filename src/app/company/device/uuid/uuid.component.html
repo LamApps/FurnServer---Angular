@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-lg-6">
+      <nb-card>
+        <nb-card-header>{{ title }}</nb-card-header>
+        <nb-card-body>
+        <div [formGroup]="formGroup" aria-labelledby="title">
+            <div class="form-control-group mt-3">
+                <label for="input-uuid" class="col-md-3">UUID</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-uuid"
+                        formControlName="uuid"
+                        [status]="uuid.dirty ? (uuid.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="uuid.invalid && uuid.touched ? true : null"
+                        placeholder="Enter UUID"
+                        class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+              <label for="input-last_date_verified" class="col-md-3">Last Date Verified</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-last_date_verified"
+                      formControlName="last_date_verified"
+                      (keyup)="onLastDateChange()"
+                      class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+              <label class="col-md-3">Active</label>
+              <nb-checkbox formControlName="active" id="check-active" class="col-md-9 px-0"></nb-checkbox>
+            </div>
+
+            <div class="form-control-group mt-3">
+                <label for="input-description" class="col-md-3">Description</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-description"
+                        formControlName="description"
+                        [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="description.invalid && description.touched ? true : null"
+                        placeholder="Enter Description"
+                        class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+                <label for="input-version" class="col-md-3">Version</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-version"
+                        formControlName="version"
+                        [status]="version.dirty ? (version.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="version.invalid && version.touched ? true : null"
+                        placeholder="Enter Version"
+                        class="col-md-9">
+            </div>
+
+            <div class="mt-4">
+                <button nbButton matRipple 
+                  status="primary" 
+                  class="col-3" 
+                  (click)="submit()" 
+                  [disabled]="submitted || !formGroup.valid"
+                  [class.btn-pulse]="submitted">
+                    Submit
+                </button>
+                <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                    Cancel
+                </button>    
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</div>

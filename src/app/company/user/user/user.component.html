@@ -1,0 +1,93 @@
+<!--
+  ~ Copyright (c) Akveo 2019. All Rights Reserved.
+  ~ Licensed under the Single Application / Multi Application License.
+  ~ See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
+  -->
+
+<nb-card>
+  <nb-card-header>Edit User Profile</nb-card-header>
+  <nb-card-body>
+    <div [formGroup]="userForm" class="container">
+      <div class="form-group">
+        <label for="input-firstname">First Name</label>
+        <input nbInput id="input-firstname" formControlName="firstname"
+               [status]="(firstname?.hasError('minlength') || firstname?.hasError('maxlength')) ? 'danger' : 'primary'"
+               class="form-control" placeholder="First Name">
+      </div>
+
+      <div class="form-group">
+        <label for="input-lastname">Last Name</label>
+        <input nbInput id="input-lastname" formControlName="lastname"
+               [status]="(lastname?.hasError('minlength') || lastname?.hasError('maxlength')) ? 'danger' : 'primary'"
+               class="form-control" placeholder="Last Name">
+      </div>
+
+      <div class="form-group">
+        <label for="input-login">Username</label>
+        <input nbInput disabled="disabled" id="input-login" formControlName="username"
+               [status]="(login?.errors?.required || login?.hasError('minlength') || login?.hasError('maxlength')) && login.touched ? 'danger' : 'primary'"
+               class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="input-mobile">Mobile Number</label>
+        <input nbInput id="input-mobile" formControlName="mobile"
+			    (keyup)="numericOnly($event)"
+          maxlength="12"
+          [status]="(mobile?.errors?.required || mobile?.errors?.min || mobile?.errors?.max || mobile?.hasError('pattern')) && mobile.touched? 'danger' : 'primary'"
+          class="form-control" placeholder="Mobile Number">
+      </div>
+
+      <div class="form-group">
+        <label for="input-email">Email</label>
+        <input nbInput id="input-email" 
+               formControlName="email"
+               [status]="(email?.errors?.required || email?.hasError('pattern')) && email.touched ? 'danger' : 'primary'"
+               class="form-control"
+               placeholder="Email">
+      </div>
+
+      <div class="form-group">
+        <label for="input-position">Position</label>
+        <input nbInput class="form-control" id="input-position" placeholder="Position" formControlName="position">
+      </div>
+
+      <div class="form-group">
+        <label for="input-birthday">Birthday</label>
+        <input nbInput class="form-control" id="input-birthday" placeholder="Birthday" formControlName="birthday" (keyup)="onBirthdayChange()" maxlength="10">
+      </div> 
+  
+      <div class="form-group">
+        <ngp-image-picker
+          [_imageSrc]="image"
+          [_config]="imagePickerConf"
+          ($imageChanged)="onImageChange($event)"
+        ></ngp-image-picker>
+      </div>
+	  
+      <button nbButton matRipple 
+        status="primary" 
+        class="col-sm-4" 
+        (click)="reset_password()">
+        Reset Password
+      </button>
+      
+    </div>
+  </nb-card-body>
+  <nb-card-footer class="d-flex">
+    <div class="mt-4 col-md-6">
+      <button nbButton matRipple 
+        status="primary" 
+        class="col-4" 
+        (click)="submit()" 
+        [disabled]="submitted || !userForm.valid"
+        [class.btn-pulse]="submitted">
+          Submit
+      </button>
+      <button nbButton matRipple status="primary" class="col-4 ml-3" (click)="cancel()" outline>
+          Cancel
+      </button>    
+    </div>
+  </nb-card-footer>
+</nb-card>
+

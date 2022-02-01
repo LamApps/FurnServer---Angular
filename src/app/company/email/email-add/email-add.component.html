@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-lg-8">
+      <nb-card>
+        <nb-card-header>{{ title }}</nb-card-header>
+        <nb-card-body>
+          <div [formGroup]="formGroup" aria-labelledby="title">
+            <div class="form-control-group">
+              <label for="input-email" class="col-md-3">Email Address</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-email"
+                      formControlName="email"
+                      [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="email.invalid && email.touched ? true : null"
+                      placeholder="Enter email address"
+                      class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+              <label for="input-description" class="col-md-3">Description</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-description"
+                      formControlName="description"
+                      [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="description.invalid && description.touched ? true : null"
+                      placeholder="Enter description"
+                      class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+              <label for="input-store-location" class="col-md-3">Store Location</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-store-location"
+                      formControlName="store_location"
+                      [status]="store_location.dirty ? (store_location.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="store_location.invalid && store_location.touched ? true : null"
+                      placeholder="Enter store location"
+                      class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+              <label for="input-subject-line" class="col-md-3">Subject Line</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-subject-line"
+                      formControlName="subject_line"
+                      [status]="subject_line.dirty ? (subject_line.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="subject_line.invalid && subject_line.touched ? true : null"
+                      placeholder="Enter subject line"
+                      class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+              <label for="input-name-format" class="col-md-3">Name Format</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-name-format"
+                      formControlName="name_format"
+                      [status]="name_format.dirty ? (name_format.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="name_format.invalid && name_format.touched ? true : null"
+                      placeholder="Enter name format"
+                      class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+              <label for="input-name-format" class="col-md-3 align-top">Body</label>
+              <textarea nbInput
+                      fullWidth
+                      id="input-name-format"
+                      formControlName="body"
+                      [status]="body.dirty ? (body.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="body.invalid && body.touched ? true : null"
+                      placeholder="Enter body"
+                      class="col-md-9"
+                      rows="7">
+              </textarea>
+            </div>
+            <div class="form-control-group mt-3">
+              <label class="col-md-3">Active</label>
+              <nb-checkbox formControlName="active" id="check-active" class="col-md-9 px-0"></nb-checkbox>
+            </div>
+
+            <div class="mt-4">
+              <button nbButton matRipple 
+                status="primary" 
+                class="col-3" 
+                (click)="submit()" 
+                [disabled]="submitted || !formGroup.valid"
+                [class.btn-pulse]="submitted">
+                  Submit
+              </button>
+              <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                  Cancel
+              </button>    
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</div>

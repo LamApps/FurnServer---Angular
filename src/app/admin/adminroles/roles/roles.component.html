@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-lg-6">
+      <nb-card>
+        <nb-card-header>{{ title }}</nb-card-header>
+        <nb-card-body>
+        <div [formGroup]="formGroup" aria-labelledby="title">
+            <div class="form-control-group mt-3">
+                <label for="input-code" class="col-md-3">Code</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-code"
+                        formControlName="code"
+                        [status]="code.dirty ? (code.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="code.invalid && code.touched ? true : null"
+                        placeholder="Enter code"
+                        class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+                <label for="input-name" class="col-md-3">Name</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-name"
+                        formControlName="name"
+                        [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="name.invalid && name.touched ? true : null"
+                        placeholder="Enter name"
+                        class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+                <label for="input-description" class="col-md-3">Description</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-description"
+                        formControlName="description"
+                        [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="description.invalid && description.touched ? true : null"
+                        placeholder="Enter description"
+                        class="col-md-9">
+            </div>
+            <div class="mt-4">
+                <button nbButton matRipple 
+                  status="primary" 
+                  class="col-3" 
+                  (click)="submit()" 
+                  [disabled]="submitted || !formGroup.valid"
+                  [class.btn-pulse]="submitted">
+                    Submit
+                </button>
+                <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                    Cancel
+                </button>    
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</div>

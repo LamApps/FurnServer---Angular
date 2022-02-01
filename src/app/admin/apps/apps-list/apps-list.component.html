@@ -1,0 +1,15 @@
+<nb-card>
+    <nb-card-header>
+      Apps
+    </nb-card-header>
+  
+    <nb-card-body>
+      <ng2-smart-table class="password-table"
+                      [settings]="settings"
+                      [source]="source"
+                      (create)="createApps()"
+                      (edit)="onEdit($event)"
+                      (delete)="onDelete($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>

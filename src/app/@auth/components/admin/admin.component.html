@@ -1,0 +1,63 @@
+<h1 id="title" class="title" style="background-color: #00a2e8;"><span style="color:white">Furn</span><span style="color:black">Serve</span></h1>
+
+<nb-alert *ngIf="showMessages.error && errors?.length && !submitted" outline="danger" role="alert">
+  <p class="alert-title"><b>Failed!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+  </ul>
+</nb-alert>
+
+<nb-alert *ngIf="showMessages.success && messages?.length && !submitted" outline="success" role="alert">
+  <p class="alert-title"><b>Success!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+  </ul>
+</nb-alert>
+
+<div [formGroup]="loginForm" aria-labelledby="title" class="mt-3">
+  <div class="form-control-group">
+
+  <div class="form-control-group">
+    <label for="input-username">Username</label>
+    <input  nbInput
+            fullWidth
+            id="input-username"
+            formControlName="username"
+            [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : ''"
+            [attr.aria-invalid]="username.invalid && username.touched ? true : null"
+            placeholder="Enter your username">
+    <ngx-validation-message label="Username" [showPattern]="username?.hasError('pattern') && username.touched"
+      [showRequired]="username?.errors?.required && username.touched"></ngx-validation-message>
+  </div>
+
+  <div class="form-control-group">
+    <label for="input-password">Password</label>
+    <input  nbInput
+            fullWidth
+            id="input-password"
+            formControlName="password"
+            type="password"
+            [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+            placeholder="Enter your password">
+    <div class="input-group-append">
+      <span class="input-group-text">
+        <i class="fa fa-eye-slash"></i>
+      </span>
+    </div>
+    <ngx-validation-message label="Password" [showMinLength]="password?.hasError('minlength') && password.touched"
+      [showMaxLength]="password?.hasError('maxlength') && password.touched"
+      [showRequired]="password?.errors?.required && password.touched"
+      [minLength]="minLength"
+      [maxLength]="maxLength"></ngx-validation-message>
+  </div>
+
+  <button nbButton fullWidth status="primary" size="large" style="background-color: #228be6; color: white;"
+   (click)="login()" [disabled]="submitted || !loginForm.valid"
+    [class.btn-pulse]="submitted">
+    Sign In
+  </button>
+</div>
+
+<section class="another-action" aria-label="Forgot Password?">
+  <a routerLink="../request-password">Forgot your password?</a>
+</section>

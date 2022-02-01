@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-lg-6">
+      <nb-card>
+        <nb-card-header>{{ title }}</nb-card-header>
+        <nb-card-body>
+        <div [formGroup]="formGroup" aria-labelledby="title">
+            <div class="form-control-group mt-3">
+              <label for="input-name" class="col-md-3">Company #</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-number"
+                      formControlName="number"
+                      [status]="number.dirty ? (number.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="number.invalid && number.touched ? true : null"
+                      placeholder="Enter Company #"
+                      class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-name" class="col-md-3">Name</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-name"
+                        formControlName="name"
+                        [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="name.invalid && name.touched ? true : null"
+                        placeholder="Enter name"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-code" class="col-md-3">Company Code</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-code"
+                        formControlName="code"
+                        [status]="code.dirty ? (code.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="code.invalid && code.touched ? true : null"
+                        placeholder="Enter Company Code"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+              <label for="input-timeout" class="col-md-3">Timeout</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-timeout"
+                      formControlName="timeout"
+                      [status]="timeout.dirty ? (timeout.invalid  ? 'danger' : 'success') : ''"
+                      [attr.aria-invalid]="timeout.invalid && timeout.touched ? true : null"
+                      placeholder="00:00"
+                      class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
+              <label class="col-md-3">Active</label>
+              <nb-checkbox formControlName="active" id="check-active" class="col-md-9 px-0"></nb-checkbox>
+            </div> 
+
+            <div class="mt-4">
+                <button nbButton matRipple 
+                  status="primary" 
+                  class="col-3" 
+                  (click)="submit()" 
+                  [disabled]="submitted || !formGroup.valid"
+                  [class.btn-pulse]="submitted">
+                    Submit
+                </button>
+                <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                    Cancel
+                </button>    
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</div>

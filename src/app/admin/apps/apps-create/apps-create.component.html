@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-lg-6">
+      <nb-card>
+        <nb-card-header>{{ title }}</nb-card-header>
+        <nb-card-body>
+        <div [formGroup]="formGroup" aria-labelledby="title">
+            <div class="form-control-group mt-3">
+                <label for="input-type" class="col-md-3">Type</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-type"
+                        formControlName="type"
+                        [status]="type.dirty ? (type.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="type.invalid && type.touched ? true : null"
+                        placeholder="Enter App Type"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-app_id" class="col-md-3">App ID</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-app_id"
+                        formControlName="app_id"
+                        [status]="app_id.dirty ? (app_id.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="app_id.invalid && app_id.touched ? true : null"
+                        placeholder="Enter App ID"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-expire_date" class="col-md-3">Expire Date</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-expire_date"
+                        formControlName="expire_date"
+                        (keyup)="onExpireDateChange()"
+                        placeholder="Enter Expires Date"
+                        class="col-md-9">
+		    </div>
+            <div class="form-control-group mt-3">
+                <label for="input-menu_password" class="col-md-3">Menu Password</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-menu_password"
+                        formControlName="menu_password"
+                        [status]="menu_password.dirty ? (menu_password.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="menu_password.invalid && menu_password.touched ? true : null"
+                        placeholder="Enter Menu Password"
+                        class="col-md-9">
+            </div>
+			
+			
+            <div class="form-control-group mt-3" style="display:flex;">
+                <label for="select-companies" class="col-md-3">Company</label>
+                <select class="col-md-9 form-control" 
+                        id="select-companies" 
+                        style="position: relative"
+                        formControlName="companies"> 
+                    <option *ngFor="let company of companyList" [value]="company.id">{{ company.name }}</option>
+                </select>
+            </div>
+			
+			
+            <div class="form-control-group mt-3">
+                <label class="col-md-3">First Time Status</label>
+                <nb-checkbox formControlName="first_time_status" id="check-first_time_status" class="col-md-9 px-0"></nb-checkbox>
+            </div>
+			
+            <div class="form-control-group mt-3">
+                <label class="col-md-3">Active</label>
+                <nb-checkbox formControlName="active" id="check-active" class="col-md-9 px-0"></nb-checkbox>
+            </div>
+
+            <div class="mt-4">
+                <button nbButton matRipple 
+                  status="primary" 
+                  class="col-3" 
+                  (click)="submit()" 
+                  [disabled]="submitted || !formGroup.valid"
+                  [class.btn-pulse]="submitted">
+                    Submit
+                </button>
+                <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                    Cancel
+                </button>    
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</div>

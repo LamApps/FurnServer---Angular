@@ -1,0 +1,135 @@
+<div class="row">
+    <div class="col-lg-6">
+      <nb-card>
+        <nb-card-header>{{ title }}</nb-card-header>
+        <nb-card-body>
+        <div [formGroup]="formGroup" aria-labelledby="title">
+            <div *ngIf="!editing" class="form-control-group mt-3">
+                <label for="input-username" class="col-md-3">Username</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-username"
+                        formControlName="username"
+                        [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="username.invalid && username.touched ? true : null"
+                        placeholder="Enter Username"
+                        class="col-md-9">
+            </div>
+            <div *ngIf="!editing" class="form-control-group mt-3">
+                <label for="input-password" class="col-md-3">Password</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-password"
+                        formControlName="password"
+                        [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="password.invalid && password.touched ? true : null"
+                        placeholder="Enter Password"
+                        class="col-md-9">
+            </div>
+            <div *ngIf="!editing" class="form-control-group mt-3">
+                <label for="input-confirm" class="col-md-3">Confirm Password</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-confirm"
+                        formControlName="confirm"
+                        [status]="confirm.dirty ? (confirm.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="confirm.invalid && confirm.touched ? true : null"
+                        placeholder="Enter Confirm Password"
+                        class="col-md-9">
+            </div>
+            <div *ngIf="!editing" class="form-control-group mt-3" style="display:flex;">
+                <label for="select-role" class="col-md-3">Role</label>
+                <select [value]="0" 
+                        class="col-md-9 form-control" 
+                        id="select-role" 
+                        style="position: relative"
+                        formControlName="roles">
+                    <option *ngFor="let roles of rolesList" [value]="roles.id">{{ roles.name }}</option>
+                </select>
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-email" class="col-md-3">Email</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-email"
+                        formControlName="email"
+                        type="email"
+                        [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="email.invalid && email.touched ? true : null"
+                        placeholder="Enter email"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-firstname" class="col-md-3">First Name</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-firstname"
+                        formControlName="firstname"
+                        [status]="firstname.dirty ? (firstname.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="firstname.invalid && firstname.touched ? true : null"
+                        placeholder="Enter first name"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-lastname" class="col-md-3">Last Name</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-lastname"
+                        formControlName="lastname"
+                        [status]="lastname.dirty ? (lastname.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="lastname.invalid && lastname.touched ? true : null"
+                        placeholder="Enter last name"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-position" class="col-md-3">Position</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-position"
+                        formControlName="position"
+                        [status]="position.dirty ? (position.invalid  ? 'danger' : 'success') : ''"
+                        [attr.aria-invalid]="position.invalid && position.touched ? true : null"
+                        placeholder="Enter position"
+                        class="col-md-9">
+            </div>
+            <div class="form-control-group mt-3">
+                <label for="input-birthday" class="col-md-3">Birthday</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-birthday"
+                        formControlName="birthday"
+                        placeholder="Enter Birthday"
+                        class="col-md-9"
+                        maxlength="10"
+                        (keyup)="onBirthdayChange()">
+              </div>
+            <div class="form-control-group mt-3">
+                <label class="col-md-3">Active</label>
+                <nb-checkbox formControlName="active" id="check-active" class="col-md-9 px-0"></nb-checkbox>
+            </div>
+            <button 
+                *ngIf="editing"
+                nbButton matRipple 
+                status="primary" 
+                class="col-sm-6" 
+                (click)="reset_password()">
+                Reset Password
+            </button>
+            <div class="mt-4">
+                <button nbButton matRipple 
+                  status="primary" 
+                  class="col-3" 
+                  (click)="submit()" 
+                  [disabled]="submitted || !formGroup.valid"
+                  [class.btn-pulse]="submitted">
+                    Submit
+                </button>
+                <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                    Cancel
+                </button>    
+            </div>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+</div>
