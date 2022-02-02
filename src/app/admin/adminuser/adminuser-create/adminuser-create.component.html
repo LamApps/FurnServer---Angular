@@ -10,7 +10,7 @@
                         fullWidth
                         id="input-username"
                         formControlName="username"
-                        [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : ''"
+                        [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="username.invalid && username.touched ? true : null"
                         placeholder="Enter Username"
                         class="col-md-9">
@@ -21,7 +21,7 @@
                         fullWidth
                         id="input-password"
                         formControlName="password"
-                        [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+                        [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="password.invalid && password.touched ? true : null"
                         placeholder="Enter Password"
                         class="col-md-9">
@@ -32,7 +32,7 @@
                         fullWidth
                         id="input-confirm"
                         formControlName="confirm"
-                        [status]="confirm.dirty ? (confirm.invalid  ? 'danger' : 'success') : ''"
+                        [status]="confirm.dirty ? (confirm.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="confirm.invalid && confirm.touched ? true : null"
                         placeholder="Enter Confirm Password"
                         class="col-md-9">
@@ -54,7 +54,7 @@
                         id="input-email"
                         formControlName="email"
                         type="email"
-                        [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                        [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="email.invalid && email.touched ? true : null"
                         placeholder="Enter email"
                         class="col-md-9">
@@ -65,7 +65,7 @@
                         fullWidth
                         id="input-firstname"
                         formControlName="firstname"
-                        [status]="firstname.dirty ? (firstname.invalid  ? 'danger' : 'success') : ''"
+                        [status]="firstname.dirty ? (firstname.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="firstname.invalid && firstname.touched ? true : null"
                         placeholder="Enter first name"
                         class="col-md-9">
@@ -76,7 +76,7 @@
                         fullWidth
                         id="input-lastname"
                         formControlName="lastname"
-                        [status]="lastname.dirty ? (lastname.invalid  ? 'danger' : 'success') : ''"
+                        [status]="lastname.dirty ? (lastname.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="lastname.invalid && lastname.touched ? true : null"
                         placeholder="Enter last name"
                         class="col-md-9">
@@ -87,7 +87,7 @@
                         fullWidth
                         id="input-position"
                         formControlName="position"
-                        [status]="position.dirty ? (position.invalid  ? 'danger' : 'success') : ''"
+                        [status]="position.dirty ? (position.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="position.invalid && position.touched ? true : null"
                         placeholder="Enter position"
                         class="col-md-9">

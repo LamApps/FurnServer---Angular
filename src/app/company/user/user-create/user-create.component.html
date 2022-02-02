@@ -10,7 +10,7 @@
                         fullWidth
                         id="input-database"
                         formControlName="database"
-                        [status]="database.dirty ? (database.invalid  ? 'danger' : 'success') : ''"
+                        [status]="database.dirty ? (database.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="database.invalid && database.touched ? true : null"
                         placeholder="Enter Database"
                         (keyup)="databseFormat($event)"
@@ -34,7 +34,7 @@
                         fullWidth
                         id="input-username"
                         formControlName="username"
-                        [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : ''"
+                        [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="username.invalid && username.touched ? true : null"
                         placeholder="Enter Username"
                         class="col-md-9">
@@ -45,7 +45,7 @@
                         fullWidth
                         id="input-password"
                         formControlName="password"
-                        [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+                        [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="password.invalid && password.touched ? true : null"
                         placeholder="Enter Password"
                         class="col-md-9">
@@ -56,7 +56,7 @@
                         fullWidth
                         id="input-confirm"
                         formControlName="confirm"
-                        [status]="confirm.dirty ? (confirm.invalid || password.value != confirm.value ? 'danger' : 'success') : ''"
+                        [status]="confirm.dirty ? (confirm.invalid || password.value != confirm.value ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="confirm.invalid && confirm.touched ? true : null"
                         placeholder="Enter Confirm Password"
                         class="col-md-9">
@@ -78,7 +78,7 @@
                         id="input-salesperson_code"
                         formControlName="salesperson_code"
                         (keyup)="keyup(salesperson_code)"
-                        [status]="salesperson_code.dirty ? (salesperson_code.invalid  ? 'danger' : 'success') : ''"
+                        [status]="salesperson_code.dirty ? (salesperson_code.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="salesperson_code.invalid && salesperson_code.touched ? true : null"
                         placeholder="Enter Salesperson Code"
                         class="col-md-9">
@@ -90,7 +90,7 @@
                         id="input-selling_location"
                         formControlName="selling_location"
                         (keyup)="keyup(selling_location)"
-                        [status]="selling_location.dirty ? (selling_location.invalid  ? 'danger' : 'success') : ''"
+                        [status]="selling_location.dirty ? (selling_location.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="selling_location.invalid && selling_location.touched ? true : null"
                         placeholder="Enter Selling Location"
                         class="col-md-9">
@@ -102,7 +102,7 @@
                         id="input-email"
                         formControlName="email"
                         type="email"
-                        [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                        [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="email.invalid && email.touched ? true : null"
                         placeholder="Enter Email"
                         class="col-md-9">
@@ -113,7 +113,7 @@
                         fullWidth
                         id="input-firstname"
                         formControlName="firstname"
-                        [status]="firstname.dirty ? (firstname.invalid  ? 'danger' : 'success') : ''"
+                        [status]="firstname.dirty ? (firstname.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="firstname.invalid && firstname.touched ? true : null"
                         placeholder="Enter First Name"
                         class="col-md-9">
@@ -124,7 +124,7 @@
                         fullWidth
                         id="input-lastname"
                         formControlName="lastname"
-                        [status]="lastname.dirty ? (lastname.invalid  ? 'danger' : 'success') : ''"
+                        [status]="lastname.dirty ? (lastname.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="lastname.invalid && lastname.touched ? true : null"
                         placeholder="Enter Last Name"
                         class="col-md-9">
@@ -135,7 +135,7 @@
                         fullWidth
                         id="input-position"
                         formControlName="position"
-                        [status]="position.dirty ? (position.invalid  ? 'danger' : 'success') : ''"
+                        [status]="position.dirty ? (position.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="position.invalid && position.touched ? true : null"
                         placeholder="Enter Position"
                         class="col-md-9">
@@ -157,7 +157,7 @@
                         fullWidth
                         id="input-timeout"
                         formControlName="timeout"
-                        [status]="timeout.dirty ? (timeout.invalid  ? 'danger' : 'success') : ''"
+                        [status]="timeout.dirty ? (timeout.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="timeout.invalid && timeout.touched ? true : null"
                         placeholder="00:00"
                         class="col-md-9">

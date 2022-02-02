@@ -180,6 +180,10 @@ const routes: Routes = [{
         },
       ]
     },
+    {
+      path: 'code', 
+      // component: CodeComponent,
+    },
     { path: '', redirectTo: 'company', pathMatch: 'full' },
     {
       path: '**',

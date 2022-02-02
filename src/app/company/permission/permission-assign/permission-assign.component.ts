@@ -88,7 +88,9 @@ export class PermissionAssignComponent implements OnInit {
           this.userList.push(item);
         });
         this.selected_user = this.userList[0].id;
-        this.getPermission(this.selected_user);
+        this.selected_role = this.userList[0].role.id;
+        
+        this.getPermission(this.selected_role);
       }
     );
   }
@@ -104,6 +106,7 @@ export class PermissionAssignComponent implements OnInit {
         data.map(item => {
           this.roleList.push(item);
         });
+        this.getPermission(this.selected_role);
       }
     )
   }
@@ -118,45 +121,69 @@ export class PermissionAssignComponent implements OnInit {
         this.companyMenuList.sort((a, b) => {
           return a.link.localeCompare(b.link)
         })
-        this.getPermission(this.selected_user);
+        this.getPermission(this.selected_role);
       }
     )
   }
 
-  getPermission(uid) {
+  getPermission(rid) {
     if (!this.companyMenuList || this.companyMenuList.length == 0) return;
-    if (!this.userList || this.userList.length == 0) return;
+    // if (!this.userList || this.userList.length == 0) return;
+    if (!this.roleList || this.roleList.length == 0) return;
+    // let id = 0;
+    // for (let i = 0; i < this.userList.length; i++) {
+    //   if (this.userList[i].id == uid) {
+    //     id = i;
+    //     break;
+    //   }
+    // }
+    // var userMenuList = [];
+    // this.companyMenuList.forEach(menu => {
+    //   var exist = false;
+    //   var user_menu;
+    //   for (let i = 0; i < this.userList[id].menus.length; i++) {
+    //     if (menu.id == this.userList[id].menus[i].menu.id) {
+    //       exist = true;
+    //       user_menu = this.userList[id].menus[i];
+    //     }
+    //   }
+    //   if (exist) {
+    //     userMenuList.push({...menu, permission: user_menu.permission, company_permission: menu.permission});
+    //   } else {
+    //     userMenuList.push({...menu, permission: 'view', company_permission: menu.permission});
+    //   }
+    // })
+    // this.menuList = userMenuList;
     let id = 0;
-    for (let i = 0; i < this.userList.length; i++) {
-      if (this.userList[i].id == uid) {
+    for (let i = 0; i < this.roleList.length; i++) {
+      if (this.roleList[i].id == rid) {
         id = i;
         break;
       }
     }
-    var userMenuList = [];
+    var roleMenuList = []; 
     this.companyMenuList.forEach(menu => {
       var exist = false;
-      var user_menu;
-      for (let i = 0; i < this.userList[id].menus.length; i++) {
-        if (menu.id == this.userList[id].menus[i].menu.id) {
+      var role_menu;
+      for (let i = 0; i < this.roleList[id].menus.length; i++) {
+        if (this.roleList[id].menus[i].menu.id == menu.id) {
           exist = true;
-          user_menu = this.userList[id].menus[i];
+          role_menu = this.roleList[id].menus[i];
         }
       }
       if (exist) {
-        userMenuList.push({...menu, permission: user_menu.permission, company_permission: menu.permission});
+        roleMenuList.push({...menu, permission: role_menu.permission, company_permission: menu.permission});
       } else {
-        userMenuList.push({...menu, permission: 'view', company_permission: menu.permission});
+        roleMenuList.push({...menu, permission: 'view', company_permission: menu.permission});
       }
     })
-    this.menuList = userMenuList;
-    this.selected_role = this.userList[id].role.id;
+    this.menuList = roleMenuList;
     this.checkCompanyPermission();
   }
 
   getRolePermission(rid) {
     if (rid == -1) {
-      this.getPermission(this.selected_user);
+      // this.getPermission(this.selected_user);
     } else {
       let id = 0;
       for (let i = 0; i < this.roleList.length; i++) {

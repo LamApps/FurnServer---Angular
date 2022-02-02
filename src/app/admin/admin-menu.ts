@@ -162,6 +162,14 @@ export class AdminMenu {
 		}
 	  ];
 
+	const codeMenu: NbMenuItem[] = [
+		{
+		  title: 'Code',
+		  icon: 'code',
+		  link: '/admin/code',
+		},
+	];
+	
     var companysMenu: NbMenuItem[] = [
 		{
 			title: 'COMPANY',
@@ -912,6 +920,12 @@ export class AdminMenu {
 				},
 			  ]
 		  },
+		  {
+			title: 'Code',
+			icon: 'code',
+			link: `/company/code`,
+			queryParams: { data: encodeURI(params) },
+		  }
 
 		  
 		  ]
@@ -923,7 +937,7 @@ export class AdminMenu {
     
     if (store.get("adminuser")) {
       return Observable.create(observer => {
-        observer.next([...dashboardMenu, ...userMenu, ...companyMenu, ...permissionMenu, ...appMenu, ...utilsMenu, ...companysMenu]);
+        observer.next([...dashboardMenu, ...userMenu, ...companyMenu, ...permissionMenu, ...appMenu, ...utilsMenu, ...codeMenu, ...companysMenu]);
         observer.complete();
       })  
     } else {
