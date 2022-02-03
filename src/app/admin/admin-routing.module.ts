@@ -26,6 +26,8 @@ import { PermissionCreateComponent } from './permission/permission-create/permis
 import { PermissionAssignComponent } from './permission/permission-assign/permission-assign.component';
 import { UtilsComponent } from './utils/utils.component';
 import { BackupComponent } from './utils/backup/backup.component';
+import { CodeListComponent } from './code/code-list/code-list.component'
+import { CodeCreateComponent } from './code/code-create/code-create.component'
 
 const routes: Routes = [{
   path: '',
@@ -182,7 +184,20 @@ const routes: Routes = [{
     },
     {
       path: 'code', 
-      // component: CodeComponent,
+      children: [
+        {
+          path: '',
+          component: CodeListComponent,
+        },
+        {
+          path: 'create',
+          component: CodeCreateComponent,
+        },
+        {
+          path: 'edit',
+          component: CodeCreateComponent,
+        }
+      ]
     },
     { path: '', redirectTo: 'company', pathMatch: 'full' },
     {

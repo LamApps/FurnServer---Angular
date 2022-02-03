@@ -10,7 +10,7 @@
                         fullWidth
                         id="input-name"
                         formControlName="name"
-                        [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
+                        [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="name.invalid && name.touched ? true : null"
                         placeholder="Enter name"
                         class="col-md-9">

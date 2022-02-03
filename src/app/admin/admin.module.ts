@@ -60,6 +60,8 @@ import { PermissionCreateComponent } from './permission/permission-create/permis
 import { PermissionAssignComponent } from './permission/permission-assign/permission-assign.component';
 import { UtilsComponent } from './utils/utils.component';
 import { BackupComponent } from './utils/backup/backup.component';
+import { CodeListComponent } from './code/code-list/code-list.component';
+import { CodeCreateComponent } from './code/code-create/code-create.component';
 
 const materialModules = [
   MatFormFieldModule,
@@ -121,6 +123,8 @@ const PAGES_COMPONENTS = [
     PermissionAssignComponent,
     UtilsComponent,
     BackupComponent,
+    CodeListComponent,
+    CodeCreateComponent,
   ],
   providers: [
     AdminMenu,

@@ -1,0 +1,15 @@
+<nb-card>
+    <nb-card-header>
+      Code
+    </nb-card-header>
+  
+    <nb-card-body>
+      <ng2-smart-table class="backup-table"
+                      [settings]="settings"
+                      [source]="source"
+                      (create)="createCode()"
+                      (edit)="onEdit($event)"
+                      (delete)="onDelete($event)">
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>

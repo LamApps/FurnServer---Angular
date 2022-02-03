@@ -1,0 +1,69 @@
+<nb-card>
+    <nb-card-header>{{ title }}</nb-card-header>
+    <nb-card-body>
+        <div [formGroup]="formGroup" aria-labelledby="title">
+            <div class="row mt-3 px-2">
+                <div class="col-sm-12 col-md-2">
+                    <label for="input-description">Description</label>
+                </div>
+                <div class="col-sm-12 col-md-10">
+                    <input  nbInput
+                    fullWidth
+                    id="input-description"
+                    formControlName="description"
+                    [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="description.invalid && description.touched ? true : null"
+                    placeholder="Enter description">
+                </div>
+            </div>
+            <div class="row mt-3 px-2">
+                <div class="col-sm-12 col-md-2">
+                    <label for="input-code">Code</label>
+                </div>
+                <div class="col-sm-12 col-md-10">
+                    <textarea nbInput
+                    fullWidth
+                    rows="8"
+                    id="input-code"
+                    formControlName="code"
+                    [status]="code.dirty ? (code.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="code.invalid && code.touched ? true : null"
+                    placeholder="Enter code"></textarea>
+                </div>
+            </div>
+            <div class="row mt-3 px-2">
+                <div class="col-sm-12 col-md-2">
+                    <label for="select-page">Pages</label>
+                </div>
+                <div class="col-sm-12 col-md-10">
+                    <nb-select fullWidth id="select-page" [(selected)]="selectedItem" formControlName="page">
+                        <nb-option value="All">All pages</nb-option>
+                        <nb-option value="Custom">Custom pages</nb-option>
+                  </nb-select>
+                </div>
+            </div>
+            <div class="row mt-4 px-2">
+                <div class="col-6 col-sm-2">
+                    <label for="check-active">Active</label>
+                </div>
+                <div class="col-6 col-sm-10">
+                    <nb-checkbox formControlName="active" id="check-active"></nb-checkbox>
+                </div>
+            </div>
+        
+            <div class="mt-4 px-2">
+                <button nbButton matRipple 
+                    status="primary" 
+                    class="col-3" 
+                    (click)="submit()" 
+                    [disabled]="submitted || !formGroup.valid"
+                    [class.btn-pulse]="submitted">
+                    Submit
+                </button>
+                <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                    Cancel
+                </button>    
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
