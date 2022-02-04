@@ -24,6 +24,7 @@ export class AppsCreateComponent implements OnInit {
 
   companyList: Company[] = [];
   
+  selectedCompany;
   
   constructor(
     private appsService: AppsService,

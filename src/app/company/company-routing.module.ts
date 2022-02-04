@@ -28,6 +28,8 @@ import { PermissionAssignComponent } from './permission/permission-assign/permis
 import { NoPermissionComponent } from './no-permission/no-permission.component';
 import { RolesListComponent } from './permission/roles-list/roles-list.component';
 import { RolesAddComponent } from './permission/roles-add/roles-add.component';
+import { CodeListComponent } from './code/code-list/code-list.component'
+import { CodeCreateComponent } from './code/code-create/code-create.component'
 
 const routes: Routes = [{
   path: '',
@@ -193,6 +195,27 @@ const routes: Routes = [{
               ]
             },
           ]
+        }
+      ]
+    },
+    {
+      path: 'code',
+      children: [
+        {
+          path: '',
+          component: CodeListComponent
+        },
+        {
+          path: 'list',
+          component: CodeListComponent
+        },
+        {
+          path: 'create',
+          component: CodeCreateComponent
+        },
+        {
+          path: 'edit',
+          component: CodeCreateComponent
         }
       ]
     },

@@ -1,13 +1,13 @@
 <nb-card>
     <nb-card-header>
-      Companies
+      Code
     </nb-card-header>
   
     <nb-card-body>
-      <ng2-smart-table class="password-table"
+      <ng2-smart-table class="backup-table"
                       [settings]="settings"
                       [source]="source"
-                      (create)="createApps()"
+                      (create)="createCode()"
                       (edit)="onEdit($event)"
                       (delete)="onDelete($event)">
       </ng2-smart-table>

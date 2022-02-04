@@ -13,8 +13,9 @@ export class CodeService {
 
   constructor(private api: HttpService) { }
 
-  list(pageNumber: number = 1, pageSize: number = 10): Observable<any[]> {
+  list(company: number = 0, pageNumber: number = 1, pageSize: number = 10): Observable<any[]> {
     const params = new HttpParams()
+      .set('company', `${company}`)
       .set('pageNumber', `${pageNumber}`)
       .set('pageSize', `${pageSize}`);
 

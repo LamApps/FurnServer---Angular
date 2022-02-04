@@ -136,15 +136,15 @@ const routes: Routes = [{
               children : [
                 { 
                   path: '',
-                  component: CompanyListComponent,
+                  component: AppsListComponent,
                 },
                 {
                   path: 'create',
-                  component: CompanyCreateComponent,
+                  component: AppsCreateComponent,
                 },
                 {
                   path: 'edit',
-                  component: CompanyCreateComponent,
+                  component: AppsCreateComponent,
                 }
               ]
             },
@@ -187,6 +187,10 @@ const routes: Routes = [{
       children: [
         {
           path: '',
+          component: CodeListComponent,
+        },
+        {
+          path: 'list',
           component: CodeListComponent,
         },
         {

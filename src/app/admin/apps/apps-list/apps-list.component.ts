@@ -31,11 +31,11 @@ export class AppsListComponent implements OnInit {
       confirmDelete: true,
     },
     columns: {
-	  type: {
-        title: 'Type',
-      },
+	  // type: {
+    //     title: 'Type',
+    //   },
 	  companies: {
-        title: 'Company',
+        title: 'Name',
         valuePrepareFunction : (companies) => {
           return companies.name;
         }
@@ -50,11 +50,22 @@ export class AppsListComponent implements OnInit {
         title: 'First Time',
       },
 	  menu_password: {
-        title: 'Password',
+        title: 'Menu Password',
       },
-	  active: {
-        title: 'Active',
-      }
+    active: {
+      title: 'Active',
+      filter: {
+        type: 'list',
+        config: {
+          selectText: 'All',
+          list: [
+            { value: true, title: 'true' },
+            { value: false, title: 'false' },
+          ],
+        },
+      },
+    },
+
     }
   };
 

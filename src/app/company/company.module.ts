@@ -63,6 +63,9 @@ import { PermissionListComponent } from './permission/permission-list/permission
 import { PermissionAssignComponent } from './permission/permission-assign/permission-assign.component';
 import { RolesListComponent } from './permission/roles-list/roles-list.component';
 import { RolesAddComponent } from './permission/roles-add/roles-add.component';
+import { CodeListComponent } from './code/code-list/code-list.component';
+import { CodeCreateComponent } from './code/code-create/code-create.component';
+
 
 const materialModules = [
   MatFormFieldModule,
@@ -130,6 +133,8 @@ const PAGES_COMPONENTS = [
     PermissionAssignComponent,
     RolesListComponent,
     RolesAddComponent,
+    CodeListComponent,
+    CodeCreateComponent,
   ],
   providers: [
     AdminMenu,

@@ -16,6 +16,7 @@ export enum FormMode {
 })
 export class CodeCreateComponent implements OnInit {
 
+  private company;
   formGroup: FormGroup;
   submitted: boolean = false;
   selectedItem = 'All';
@@ -29,28 +30,30 @@ export class CodeCreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.formGroup = this.formBuilder.group({
-      id: this.formBuilder.control('', []),
-      description: this.formBuilder.control('', [Validators.required, Validators.minLength(3)]),
-      company: this.formBuilder.control(0, []),
-      content: this.formBuilder.control('', [Validators.required, Validators.minLength(3)]),
-      page: this.formBuilder.control('All', []),
-      active: this.formBuilder.control(true),
-    });
-
+    
     this.route.queryParams.subscribe(params => {
       if (params['data']) {
         try {
           const data = JSON.parse(decodeURI(params['data']))
           const rid = data.rid
+          const cid = data.cid
+          this.company = cid
           if (rid) {
             this.setViewMode(FormMode.EDIT);
             this.loadCode(rid);
           } else {
             this.setViewMode(FormMode.ADD);
           }
+          this.formGroup = this.formBuilder.group({
+            id: this.formBuilder.control('', []),
+            description: this.formBuilder.control('', [Validators.required, Validators.minLength(3)]),
+            company: this.formBuilder.control(cid, []),
+            content: this.formBuilder.control('', [Validators.required, Validators.minLength(3)]),
+            page: this.formBuilder.control('All', []),
+            active: this.formBuilder.control(true),
+          });
         } catch (e) {
-          this.router.navigate(['/admin/code']);
+          this.router.navigate(['/company/code']);
         }
       }else{
         this.setViewMode(FormMode.ADD);
@@ -83,7 +86,7 @@ export class CodeCreateComponent implements OnInit {
         content: item.content,
         page: item.page,
         active: item.active,
-        company: item.company || 0
+        company: item.company || this.company
       });
     });
   }
@@ -97,7 +100,8 @@ export class CodeCreateComponent implements OnInit {
         data => {
           this.toasterService.success('', 'Code created!');
           this.submitted = false;
-          this.router.navigate(['/admin/code']);
+          const params = JSON.stringify({ cid: this.company });
+          this.router.navigate(['/company/code'], { queryParams: { data: encodeURI(params) }});
         },
         error => {
           this.toasterService.danger('', error.message);
@@ -109,7 +113,8 @@ export class CodeCreateComponent implements OnInit {
         data => {
           this.toasterService.success('', 'Code updated!');
           this.submitted = false;
-          this.router.navigate(['/admin/code']);
+          const params = JSON.stringify({ cid: this.company });
+          this.router.navigate(['/company/code'], { queryParams: { data: encodeURI(params) }});
         },
         error => {
           this.toasterService.danger('', error.message);
@@ -120,7 +125,8 @@ export class CodeCreateComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/admin/code']);
+    const params = JSON.stringify({ cid: this.company });
+    this.router.navigate(['/company/code'], { queryParams: { data: encodeURI(params) }});
   }
 
 }

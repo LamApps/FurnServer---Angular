@@ -893,32 +893,32 @@ export class AdminMenu {
 			]
 		  },
 		  {
+			title: 'Configuration',
+			icon: 'settings-outline',
+			link: `/company/configuration`,
+			children: [
+			{
+				title: 'Sessions',
+				link: `/company/configuration/sessions`,
+				children: [
+					{
+						title: 'List',
+						link: `/company/configuration/sessions/list`,
+						queryParams: { data: encodeURI(params) },
+					},
+					{
+						title: 'Logs',
+						link: `/company/configuration/sessions/logs`,
+						queryParams: { data: encodeURI(params) },
+					},
+				]
+			},
+			]
+		  },
+		  {
 			  title: 'Edit Dashboard',
 			  icon: 'home-outline',
 			  link: `/company/dashboard/edit`,
-		  },
-		  {
-			  title: 'Configuration',
-			  icon: 'settings-outline',
-			  link: `/company/configuration`,
-			  children: [
-				{
-					title: 'Sessions',
-					link: `/company/configuration/sessions`,
-					children: [
-						{
-							title: 'List',
-							link: `/company/configuration/sessions/list`,
-							queryParams: { data: encodeURI(params) },
-						},
-						{
-							title: 'Logs',
-							link: `/company/configuration/sessions/logs`,
-							queryParams: { data: encodeURI(params) },
-						},
-					]
-				},
-			  ]
 		  },
 		  {
 			title: 'Code',
@@ -926,8 +926,6 @@ export class AdminMenu {
 			link: `/company/code`,
 			queryParams: { data: encodeURI(params) },
 		  }
-
-		  
 		  ]
         };
 		const permissionMenu = this.getPermissionMenu(item, menu);
