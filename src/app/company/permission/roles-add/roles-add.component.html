@@ -12,7 +12,7 @@
                     #name
                     [readonly]="editing"
                     [value]="role_name"
-                    [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
+                    [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : 'basic'"
                     [attr.aria-invalid]="name.invalid && name.touched ? true : null"
                     placeholder="Enter name"
                     class="col-md-9">
@@ -24,7 +24,7 @@
                     id="input-description"
                     #description
                     [value]="role_description"
-                    [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : ''"
+                    [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : 'basic'"
                     [attr.aria-invalid]="description.invalid && description.touched ? true : null"
                     placeholder="Enter description"
                     class="col-md-9">

@@ -209,7 +209,7 @@ export class AdminuserCreateComponent implements OnInit {
         data => {
           this.toasterService.success('', 'Admin User created!');
           this.submitted = false;
-          this.router.navigate(['/admin/dashboard']);
+          this.router.navigate(['/admin/users/list']);
         },
         error => {
           this.toasterService.danger('', error.message);
@@ -221,7 +221,7 @@ export class AdminuserCreateComponent implements OnInit {
         data => {
           this.toasterService.success('', 'Admin User updated!');
           this.submitted = false;
-          this.router.navigate(['/admin/dashboard']);
+          this.router.navigate(['/admin/users/list']);
         },
         error => {
           this.toasterService.danger('', error.message);

@@ -23,6 +23,7 @@ import {
   NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
+  NbDatepickerModule,
 } from '@nebular/theme';
 
 @NgModule({
@@ -42,6 +43,7 @@ import {
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
+    NbDatepickerModule.forRoot(),
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),

@@ -10,7 +10,7 @@
                       fullWidth
                       id="input-email"
                       formControlName="email"
-                      [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+                      [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
                       [attr.aria-invalid]="email.invalid && email.touched ? true : null"
                       placeholder="Enter email address"
                       class="col-md-9">
@@ -22,7 +22,7 @@
                       fullWidth
                       id="input-description"
                       formControlName="description"
-                      [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : ''"
+                      [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : 'basic'"
                       [attr.aria-invalid]="description.invalid && description.touched ? true : null"
                       placeholder="Enter description"
                       class="col-md-9">
@@ -34,7 +34,7 @@
                       fullWidth
                       id="input-store-location"
                       formControlName="store_location"
-                      [status]="store_location.dirty ? (store_location.invalid  ? 'danger' : 'success') : ''"
+                      [status]="store_location.dirty ? (store_location.invalid  ? 'danger' : 'success') : 'basic'"
                       [attr.aria-invalid]="store_location.invalid && store_location.touched ? true : null"
                       placeholder="Enter store location"
                       class="col-md-9">
@@ -46,7 +46,7 @@
                       fullWidth
                       id="input-subject-line"
                       formControlName="subject_line"
-                      [status]="subject_line.dirty ? (subject_line.invalid  ? 'danger' : 'success') : ''"
+                      [status]="subject_line.dirty ? (subject_line.invalid  ? 'danger' : 'success') : 'basic'"
                       [attr.aria-invalid]="subject_line.invalid && subject_line.touched ? true : null"
                       placeholder="Enter subject line"
                       class="col-md-9">
@@ -58,7 +58,7 @@
                       fullWidth
                       id="input-name-format"
                       formControlName="name_format"
-                      [status]="name_format.dirty ? (name_format.invalid  ? 'danger' : 'success') : ''"
+                      [status]="name_format.dirty ? (name_format.invalid  ? 'danger' : 'success') : 'basic'"
                       [attr.aria-invalid]="name_format.invalid && name_format.touched ? true : null"
                       placeholder="Enter name format"
                       class="col-md-9">
@@ -70,7 +70,7 @@
                       fullWidth
                       id="input-name-format"
                       formControlName="body"
-                      [status]="body.dirty ? (body.invalid  ? 'danger' : 'success') : ''"
+                      [status]="body.dirty ? (body.invalid  ? 'danger' : 'success') : 'basic'"
                       [attr.aria-invalid]="body.invalid && body.touched ? true : null"
                       placeholder="Enter body"
                       class="col-md-9"

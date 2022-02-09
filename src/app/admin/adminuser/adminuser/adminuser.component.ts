@@ -223,7 +223,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
   }
 
   cancel() {
-    this.router.navigate(['/admin/dashboard'])
+    this.router.navigate(['/admin/users/list'])
   }
 
   ngOnDestroy(): void {

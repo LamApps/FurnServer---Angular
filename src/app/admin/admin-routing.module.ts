@@ -41,7 +41,7 @@ const routes: Routes = [{
       path: 'users',
       children: [
         {
-          path: '',
+          path: 'list',
           component: AdminuserListComponent,
         },
         {
@@ -136,6 +136,10 @@ const routes: Routes = [{
               children : [
                 { 
                   path: '',
+                  component: AppsListComponent,
+                },
+                { 
+                  path: 'list',
                   component: AppsListComponent,
                 },
                 {

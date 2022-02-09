@@ -38,7 +38,14 @@ export class UUIDService {
           })
         );
     }
-  
+    getLatestId(): Observable<any> {
+      return this.api.get(`${this.apiController}/getUid`)
+      .pipe(
+        map(data=> {
+          return data.id;
+        })
+      );
+    }
     delete(id: number): Observable<boolean> {
       return this.api.delete(`${this.apiController}/${id}`);
     }

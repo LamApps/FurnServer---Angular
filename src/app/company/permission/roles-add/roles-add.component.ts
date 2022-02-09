@@ -184,7 +184,9 @@ export class RolesAddComponent implements OnInit {
       this.companyRoleService.add(request).subscribe(
         data => {
           this.submitted = false
-          this.router.navigate([`/company/dashboard`]);
+          this.toasterService.success('', 'Successfully added!');
+          const params = JSON.stringify({ cid: this.company });
+          this.router.navigate([`/company/permissions/roles/list`], { queryParams: { data: encodeURI(params) }});
         },
         error => {
           this.submitted = false
@@ -195,7 +197,9 @@ export class RolesAddComponent implements OnInit {
       this.companyRoleService.update(request).subscribe(
         data => {
           this.submitted = false
-          this.router.navigate([`/company/dashboard`]);
+          this.toasterService.success('', 'Successfully edited!');
+          const params = JSON.stringify({ cid: this.company });
+          this.router.navigate([`/company/permissions/roles/list`], { queryParams: { data: encodeURI(params) }});
         },
         error => {
           this.submitted = false
@@ -206,6 +210,7 @@ export class RolesAddComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([`/company/dashboard`]);
+    const params = JSON.stringify({ cid: this.company });
+    this.router.navigate([`/company/permissions/roles/list`], { queryParams: { data: encodeURI(params) }});
   }
 }

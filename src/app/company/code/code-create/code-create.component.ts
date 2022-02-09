@@ -93,7 +93,6 @@ export class CodeCreateComponent implements OnInit {
 
   submit(): void {
     const codes = this.formGroup.value;
-    console.log(codes)
     this.submitted = true;
     if (this.mode == FormMode.ADD) {
       this.codeService.add(codes).subscribe(

@@ -84,7 +84,7 @@ export class RolesCreateComponent implements OnInit {
         data => {
           this.toasterService.success('', 'Role created!');
           this.submitted = false;
-          this.router.navigate(['/admin/dashboard']);
+          this.router.navigate(['/admin/users/roles']);
         },
         error => {
           this.toasterService.danger('', error.message);
@@ -96,7 +96,7 @@ export class RolesCreateComponent implements OnInit {
         data => {
           this.toasterService.success('', 'Role updated!');
           this.submitted = false;
-          this.router.navigate(['/admin/dashboard']);
+          this.router.navigate(['/admin/users/roles']);
         },
         error => {
           this.toasterService.danger('', error.message);
@@ -107,6 +107,6 @@ export class RolesCreateComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/admin/dashboard']);
+    this.router.navigate(['/admin/users/roles']);
   }
 }

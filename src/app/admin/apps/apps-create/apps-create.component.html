@@ -5,36 +5,20 @@
         <nb-card-body>
         <div [formGroup]="formGroup" aria-labelledby="title">
             <div class="form-control-group mt-3">
-                <label for="input-type" class="col-md-3">Type</label>
-                <input  nbInput
-                        fullWidth
-                        id="input-type"
-                        formControlName="type"
-                        [status]="type.dirty ? (type.invalid  ? 'danger' : 'success') : ''"
-                        [attr.aria-invalid]="type.invalid && type.touched ? true : null"
-                        placeholder="Enter App Type"
-                        class="col-md-9">
-            </div>
-            <div class="form-control-group mt-3">
                 <label for="input-app_id" class="col-md-3">App ID</label>
                 <input  nbInput
                         fullWidth
                         id="input-app_id"
                         formControlName="app_id"
-                        [status]="app_id.dirty ? (app_id.invalid  ? 'danger' : 'success') : ''"
+                        [status]="app_id.dirty ? (app_id.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="app_id.invalid && app_id.touched ? true : null"
                         placeholder="Enter App ID"
                         class="col-md-9">
             </div>
             <div class="form-control-group mt-3">
                 <label for="input-expire_date" class="col-md-3">Expire Date</label>
-                <input  nbInput
-                        fullWidth
-                        id="input-expire_date"
-                        formControlName="expire_date"
-                        (keyup)="onExpireDateChange()"
-                        placeholder="Enter Expires Date"
-                        class="col-md-9">
+                <input nbInput fullWidth id="input-expire_date" formControlName="expire_date" placeholder="Enter Expires Date" [nbDatepicker]="dateTimePicker" class="col-md-9" autocomplete="off">
+                <nb-datepicker #dateTimePicker></nb-datepicker>
 		    </div>
             <div class="form-control-group mt-3">
                 <label for="input-menu_password" class="col-md-3">Menu Password</label>
@@ -42,7 +26,7 @@
                         fullWidth
                         id="input-menu_password"
                         formControlName="menu_password"
-                        [status]="menu_password.dirty ? (menu_password.invalid  ? 'danger' : 'success') : ''"
+                        [status]="menu_password.dirty ? (menu_password.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="menu_password.invalid && menu_password.touched ? true : null"
                         placeholder="Enter Menu Password"
                         class="col-md-9">

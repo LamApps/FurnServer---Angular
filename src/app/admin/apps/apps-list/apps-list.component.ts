@@ -45,6 +45,9 @@ export class AppsListComponent implements OnInit {
       },
 	  expire_date: {
         title: 'Expire Date',
+        valuePrepareFunction : (expire_date) => {
+          return new Date(expire_date).toLocaleDateString();
+        }
       },
 	  first_time_status: {
         title: 'First Time',
@@ -90,11 +93,12 @@ export class AppsListComponent implements OnInit {
   }
 
   createApps() {
-    this.router.navigate(['/admin/apps/create/']);
+    this.router.navigate(['/admin/apps/invoice/companies/create/']);
   }
 
   onEdit($event: any) {
-    this.router.navigate([`/admin/apps/edit/${$event.data.id}`]);
+    const params = JSON.stringify({ id: $event.data.id }) 
+    this.router.navigate([`/admin/apps/invoice/companies/edit/`], { queryParams: { data: encodeURI(params) }});
   }
 
   onDelete($event: any) {

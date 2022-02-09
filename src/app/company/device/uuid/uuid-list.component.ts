@@ -49,6 +49,9 @@ export class UuidListComponent {
       },
       last_date_verified: {
         title: 'Last Date Verified',
+        valuePrepareFunction : (last_date_verified) => {
+          return new Date(last_date_verified).toLocaleDateString();
+        }
       },
       version: {
         title: 'Version',

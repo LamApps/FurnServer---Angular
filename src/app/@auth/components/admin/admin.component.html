@@ -23,7 +23,7 @@
             fullWidth
             id="input-username"
             formControlName="username"
-            [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : ''"
+            [status]="username.dirty ? (username.invalid  ? 'danger' : 'success') : 'basic'"
             [attr.aria-invalid]="username.invalid && username.touched ? true : null"
             placeholder="Enter your username">
     <ngx-validation-message label="Username" [showPattern]="username?.hasError('pattern') && username.touched"
@@ -37,7 +37,7 @@
             id="input-password"
             formControlName="password"
             type="password"
-            [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+            [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
             placeholder="Enter your password">
     <div class="input-group-append">
       <span class="input-group-text">

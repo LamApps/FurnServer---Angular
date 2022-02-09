@@ -115,6 +115,10 @@ const routes: Routes = [{
           path: 'roles',
           children: [
             {
+              path: '',
+              component: RolesListComponent
+            },
+            {
               path: 'list',
               component: RolesListComponent
             },

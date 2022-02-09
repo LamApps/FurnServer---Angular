@@ -35,6 +35,7 @@ export class UuidComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       id: this.formBuilder.control('', []),
       uuid: this.formBuilder.control('', [Validators.required]),
+      unique_id: this.formBuilder.control('', [Validators.required]),
       description: this.formBuilder.control('', ),
       version: this.formBuilder.control('', ),
       last_date_verified: this.formBuilder.control('', [Validators.required]),
@@ -54,6 +55,7 @@ export class UuidComponent implements OnInit {
               this.loadUuid(uid);
             } else {
               this.setViewMode(FormMode.ADD)
+              this.getLatestUniqueId()
             }
           } else {
             this.cancel();
@@ -77,38 +79,28 @@ export class UuidComponent implements OnInit {
       this.title = "Add UUID";
     }
   }
-
+  getLatestUniqueId() {
+    this.uuidService.getLatestId().subscribe(uid => {
+      const luid = ('000' + (uid + 1)).substr(-3);
+      this.unique_id.setValue(luid);
+    });
+  }
   loadUuid(id: any) {
     this.uuidService.get(id).subscribe(uuid => {
       this.formGroup.setValue({ 
         id: uuid.id,
+        unique_id: uuid.unique_id,
         uuid: uuid.uuid,
         description: uuid.description,
         version: uuid.version,
         last_date_verified: new Date(uuid.last_date_verified),
         active: uuid.active,
       });
-      this.onLastDateChange();
     });
   }
 
-  
-  onLastDateChange() {
-    let newValue = this.last_date_verified.value.replace(/\D/g,'')
-    if (newValue.length >= 3) {
-      newValue = newValue.slice(0, 2) + "/" + newValue.slice(2)
-    }
-    if (newValue.length >= 6) {
-      newValue = newValue.slice(0, 5) + "/" + newValue.slice(5)
-    }
-    if (newValue.length >= 10) {
-      newValue = newValue.slice(0, 10)
-    }
-    this.last_date_verified.setValue(newValue)
-    this.last_date_verified.updateValueAndValidity()
-    return true
-  }
 
+  get unique_id() { return this.formGroup.get('unique_id'); }
   get uuid() { return this.formGroup.get('uuid'); }
   get description() { return this.formGroup.get('description'); }
   get version() { return this.formGroup.get('version'); }
@@ -116,17 +108,17 @@ export class UuidComponent implements OnInit {
   
   submit(): void {
     const uuid = { ...this.formGroup.value, company: this.company };
-    uuid.last_date_verified = new Date(uuid.last_date_verified).toLocaleDateString();
     this.submitted = true;
     if (this.mode == FormMode.ADD) {
       this.uuidService.add(uuid).subscribe(
         data => {
           this.toasterService.success('', 'UUID created!');
           this.submitted = false;
-          this.router.navigate([`/company/dashboard`]);
+          const params = JSON.stringify({ cid: this.company });
+          this.router.navigate([`/company/apps/invoice/devices/uuid`], { queryParams: { data: encodeURI(params) }});
         },
         error => {
-          this.toasterService.danger('', error);
+          this.toasterService.danger('', error.message);
           this.submitted = false;
         }
       );  
@@ -135,10 +127,11 @@ export class UuidComponent implements OnInit {
         data => {
           this.toasterService.success('', 'UUID updated!');
           this.submitted = false;
-          this.router.navigate([`/company/dashboard`]);
+          const params = JSON.stringify({ cid: this.company });
+          this.router.navigate([`/company/apps/invoice/devices/uuid`], { queryParams: { data: encodeURI(params) }});
         },
         error => {
-          this.toasterService.danger('', error);
+          this.toasterService.danger('', error.message);
           this.submitted = false;
         }
       );
@@ -146,6 +139,7 @@ export class UuidComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate([`/company/dashboard`]);
+    const params = JSON.stringify({ cid: this.company });
+    this.router.navigate([`/company/dashboard`], { queryParams: { data: encodeURI(params) }});
   }
 }

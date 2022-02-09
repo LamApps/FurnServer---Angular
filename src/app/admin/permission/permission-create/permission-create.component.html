@@ -10,7 +10,7 @@
                         fullWidth
                         id="input-link"
                         formControlName="link"
-                        [status]="link.dirty ? (link.invalid  ? 'danger' : 'success') : ''"
+                        [status]="link.dirty ? (link.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="link.invalid && link.touched ? true : null"
                         placeholder="Enter Link"
                         class="col-md-9">
@@ -21,7 +21,7 @@
                         fullWidth
                         id="input-description"
                         formControlName="description"
-                        [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : ''"
+                        [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="description.invalid && description.touched ? true : null"
                         placeholder="Enter Description"
                         class="col-md-9">

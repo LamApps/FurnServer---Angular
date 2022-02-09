@@ -39,25 +39,34 @@ export class AppsCreateComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       id: this.formBuilder.control('', []),
       companies: this.formBuilder.control('', [Validators.required]),
-      type: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
       app_id: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
       expire_date: this.formBuilder.control(''),
       menu_password: this.formBuilder.control('', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]),
       first_time_status: this.formBuilder.control(false),
       active: this.formBuilder.control(true),
     });
+    this.route.queryParams.subscribe(params => {
+      if (params['data']) {
+        try {
+          const data = JSON.parse(decodeURI(params['data']))
+          const rid = data.id
+          if (rid) {
+            this.setViewMode(FormMode.EDIT);
+            this.loadApps(rid);
+          } else {
+            this.setViewMode(FormMode.ADD);
+          }
+        } catch (e) {
+          this.router.navigate(['/admin/apps/invoice/companies/list']);
+        }
+      }else{
+        this.setViewMode(FormMode.ADD);
+      }
+    });
 
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.setViewMode(FormMode.EDIT);
-      this.loadApps(id);
-    } else {
-      this.setViewMode(FormMode.ADD);
-    }
     this.loadCompanyList();
   }
 
-  get type() { return this.formGroup.get('type'); }
   get app_id() { return this.formGroup.get('app_id'); }
   get expire_date() { return this.formGroup.get('expire_date'); }
   get first_time_status() { return this.formGroup.get('first_time_status'); }
@@ -80,32 +89,14 @@ export class AppsCreateComponent implements OnInit {
     this.appsService.get(id).subscribe(apps => {
       this.formGroup.setValue({
         id: apps.id, 
-        type: apps.type,
         app_id: apps.app_id,
-        expire_date: apps.expire_date,
+        expire_date: new Date(apps.expire_date),
         first_time_status: apps.first_time_status,
         menu_password: apps.menu_password,
         companies: apps.companies.id,
         active: apps.active
       });
-      this.onExpireDateChange();
     });
-  }
-
-  onExpireDateChange() {
-    let newValue = this.expire_date.value.replace(/\D/g,'')
-    if (newValue.length >= 3) {
-      newValue = newValue.slice(0, 2) + "/" + newValue.slice(2)
-    }
-    if (newValue.length >= 6) {
-      newValue = newValue.slice(0, 5) + "/" + newValue.slice(5)
-    }
-    if (newValue.length >= 10) {
-      newValue = newValue.slice(0, 10)
-    }
-    this.expire_date.setValue(newValue)
-    this.expire_date.updateValueAndValidity()
-    return true
   }
   
   loadCompanyList() { 
@@ -126,7 +117,7 @@ export class AppsCreateComponent implements OnInit {
         data => {
           this.toasterService.success('', 'App created!');
           this.submitted = false;
-          this.router.navigate(['/admin/apps/list/']);
+          this.router.navigate(['/admin/apps/invoice/companies/list/']);
         },
         error => {
           this.toasterService.danger('', error.message);
@@ -138,7 +129,7 @@ export class AppsCreateComponent implements OnInit {
         data => {
           this.toasterService.success('', 'App updated!');
           this.submitted = false;
-          this.router.navigate(['/admin/apps/list/']);
+          this.router.navigate(['/admin/apps/invoice/companies/list/']);
         },
         error => {
           this.toasterService.danger('', error.message);
@@ -149,6 +140,6 @@ export class AppsCreateComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/admin/apps/list/']);
+    this.router.navigate(['/admin/apps/invoice/companies/list/']);
   }
 }

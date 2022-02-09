@@ -264,7 +264,8 @@ export class PermissionAssignComponent implements OnInit {
       data=> {
         this.toasterService.success('', 'changed!');
         this.submitted = false;
-        this.router.navigate([`/company/dashboard`]);
+        const params = JSON.stringify({ cid: this.company });
+        this.router.navigate([`/company/permissions/assign`], { queryParams: { data: encodeURI(params) }});
       }, 
       error => {
         this.toasterService.danger('', error);
@@ -274,6 +275,7 @@ export class PermissionAssignComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate([`/company/dashboard`]);
+    const params = JSON.stringify({ cid: this.company });
+    this.router.navigate([`/company/permissions/assign`], { queryParams: { data: encodeURI(params) }});
   }
 }

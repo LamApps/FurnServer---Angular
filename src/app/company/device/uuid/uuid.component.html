@@ -5,12 +5,24 @@
         <nb-card-body>
         <div [formGroup]="formGroup" aria-labelledby="title">
             <div class="form-control-group mt-3">
+                <label for="input-unique" class="col-md-3">Unique ID</label>
+                <input  nbInput
+                        fullWidth
+                        id="input-unique"
+                        formControlName="unique_id"
+                        [status]="unique_id.dirty ? (unique_id.invalid  ? 'danger' : 'success') : 'basic'"
+                        [attr.aria-invalid]="unique_id.invalid && unique_id.touched ? true : null"
+                        placeholder="Enter Unique ID"
+                        class="col-md-9">
+            </div>
+
+            <div class="form-control-group mt-3">
                 <label for="input-uuid" class="col-md-3">UUID</label>
                 <input  nbInput
                         fullWidth
                         id="input-uuid"
                         formControlName="uuid"
-                        [status]="uuid.dirty ? (uuid.invalid  ? 'danger' : 'success') : ''"
+                        [status]="uuid.dirty ? (uuid.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="uuid.invalid && uuid.touched ? true : null"
                         placeholder="Enter UUID"
                         class="col-md-9">
@@ -18,12 +30,9 @@
 
             <div class="form-control-group mt-3">
               <label for="input-last_date_verified" class="col-md-3">Last Date Verified</label>
-              <input  nbInput
-                      fullWidth
-                      id="input-last_date_verified"
-                      formControlName="last_date_verified"
-                      (keyup)="onLastDateChange()"
-                      class="col-md-9">
+              <input nbInput fullWidth id="input-last_date_verified" formControlName="last_date_verified" placeholder="Enter Date" [nbDatepicker]="dateTimePicker" class="col-md-9" autocomplete="off">
+              <nb-datepicker #dateTimePicker></nb-datepicker>
+      
             </div>
 
             <div class="form-control-group mt-3">
@@ -37,7 +46,7 @@
                         fullWidth
                         id="input-description"
                         formControlName="description"
-                        [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : ''"
+                        [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="description.invalid && description.touched ? true : null"
                         placeholder="Enter Description"
                         class="col-md-9">
@@ -49,7 +58,7 @@
                         fullWidth
                         id="input-version"
                         formControlName="version"
-                        [status]="version.dirty ? (version.invalid  ? 'danger' : 'success') : ''"
+                        [status]="version.dirty ? (version.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="version.invalid && version.touched ? true : null"
                         placeholder="Enter Version"
                         class="col-md-9">

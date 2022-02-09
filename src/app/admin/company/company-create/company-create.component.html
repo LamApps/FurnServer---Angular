@@ -10,7 +10,7 @@
                       fullWidth
                       id="input-number"
                       formControlName="number"
-                      [status]="number.dirty ? (number.invalid  ? 'danger' : 'success') : ''"
+                      [status]="number.dirty ? (number.invalid  ? 'danger' : 'success') : 'basic'"
                       [attr.aria-invalid]="number.invalid && number.touched ? true : null"
                       placeholder="Enter Company #"
                       class="col-md-9">
@@ -21,7 +21,7 @@
                         fullWidth
                         id="input-name"
                         formControlName="name"
-                        [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
+                        [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="name.invalid && name.touched ? true : null"
                         placeholder="Enter name"
                         class="col-md-9">
@@ -32,7 +32,7 @@
                         fullWidth
                         id="input-code"
                         formControlName="code"
-                        [status]="code.dirty ? (code.invalid  ? 'danger' : 'success') : ''"
+                        [status]="code.dirty ? (code.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="code.invalid && code.touched ? true : null"
                         placeholder="Enter Company Code"
                         class="col-md-9">
@@ -43,7 +43,7 @@
                       fullWidth
                       id="input-timeout"
                       formControlName="timeout"
-                      [status]="timeout.dirty ? (timeout.invalid  ? 'danger' : 'success') : ''"
+                      [status]="timeout.dirty ? (timeout.invalid  ? 'danger' : 'success') : 'basic'"
                       [attr.aria-invalid]="timeout.invalid && timeout.touched ? true : null"
                       placeholder="00:00"
                       class="col-md-9">

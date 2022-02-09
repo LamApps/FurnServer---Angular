@@ -27,7 +27,7 @@ export class AdminComponent implements OnDestroy {
   alive: boolean = true;
 
   constructor(private pagesMenu: AdminMenu,
-    private companyService: CompanyService
+    private companyService: CompanyService,
   ) {
     this.loadCompany();
   }
@@ -39,7 +39,6 @@ export class AdminComponent implements OnDestroy {
       }
     );
   }
-
   initMenu(companies: any[]) {
     this.pagesMenu.getMenu(companies)
       .pipe(takeWhile(() => this.alive))
@@ -47,7 +46,6 @@ export class AdminComponent implements OnDestroy {
         this.menu = menu;
       });
   }
-
   ngOnDestroy(): void {
     this.alive = false;
   }

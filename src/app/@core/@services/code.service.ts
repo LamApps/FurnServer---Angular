@@ -10,8 +10,21 @@ import { Observable } from 'rxjs';
 })
 export class CodeService {
   private readonly apiController: string = 'code';
+  private codeData: any[];
 
   constructor(private api: HttpService) { }
+
+  setData(data:any[]){
+    this.codeData = data;
+  } 
+
+  getData(){
+    return this.codeData || [];
+  }
+
+  hasData(){
+      return this.codeData && this.codeData.length;    
+  }  
 
   list(company: number = 0, pageNumber: number = 1, pageSize: number = 10): Observable<any[]> {
     const params = new HttpParams()
@@ -20,6 +33,13 @@ export class CodeService {
       .set('pageSize', `${pageSize}`);
 
     return this.api.get(this.apiController, { params }).pipe(
+      map(data => {
+        return data.items;
+      })
+    )
+  }
+  getActiveList(): Observable<any[]> {
+    return this.api.get(`${this.apiController}/active`).pipe(
       map(data => {
         return data.items;
       })

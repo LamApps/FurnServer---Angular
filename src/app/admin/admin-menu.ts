@@ -88,7 +88,7 @@ export class AdminMenu {
         children: [
 			{
 				title: 'List',
-				link: '/admin/users',
+				link: '/admin/users/list',
 			},
 			{
 				title: 'Roles',
@@ -189,9 +189,16 @@ export class AdminMenu {
 	}
 
 
-    const user = this.authService.currentUserValue
-	companies && companies.length &&
-    companies.forEach(item => {
+    const user = this.authService.currentUserValue;
+	const sortedCompanies = companies.sort(function(a, b){
+		let x = a.name.toLowerCase();
+		let y = b.name.toLowerCase();
+		if (x < y) {return -1;}
+		if (x > y) {return 1;}
+		return 0;
+	  });
+	sortedCompanies && sortedCompanies.length &&
+	sortedCompanies.forEach(item => {
 	  if (store.get('adminuser') || (user.hasOwnProperty('company') && user.company.id == item.id)) {
 		const params = JSON.stringify({ cid: item.id }) 
         const menu = {
@@ -882,7 +889,7 @@ export class AdminMenu {
 				},
 				{
 					title: 'Roles',
-					link: '/company/permissions/roles/list',
+					link: '/company/permissions/roles',
 					queryParams: { data: encodeURI(params) },
 				},
 				{
@@ -891,6 +898,11 @@ export class AdminMenu {
 					queryParams: { data: encodeURI(params) },
 				}
 			]
+		  },
+		  {
+			  title: 'Edit Dashboard',
+			  icon: 'home-outline',
+			  link: `/company/dashboard/edit`,
 		  },
 		  {
 			title: 'Configuration',
@@ -914,11 +926,6 @@ export class AdminMenu {
 				]
 			},
 			]
-		  },
-		  {
-			  title: 'Edit Dashboard',
-			  icon: 'home-outline',
-			  link: `/company/dashboard/edit`,
 		  },
 		  {
 			title: 'Code',
