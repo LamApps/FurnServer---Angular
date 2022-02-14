@@ -8,7 +8,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
 import { LayoutService, RippleService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, filter, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { AuthenticationService } from 'app/@core/@services/authentication.service';
 import { User } from 'app/@core/@models/user';
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: User;
   photo;
   company;
-
+  status:string = 'success';
   themes = [
     {
       value: 'material-light',
@@ -72,8 +72,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (store.get('adminuser')) userLink = this.user ? '/admin/users/current/' : '';
     else userLink = this.user ? `/company/users/current/` : '';
     return [
-      { title: 'Profile', link: userLink},
-      { title: 'Log out', link: '/auth/logout' },
+      { title: 'Profile', link: userLink, icon: 'person-outline'},
+      { 
+        title: 'Set Status',
+        expanded: true,
+        icon: 'person-done-outline',
+        children: [
+          {
+            title: 'Active',
+            icon: 'checkmark-outline',
+          },
+          {
+            title: 'Away',
+            icon: 'loader-outline',
+          },
+          {
+            title: 'Inactive',
+            icon: 'slash-outline',
+          },
+        ],
+      },
+      { title: 'Log out', link: '/auth/logout', icon: 'log-out-outline'},
     ]
   }
 
@@ -116,6 +135,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.photo = "";
         }
       })
+
+    this.menuService.onItemClick()
+      .pipe(
+        filter(({ tag }) => tag === 'user-context-menu'),
+        map(({ item: { title } }) => title),
+      )
+      .subscribe(title => {
+        if(title=="Active") this.status = 'success';
+        else if(title=="Away") this.status = 'warning';
+        else this.status = 'danger';
+      });
   }
 
   ngOnChanges() {

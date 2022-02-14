@@ -13,11 +13,13 @@ import {
   NbCheckboxModule,
   NbDatepickerModule, 
   NbIconModule,
+  NbListModule,
   NbInputModule,
   NbRadioModule,
   NbSelectModule,
   NbUserModule,
-  NbMenuModule
+  NbMenuModule,
+  NbChatModule
 } from '@nebular/theme';
 import { FormsModule as ngFormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -62,6 +64,9 @@ import { UtilsComponent } from './utils/utils.component';
 import { BackupComponent } from './utils/backup/backup.component';
 import { CodeListComponent } from './code/code-list/code-list.component';
 import { CodeCreateComponent } from './code/code-create/code-create.component';
+import { RoomsComponent } from './chat/rooms/rooms.component';
+import { RoomCreateComponent } from './chat/rooms/room-create/room-create.component';
+import { RoomChatComponent } from './chat/rooms/room-chat/room-chat.component';
 
 const materialModules = [
   MatFormFieldModule,
@@ -105,8 +110,10 @@ const PAGES_COMPONENTS = [
     NbDatepickerModule,
     NbSelectModule,
     NbIconModule,
+    NbChatModule,
     ngFormsModule,
     NbMenuModule,
+    NbListModule,
     Ng2SmartTableModule,
     ReactiveFormsModule,
     NgpImagePickerModule,
@@ -125,6 +132,9 @@ const PAGES_COMPONENTS = [
     BackupComponent,
     CodeListComponent,
     CodeCreateComponent,
+    RoomsComponent,
+    RoomCreateComponent,
+    RoomChatComponent,
   ],
   providers: [
     AdminMenu,

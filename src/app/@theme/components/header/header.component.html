@@ -15,9 +15,14 @@
     <nb-action class="control-item" icon="email-outline"></nb-action>
     <nb-action class="control-item" icon="bell-outline"></nb-action>
     <nb-action class="user-action"  *nbIsGranted="['view', 'current-user']">
-      <nb-user [nbContextMenu]="userMenu"
+      <nb-user [nbContextMenu]="userMenu" nbContextMenuTag="user-context-menu" id="mainAvatar"
                [name]="user.firstname + ' ' + user.lastname"
-               [picture]="photo">
+               [picture]="photo"
+               [badgeStatus]="status"
+               badgePosition="bottom right"
+               badgeDotMode="true"
+               badgeText=" "
+               >
       </nb-user>
     </nb-action>
   </nb-actions>

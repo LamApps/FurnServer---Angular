@@ -1,0 +1,9 @@
+nb-chat {
+    height: calc(100vh - 220px) !important;
+}
+#chat-user-list {
+    height: calc(100vh - 220px) !important;
+}
+#chat-user-list nb-card-body {
+    padding: 0;
+}

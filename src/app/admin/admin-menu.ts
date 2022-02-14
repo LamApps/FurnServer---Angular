@@ -169,6 +169,24 @@ export class AdminMenu {
 		  link: '/admin/code',
 		},
 	];
+
+	const chatMenu: NbMenuItem[] = [
+		{
+		  title: 'Chat',
+		  icon: 'message-square-outline',
+		  link: '/admin/chat',
+		  children: [
+			{
+				title: 'Rooms',
+				link: '/admin/chat/rooms',
+			},
+			{
+				title: 'Conversations',
+				link: '/admin/chat/conversations',
+			}
+		]
+		},
+	];
 	
     var companysMenu: NbMenuItem[] = [
 		{
@@ -932,6 +950,23 @@ export class AdminMenu {
 			icon: 'code',
 			link: `/company/code`,
 			queryParams: { data: encodeURI(params) },
+		  },
+		  {
+			title: 'Chat',
+			icon: 'message-square-outline',
+			link: `/company/chat`,
+			children: [
+				{
+					title: 'Rooms',
+					link: '/company/chat/rooms',
+ 					queryParams: { data: encodeURI(params) },
+				},
+				{
+					title: 'Conversations',
+					link: '/company/chat/conversations',
+					queryParams: { data: encodeURI(params) },
+				},
+			]
 		  }
 		  ]
         };
@@ -942,7 +977,7 @@ export class AdminMenu {
     
     if (store.get("adminuser")) {
       return Observable.create(observer => {
-        observer.next([...dashboardMenu, ...userMenu, ...companyMenu, ...permissionMenu, ...appMenu, ...utilsMenu, ...codeMenu, ...companysMenu]);
+        observer.next([...dashboardMenu, ...userMenu, ...companyMenu, ...permissionMenu, ...appMenu, ...utilsMenu, ...codeMenu, ...chatMenu, ...companysMenu]);
         observer.complete();
       })  
     } else {

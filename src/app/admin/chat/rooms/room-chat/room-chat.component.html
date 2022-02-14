@@ -1,0 +1,64 @@
+<div class="row" *ngIf="permitted; else elseBlock">
+    <div class="col-md-12 col-lg-9">
+        <nb-chat title={{roomName}} size="large" class="mb-3">
+            <nb-chat-message *ngFor="let msg of messages"
+                [type]="msg.type"
+                [message]="msg.text"
+                [reply]="msg.reply"
+                [sender]="msg.user.name"
+                [date]="msg.date"
+                [dateFormat]="msg.dateFormat"
+                [files]="msg.files"
+                [avatar]="msg.user.avatar">
+            </nb-chat-message>
+            <nb-chat-form (send)="sendMessage($event)">
+            </nb-chat-form>
+        </nb-chat>
+    </div>
+    <div class="col-md-12 col-lg-3">
+        <nb-card id="chat-user-list">
+            <nb-card-header>User List</nb-card-header>
+            <nb-card-body>
+                <nb-list>
+                    <nb-list-item *ngFor="let user of users">
+                    <nb-user [name]="user.name" [title]="user.company" [showInitials]="user.avatar==''" [picture]="user.avatar==''?null:baseUrl + '/' +user.avatar">
+                    </nb-user>
+                    </nb-list-item>
+                </nb-list>
+        </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+<ng-template #elseBlock>
+    <div class="col-sm-12 col-md-6">
+        <nb-card>
+            <nb-card-header>Enter the password to join this room</nb-card-header>
+            <nb-card-body>
+            <div [formGroup]="formGroup" aria-labelledby="password">
+                <div class="form-control-group mt-3">
+                    <input type="password"
+                        nbInput
+                        fullWidth
+                        formControlName="password"
+                        [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
+                        [attr.aria-invalid]="password.invalid && password.touched ? true : null"
+                        placeholder="Enter password">
+                </div>
+                <div class="mt-4">
+                    <button nbButton matRipple 
+                      status="primary" 
+                      class="col-3" 
+                      (click)="submit()" 
+                      [disabled]="submitted || !formGroup.valid"
+                      [class.btn-pulse]="submitted">
+                        Join
+                    </button>
+                    <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                        Cancel
+                    </button>    
+                </div>
+              </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</ng-template>

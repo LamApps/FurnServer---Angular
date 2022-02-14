@@ -28,8 +28,11 @@ import { PermissionAssignComponent } from './permission/permission-assign/permis
 import { NoPermissionComponent } from './no-permission/no-permission.component';
 import { RolesListComponent } from './permission/roles-list/roles-list.component';
 import { RolesAddComponent } from './permission/roles-add/roles-add.component';
-import { CodeListComponent } from './code/code-list/code-list.component'
-import { CodeCreateComponent } from './code/code-create/code-create.component'
+import { CodeListComponent } from './code/code-list/code-list.component';
+import { CodeCreateComponent } from './code/code-create/code-create.component';
+import { RoomsComponent } from '../admin/chat/rooms/rooms.component';
+import { RoomCreateComponent } from '../admin/chat/rooms/room-create/room-create.component';
+import { RoomChatComponent } from '../admin/chat/rooms/room-chat/room-chat.component';
 
 const routes: Routes = [{
   path: '',
@@ -221,6 +224,49 @@ const routes: Routes = [{
           path: 'edit',
           component: CodeCreateComponent
         }
+      ]
+    },
+    {
+      path: 'chat', 
+      children: [
+        {
+          path: 'rooms',
+          children: [
+            {
+              path: '',
+              component: RoomsComponent,
+            },
+            {
+              path: 'list',
+              component: RoomsComponent,
+            },
+            {
+              path: 'create',
+              component: RoomCreateComponent,
+            },
+            {
+              path: 'edit',
+              component: RoomCreateComponent,
+            },
+            {
+              path: 'enter',
+              component: RoomChatComponent,
+            },
+          ]
+        },
+        {
+          path: 'conversations',
+          children: [
+            {
+              path: '',
+              component: RoomsComponent,
+            },
+            {
+              path: 'list',
+              component: RoomsComponent,
+            },
+          ]
+        },
       ]
     },
     { path: '', redirectTo: 'company', pathMatch: 'full' },

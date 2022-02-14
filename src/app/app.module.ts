@@ -15,6 +15,13 @@ import { ThemeModule } from './@theme/theme.module';
 import { AuthModule } from './@auth/auth.module';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from '../environments/environment';
+
+const config: SocketIoConfig = { 
+  url: environment.baseUrl, 
+  options: {} 
+};
 
 import {
   NbChatModule,
@@ -49,6 +56,7 @@ import {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    SocketIoModule.forRoot(config),
   ],
   bootstrap: [AppComponent],
   providers: [],
