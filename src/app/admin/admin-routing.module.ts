@@ -31,6 +31,7 @@ import { CodeCreateComponent } from './code/code-create/code-create.component';
 import { RoomsComponent } from './chat/rooms/rooms.component';
 import { RoomCreateComponent } from './chat/rooms/room-create/room-create.component';
 import { RoomChatComponent } from './chat/rooms/room-chat/room-chat.component';
+import { PrivateChatComponent } from './chat/private/private-chat/private-chat.component';
 
 const routes: Routes = [{
   path: '',
@@ -243,11 +244,11 @@ const routes: Routes = [{
           children: [
             {
               path: '',
-              component: RoomsComponent,
+              component: PrivateChatComponent,
             },
             {
               path: 'list',
-              component: RoomsComponent,
+              component: PrivateChatComponent,
             },
           ]
         },

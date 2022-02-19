@@ -94,12 +94,12 @@ export class RoomChatComponent implements OnInit {
   initRoom() {
     this.permitted = true;
     const currentUserValue = this.authService.currentUserValue;
-    console.log(currentUserValue)
     this.chatService.emit('joinRoom', {
       roomId: this.roomid, 
       fullName: currentUserValue.firstname + ' '+ currentUserValue.lastname,
       company: currentUserValue.company?currentUserValue.company.name: 'Admin',
-      avatar: currentUserValue.photo
+      avatar: currentUserValue.photo,
+      userId: currentUserValue.id,
     });
     this.chatService.listen('usersRoom')
       .pipe(takeWhile(() => this.alive))

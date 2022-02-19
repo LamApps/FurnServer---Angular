@@ -53,25 +53,27 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
   loadScript(cid: number) {
-    const oldScript = document.getElementById('custom-script');
-    if(oldScript) oldScript.parentNode.removeChild(oldScript);
-    const script = document.createElement('script');
-    script.id = "custom-script";
-    if(this.codeService.hasData()){
-      this.codeService.getData().map((code)=>{
-        if(!code.company) script.innerHTML += code.content;
-        if(code.company && code.company.id === cid) script.innerHTML += code.content;
-      })
-      document.head.appendChild(script);
-    }else{
-      this.codeService.getActiveList().subscribe((result) => {
-        this.codeService.setData(result);
-        result.map(code => {
+    if(localStorage.getItem('currentUser')){
+      const oldScript = document.getElementById('custom-script');
+      if(oldScript) oldScript.parentNode.removeChild(oldScript);
+      const script = document.createElement('script');
+      script.id = "custom-script";
+      if(this.codeService.hasData()){
+        this.codeService.getData().map((code)=>{
           if(!code.company) script.innerHTML += code.content;
           if(code.company && code.company.id === cid) script.innerHTML += code.content;
         })
         document.head.appendChild(script);
-      })
+      }else{
+        this.codeService.getActiveList().subscribe((result) => {
+          this.codeService.setData(result);
+          result.map(code => {
+            if(!code.company) script.innerHTML += code.content;
+            if(code.company && code.company.id === cid) script.innerHTML += code.content;
+          })
+          document.head.appendChild(script);
+        })
+      }
     }
   }
 

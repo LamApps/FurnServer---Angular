@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 
 import { User } from '../@models/user';
 import { HttpService } from '../backend/common/api/http.service';
+
 import * as store from 'store2';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,9 @@ export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
 
-    constructor(private http: HttpService) {
+    constructor(
+		private http: HttpService,
+	) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }

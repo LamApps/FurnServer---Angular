@@ -19,7 +19,10 @@ import {
   NbSelectModule,
   NbUserModule,
   NbMenuModule,
-  NbChatModule
+  NbChatModule,
+  NbFormFieldModule,
+  NbContextMenuModule,
+  NbSpinnerModule,
 } from '@nebular/theme';
 import { FormsModule as ngFormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -67,6 +70,7 @@ import { CodeCreateComponent } from './code/code-create/code-create.component';
 import { RoomsComponent } from './chat/rooms/rooms.component';
 import { RoomCreateComponent } from './chat/rooms/room-create/room-create.component';
 import { RoomChatComponent } from './chat/rooms/room-chat/room-chat.component';
+import { PrivateChatComponent } from './chat/private/private-chat/private-chat.component';
 
 const materialModules = [
   MatFormFieldModule,
@@ -114,6 +118,9 @@ const PAGES_COMPONENTS = [
     ngFormsModule,
     NbMenuModule,
     NbListModule,
+    NbFormFieldModule,
+    NbContextMenuModule,
+    NbSpinnerModule,
     Ng2SmartTableModule,
     ReactiveFormsModule,
     NgpImagePickerModule,
@@ -135,6 +142,7 @@ const PAGES_COMPONENTS = [
     RoomsComponent,
     RoomCreateComponent,
     RoomChatComponent,
+    PrivateChatComponent,
   ],
   providers: [
     AdminMenu,

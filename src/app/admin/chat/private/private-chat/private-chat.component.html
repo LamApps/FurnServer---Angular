@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="col-md-12 col-lg-3">
+        <nb-card id="chat-user-list">
+            <nb-card-header>User List</nb-card-header>
+            <nb-card-body>
+                <nb-form-field class="mb-3">
+                    <input fullWidth nbInput placeholder="Enter username" (keyup)="onChange($event)" #searchInput>
+                    <button nbSuffix nbButton ghost *ngIf="searchStatus" (click)="onSearchClose()">
+                      <nb-icon icon="close-circle-outline" pack="eva"></nb-icon>
+                    </button>
+                </nb-form-field>
+
+                <ul class="list-group" [nbSpinner]="searching" nbSpinnerSize="giant" nbSpinnerStatus="primary">
+                    <li *ngFor="let user of viewUsers" [ngClass]="{'list-group-item': true, 'd-flex': true, 'justify-content-between': true, 'align-items-center': true, 'selected': selectedUser&&selectedUser.id===user.id}">
+                        <nb-user class="private-contact-user" [name]="user.firstname+' '+user.lastname"
+                        [title]="user.company?user.company.name:'Admin'"
+                        [showInitials]="user.photo==''"
+                        [picture]="user.photo==''?null:baseUrl+'/'+user.photo"
+                        (click)="onSelectUser($event, user)"
+                        badgeText=" "
+                        [badgeStatus]="user.socketId?'success':'control'"
+                        badgePosition="bottom right">
+                        </nb-user>
+                        <div class="d-flex align-items-center">
+                            <span class="badge badge-primary" *ngIf="user.income">{{user.income}}</span>
+                            <nb-icon icon="more-vertical-outline" (click)="onVerticalMenuClick($event, user)" [nbContextMenu]="contextMenuItems" nbContextMenuTag="contact-context-menu"></nb-icon>
+                        </div>
+                    </li>
+                </ul>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-md-12 col-lg-9">
+        <nb-chat [title]="selectedUser?selectedUser.firstname+' '+selectedUser.lastname:'Please select the user first'" size="large" class="mb-3">
+            <nb-chat-message *ngFor="let msg of messages"
+                [type]="msg.type"
+                [message]="msg.text"
+                [reply]="msg.reply"
+                [sender]="msg.user.name"
+                [date]="msg.date"
+                [dateFormat]="msg.dateFormat"
+                [files]="msg.files"
+                [avatar]="msg.user.avatar">
+            </nb-chat-message>
+            <nb-chat-form (send)="sendMessage($event)">
+            </nb-chat-form>
+        </nb-chat>
+    </div>
+</div>

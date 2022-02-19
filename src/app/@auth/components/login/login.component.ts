@@ -23,6 +23,7 @@ import * as store from 'store2';
 import { UserService } from 'app/@core/@services/user.service';
 import { HttpClient } from '@angular/common/http';
 import { createPasswordStrengthValidator } from 'app/@components/validation-message/validation-message.component';
+import { ChatService } from 'app/@core/@services/chat.service';
 
 @Component({
   selector: 'ngx-login',
@@ -69,6 +70,7 @@ export class NgxLoginComponent implements OnInit {
     protected location: Location,
     protected authService: AuthenticationService,
     protected userService: UserService,
+    protected chatService: ChatService,
     protected api: UsersApi,
     private http: HttpClient) { 	
 		router.events.subscribe((val) => {
@@ -234,7 +236,9 @@ export class NgxLoginComponent implements OnInit {
 
     this.authService.login(this.user, this.isAdmin).subscribe(
       data => {
-        this.submitted = false
+        this.submitted = false;
+        this.chatService.connect(data);
+        this.chatService.emit('userLogin', {fullName: data.firstname+' '+data.lastname, company: data.company?data.company.name:'Admin', avatar: data.photo, userId: data.id})
         this.cd.detectChanges()
         setTimeout(() => {
           if (this.isAdmin) {

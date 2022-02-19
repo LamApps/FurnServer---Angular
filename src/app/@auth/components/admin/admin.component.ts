@@ -15,8 +15,9 @@ import {
 import { getDeepFromObject } from '../../helpers';
 import { NbThemeService, NbDateService } from '@nebular/theme';
 import { EMAIL_PATTERN, NUMBERS_PATTERN, USERNAME_PATTERN } from '../constants';
-import { UsersApi } from 'app/@core/backend/common/api/users.api';
-import { AuthenticationService } from 'app/@core/@services/authentication.service'
+import { UsersApi } from '../../../@core/backend/common/api/users.api';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
+
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -90,7 +91,7 @@ export class NgxLoginComponent implements OnInit {
     this.messages = [];
     this.submitted = true;
 
-    this.authService.login(this.user).subscribe(
+    this.authService.login(this.user, true).subscribe(
       data => {
         this.submitted = false;
         this.cd.detectChanges();

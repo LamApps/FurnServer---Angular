@@ -7,6 +7,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from 'app/@core/@services/authentication.service';
+import { ChatService } from 'app/@core/@services/chat.service';
 
 @Component({
   selector: 'ngx-logout',
@@ -15,6 +16,7 @@ import { AuthenticationService } from 'app/@core/@services/authentication.servic
 export class NgxLogoutComponent implements OnInit {
 
   constructor(protected authService: AuthenticationService,
+              protected chatService: ChatService,
               protected router: Router) { }
 
   ngOnInit(): void {
@@ -23,6 +25,7 @@ export class NgxLogoutComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
+    this.chatService.emit('userLogout', null);
     this.router.navigateByUrl('');
   }
 }
