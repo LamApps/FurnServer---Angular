@@ -39,6 +39,7 @@ export class PrivateChatComponent implements OnInit {
     this.me = this.authService.currentUserValue;
     this.checkPermission();
     this.chatService.getContact(this.me.id).subscribe((result) => {
+      console.log(result)
       this.contacts = result.map(item=>{
         const user = item.admin_user || item.user
         return {...user, contactId: item.id}
@@ -55,7 +56,7 @@ export class PrivateChatComponent implements OnInit {
         if(!this.tempUser) return;
         const isTempUserAdmin = this.tempUser.company?false:true;
         const isSelectedUserAdmin = this.selectedUser&&this.selectedUser.company?false:true;
-        if(title==='Delete this user') {
+        if(title==='Delete this contact') {
           if(!confirm('Are you sure want to delete this user?')) return;
           this.chatService.deleteContact(this.tempUser.contactId).subscribe(result=>{
             this.contacts = this.viewUsers = this.contacts.filter(user=>{
@@ -85,7 +86,7 @@ export class PrivateChatComponent implements OnInit {
                     type: 'text',
                     user: {
                       name: replyFlag?'':this.selectedUser.firstname+' '+this.selectedUser.lastname,
-                      avatar: replyFlag?null:this.selectedUser.photo,
+                      avatar: replyFlag?null:this.baseUrl+'/'+this.selectedUser.photo,
                     },
                   });
                 })
@@ -129,8 +130,8 @@ export class PrivateChatComponent implements OnInit {
           const company = user.company?user.company.name:'Admin';
           const myCompany = this.me.company?this.me.company.name:'Admin';
           if(this.me.id == user.id && company==myCompany) return result;
-          if(this.onlineUsers[user.id+'_'+company]) result.push({...user, socketId: this.onlineUsers[user.id+'_'+company].id});
-          else result.push(user)
+          if(this.onlineUsers[user.id+'_'+company]) result.push({...user, socketId: this.onlineUsers[user.id+'_'+company].id, status: this.onlineUsers[user.id+'_'+company].status});
+          else result.push({...user, status:'control'})
           return result;
         }, []);
         // this.viewUsers = result.map(user=>{
@@ -208,7 +209,7 @@ export class PrivateChatComponent implements OnInit {
           type: 'text',
           user: {
             name: replyFlag?'':this.selectedUser.firstname+' '+this.selectedUser.lastname,
-            avatar: replyFlag?null:this.selectedUser.photo,
+            avatar: replyFlag?null:this.baseUrl+'/'+this.selectedUser.photo,
           },
         });
       })
@@ -254,7 +255,7 @@ export class PrivateChatComponent implements OnInit {
       const selectedCompany = this.selectedUser&&this.selectedUser.company?this.selectedUser.company.name:'Admin';
       const isSelectedAdmin = selectedCompany=='Admin'?true:false;
       //If the selected user send the message
-      if(this.selectedUser && message.sender.userId == this.selectedUser.id && message.sender.company == selectedCompany){
+      if(this.selectedUser && message.sender.userId == this.selectedUser.id && message.sender.company == selectedCompany && this.revealState==true){
         this.messages.push({
           text: message.message,
           date: new Date(),
@@ -275,26 +276,18 @@ export class PrivateChatComponent implements OnInit {
           return message.sender.userId == user.id && message.sender.company == company
         })
         if(index<0) {
-          this.chatService.emitAndRetreive('getConnectedUsers', null, (data)=>{
-            this.onlineUsers = data;
-            const sender = {id: message.sender.userId, company: message.sender.company=='Admin'?null:message.sender.company}
-            this.chatService.addContact(this.me.id, sender).subscribe(result=>{
-              this.contacts = result.map(item=>{
-                const user = item.admin_user || item.user;
-                const company = user.company?user.company.name:'Admin';
-                const income = user.income || 0;
-  
-                let returnObj = {};
-                
-                if(this.onlineUsers[user.id+'_'+company]) returnObj = {...user, contactId: item.id, socketId: this.onlineUsers[user.id+'_'+company].id, status: this.onlineUsers[user.id+'_'+company].status};
-                else returnObj = {...user, contactId: item.id, socketId: null, status: 'control'};
-  
-                if(message.sender.userId == user.id && message.sender.company == company) return {...returnObj, income: income+1}
-                else return {...returnObj, income: 0}
-              });
-              this.viewUsers = this.contacts;
+          const isSenderAdmin = message.sender.company=='Admin'?true:false;
+          this.chatService.getContact(this.me.id).subscribe(result=>{
+            const new_contact = result.find(contact=>{
+              const user = contact.admin_user||contact.user;
+              const isContactAdmin = contact.admin_user?true:false;
+              return user.id==message.sender.userId && isContactAdmin==isSenderAdmin
             })
-          });
+            console.log('new_contact', new_contact)
+            const user = new_contact.admin_user||new_contact.user;
+            this.contacts.push({...user, contactId: new_contact.id, status: 'success', income: 1})
+            this.viewUsers = this.contacts;
+          })
         }else{
           this.processIncomeMsg(message.sender)
           this.viewUsers = this.contacts;

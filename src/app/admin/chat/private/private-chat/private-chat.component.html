@@ -24,7 +24,7 @@
                         </nb-user>
                         <div class="d-flex align-items-center">
                             <span class="badge badge-primary" *ngIf="user.income">{{user.income}}</span>
-                            <nb-icon icon="more-vertical-outline" *ngIf="permission=='write'" (click)="onVerticalMenuClick($event, user)" [nbContextMenu]="contextMenuItems" nbContextMenuTag="contact-context-menu"></nb-icon>
+                            <nb-icon icon="more-vertical-outline" *ngIf="permission=='write'&&searchStatus==false" (click)="onVerticalMenuClick($event, user)" [nbContextMenu]="contextMenuItems" nbContextMenuTag="contact-context-menu"></nb-icon>
                         </div>
                     </li>
                 </ul>

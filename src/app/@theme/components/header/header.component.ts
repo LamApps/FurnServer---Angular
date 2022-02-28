@@ -25,7 +25,7 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   public readonly materialTheme$: Observable<boolean>;
-  private audio = new Audio('https://upload.wikimedia.org/wikipedia/commons/3/34/Sound_Effect_-_Door_Bell.ogg');
+  private audio = new Audio(environment.baseUrl+'/ringtone.mp3');
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: User;
