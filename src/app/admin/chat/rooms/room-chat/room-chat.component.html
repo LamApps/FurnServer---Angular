@@ -1,5 +1,5 @@
 <div class="row" *ngIf="permitted; else elseBlock">
-    <div class="col-md-12 col-lg-9">
+    <div class="col-md-12 col-lg-8">
         <nb-chat title={{roomName}} size="large" class="mb-3">
             <nb-chat-message *ngFor="let msg of messages"
                 [type]="msg.type"
@@ -15,17 +15,52 @@
             </nb-chat-form>
         </nb-chat>
     </div>
-    <div class="col-md-12 col-lg-3">
+    <div class="col-md-12 col-lg-4">
         <nb-card id="chat-user-list">
-            <nb-card-header>User List</nb-card-header>
             <nb-card-body>
-                <nb-list>
-                    <nb-list-item *ngFor="let user of users">
-                    <nb-user [name]="user.name" [title]="user.company" [showInitials]="user.avatar==''" [picture]="user.avatar==''?null:baseUrl + '/' +user.avatar">
-                    </nb-user>
-                    </nb-list-item>
-                </nb-list>
-        </nb-card-body>
+                <nb-tabset>
+                    <nb-tab tabTitle="Members" class="p-1">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'selected': selectedUser=='all'}">
+                                <nb-user name="Public Channel" color="#00a2e84d" (click)="onSelectUser('all')"></nb-user>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge badge-primary" *ngIf="publicUnreads>0">{{publicUnreads}}</span>
+                                </div>
+                            </li>
+                            <li *ngFor="let user of users" class="list-group-item d-flex justify-content-between align-items-center" [ngClass]="{'selected': selectedUser&&selectedUser.userId===user.userId&&selectedUser.company==user.company}">
+                                <nb-user [name]="user.name" class="room-contact-user"
+                                [title]="user.company" 
+                                [showInitials]="user.avatar==''" 
+                                (click)="onSelectUser(user)"
+                                [picture]="user.avatar==''?null:baseUrl + '/' +user.avatar"
+                                badgeText=" "
+                                [badgeStatus]="user.status"
+                                badgePosition="bottom right">
+                                </nb-user>
+                                <div class="d-flex align-items-center">
+                                    <span class="badge badge-primary" *ngIf="user.income>0">{{user.income}}</span>
+                                    <nb-icon *ngIf="permission=='write'&&roomCreator&&roomCreator.id===this.me.id&&((!roomCreator.company&&!this.me.company)||(roomCreator.company&&this.me.company&&roomCreator.company.id==this.me.company.id))" icon="more-vertical-outline" (click)="onVerticalMenuClick(user)" [nbContextMenu]="contextMenuItems" nbContextMenuTag="room-context-menu"></nb-icon>
+                                </div>
+                            </li>
+                        </ul>
+                    </nb-tab>
+                    <nb-tab tabTitle="Banned" *ngIf="permission=='write'&&roomCreator&&roomCreator.id===this.me.id&&((!roomCreator.company&&!this.me.company)||(roomCreator.company&&this.me.company&&roomCreator.company.id==this.me.company.id))" class="p-1">
+                        <li *ngFor="let item of bannedUsers" class="list-group-item d-flex justify-content-between align-items-center">
+                            <nb-user [name]="item.user.firstname+' '+item.user.lastname" class="room-contact-user"
+                            [title]="item.user.company?item.user.company.name:'Admin'" 
+                            [showInitials]="item.user.photo==''" 
+                            [picture]="item.user.photo==''?null:baseUrl + '/' +item.user.photo">
+                            </nb-user>
+                            <div class="d-flex align-items-center">
+                                <button nbButton ghost size="small" (click)="onRemoveBannedUser(item.id)"><nb-icon icon="close-circle-outline"></nb-icon></button>
+                            </div>
+                        </li>
+                    </nb-tab>
+                </nb-tabset>
+            </nb-card-body>
+            <nb-card-footer class="text-center" *ngIf="permission=='write'&&roomCreator&&roomCreator.id===this.me.id&&((!roomCreator.company&&!this.me.company)||(roomCreator.company&&this.me.company&&roomCreator.company.id==this.me.company.id))">
+                <button nbButton status="primary" size="small" shape="round" (click)="onClearMessages()"><nb-icon icon="trash-2-outline"></nb-icon> Clear messages</button>  
+            </nb-card-footer>
         </nb-card>
     </div>
 </div>

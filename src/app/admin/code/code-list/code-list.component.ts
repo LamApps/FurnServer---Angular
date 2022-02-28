@@ -12,10 +12,14 @@ import { CodeService } from '../../../@core/@services/code.service';
   styleUrls: ['./code-list.component.scss']
 })
 export class CodeListComponent implements OnInit {
-  private alive = true;
-  
+  private alive: boolean = true;
   settings = {
     mode: 'external',
+    actions: {
+      add: false,
+      edit: false,
+      delete: false,
+    },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -58,7 +62,7 @@ export class CodeListComponent implements OnInit {
   constructor(
     private codeService: CodeService,
     private router: Router, 
-    private toastrService: NbToastrService
+    private toastrService: NbToastrService,
   ) { }
 
   ngOnInit(): void {

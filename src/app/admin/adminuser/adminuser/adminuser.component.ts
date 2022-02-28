@@ -88,12 +88,16 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       ]),
       position: this.fb.control('', []),
       birthday: this.fb.control('', []),
-      password: this.fb.control('', [])
+      password: this.fb.control('', []),
+      chatalert: this.fb.control(true),
+      sound: this.fb.control(true),
+      alert_fadetime: this.fb.control(5, [Validators.min(0), Validators.max(120)]),
     });
   }
 
   loadUser(id?) {
     const user = this.authService.currentUserValue;
+    console.log(user)
     this.userForm.setValue({
       id: user.id ? user.id : '',
       username: user.username ? user.username : '',
@@ -106,6 +110,9 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       birthday: user.birthday ? user.birthday: '',
       mobile: user.mobile ? user.mobile : '',
       password: '',
+      chatalert: user.chat_alert,
+      sound: user.sound,
+      alert_fadetime: user.alert_fadetime,
     });
     this.onBirthdayChange();
     this.photo = user.photo;
@@ -125,9 +132,11 @@ export class AdminuserComponent implements OnInit, OnDestroy {
     var user = this.userForm.value
     user.photo = this.photo
     user.active = true
+    if(user.alert_fadetime=='' || user.alert_fadetime<0) user.alert_fadetime=0;
 
     const birthday = new Date(user.birthday).toLocaleDateString()
-    user = { ...user, birthday: birthday }
+    user = { ...user, birthday: birthday=='Invalid Date'?'':birthday }
+
 
     this.submitted = true
     this.userService.update(user).subscribe((result: any) => {

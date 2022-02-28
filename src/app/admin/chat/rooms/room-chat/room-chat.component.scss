@@ -1,9 +1,28 @@
 nb-chat {
     height: calc(100vh - 220px) !important;
 }
+
+#chat-user-list nb-tab {
+    padding: 0;
+}
 #chat-user-list {
     height: calc(100vh - 220px) !important;
 }
 #chat-user-list nb-card-body {
     padding: 0;
+}
+nb-user {
+    cursor: pointer;
+}
+li.list-group-item {
+    padding: 0.6rem;
+}
+li.list-group-item.selected {
+    background: #f9f9f9 !important;
+}
+
+::ng-deep .room-contact-user nb-badge {
+    padding: 0.3rem 0.3rem !important;
+    border-radius: 1rem !important;
+    border: solid 1px #333;
 }

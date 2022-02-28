@@ -26,7 +26,7 @@
                         placeholder="Enter password"
                         class="col-md-9">
             </div>
-            <div class="form-control-group mt-3" style="display:flex;">
+            <div class="form-control-group mt-3" style="display:flex;" *ngIf="adminFlag">
                 <label for="select-type" class="col-md-3">Type</label>
                 <select
                     id="select-type"

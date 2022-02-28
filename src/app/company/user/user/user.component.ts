@@ -74,7 +74,10 @@ export class UserComponent implements OnInit, OnDestroy {
       ]),
       position: this.fb.control('', []),
       birthday: this.fb.control('', [Validators.minLength(10), Validators.maxLength(10)]),
-      password: this.fb.control('', [])
+      password: this.fb.control('', []),
+      chatalert: this.fb.control(false),
+      sound: this.fb.control(true),
+      alert_fadetime: this.fb.control(5, [Validators.min(0), Validators.max(120)]),
     });
   }
   
@@ -99,7 +102,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this.userForm.setValue({
       id: user.id ? user.id : '',
       username: user.username ? user.username : '',
-      role: user.role ? user.role : '',
+      role: user.role ? user.role.id : '',
       firstname: user.firstname ? user.firstname : '',
       lastname: user.lastname ? user.lastname : '',
       login: user.login ? user.login : '',
@@ -108,6 +111,9 @@ export class UserComponent implements OnInit, OnDestroy {
       birthday: user.birthday ? user.birthday: '',
       mobile: user.mobile ? user.mobile : '',
       password: '',
+      chatalert: user.chat_alert,
+      sound: user.sound,
+      alert_fadetime: user.alert_fadetime,
     });
     this.photo = user.photo;
     if (this.photo != "") {
@@ -142,9 +148,10 @@ export class UserComponent implements OnInit, OnDestroy {
     var user = this.userForm.value;
     user.photo = this.photo;
     user.active = true;
+    if(user.alert_fadetime=='' || user.alert_fadetime<0) user.alert_fadetime=0;
 
     const birthday = new Date(user.birthday).toLocaleDateString()
-    user = { ...user, birthday: birthday }
+    user = { ...user, birthday: birthday=='Invalid Date'?'':birthday }
 
     this.submitted = true;
     this.userService.update(user).subscribe((result: any) => {

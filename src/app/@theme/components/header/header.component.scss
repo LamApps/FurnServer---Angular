@@ -23,6 +23,7 @@
     height: auto;
     display: flex;
     align-content: center;
+    border: none !important;
   }
 
   nb-user {
@@ -65,9 +66,6 @@
   }
 
   @include media-breakpoint-down(sm) {
-    .control-item {
-      display: none;
-    }
     .user-action {
       border: none;
       padding: 0;
@@ -75,8 +73,14 @@
   }
 
   @include media-breakpoint-down(is) {
-    nb-select {
+    nb-select, .logo {
       display: none;
+    }
+    .logo-container {
+      width: inherit !important;
+    }
+    .control-item {
+      padding: 0 0.7rem;
     }
   }
 }

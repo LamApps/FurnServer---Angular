@@ -57,7 +57,20 @@
         <!-- <input nbInput bsDatepicker class="form-control" id="input-birthday" placeholder="Birthday" formControlName="birthday""> -->
         <input nbInput class="form-control" id="input-birthday" placeholder="Birthday" formControlName="birthday" (keyup)="onBirthdayChange()" maxlength="10">
       </div>
-	  
+
+      <div class="form-group">
+          <nb-checkbox formControlName="chatalert" id="check-alert">Show incoming message alert</nb-checkbox>
+      </div>
+
+      <div class="form-group">
+        <label for="input-fadetime">Alert fade time</label>
+        <input type="number" [attr.disabled]="userForm.value['chatalert'] === true?null:'disabled'" nbInput class="form-control" id="input-fadetime" placeholder="Alert fade time" formControlName="alert_fadetime">
+      </div>
+
+      <div class="form-group">
+          <nb-checkbox formControlName="sound" id="check-sound">Play a sound when got a message</nb-checkbox>
+      </div>
+
       <div class="form-group">
         <ngp-image-picker
           [_imageSrc]="image"

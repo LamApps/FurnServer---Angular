@@ -34,10 +34,16 @@ export class ChatService {
       this.socket.emit(eventName, data);
     }
 
-    getUserList(id:number, slug: string): Observable<any[]> {
+    emitAndRetreive(eventName: string, data:any, callback?: (data: any)=>any) {
+      this.socket.emit(eventName, data, callback);
+    }
+
+    getUserList(me:any, slug: string): Observable<any[]> {
       const isAdmin = store.get('adminuser');
+      const company = me.company?me.company.id:0;
       const params = new HttpParams()
-      .set('id', `${id}`)
+      .set('id', `${me.id}`)
+      .set('cp', `${company}`)
       .set('f', `${isAdmin}`)
       .set('slug', `${slug.toLowerCase()}`)
 
@@ -69,12 +75,7 @@ export class ChatService {
       return this.api.get(this.apiUserController+'/chat-log', { params });
     }
 
-    addContact(id: number, target:any): Observable<any[]> {
-      const isAdmin = store.get('adminuser');
-      return this.api.post(this.apiUserController+'/add-contacts/'+id, {isAdmin,target});
-    }
-
-    setReadMessage(myId: number, yourId: number, yourAdmin: boolean): Observable<any[]> {
+    setRead(myId: number, yourId: number, yourAdmin: boolean): Observable<any[]> {
       const isAdmin = store.get('adminuser');
       const params = new HttpParams()
       .set('myid', `${myId}`)
@@ -85,7 +86,12 @@ export class ChatService {
       return this.api.get(this.apiUserController+'/set-read', { params });
     }
 
-    getUnreadMessages(myId: number) {
+    addContact(id: number, target:any): Observable<any[]> {
+      const isAdmin = store.get('adminuser');
+      return this.api.post(this.apiUserController+'/add-contacts/'+id, {isAdmin,target});
+    }
+
+    getUnreadMessages(myId: string) {
       const isAdmin = store.get('adminuser');
       const params = new HttpParams()
       .set('myid', `${myId}`)

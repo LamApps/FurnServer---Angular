@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CodeService } from 'app/@core/@services/code.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
+import { AuthenticationService } from 'app/@core/@services/authentication.service';
 
 export enum FormMode {
   VIEW = 'View',
@@ -19,16 +20,19 @@ export class CodeCreateComponent implements OnInit {
   formGroup: FormGroup;
   submitted: boolean = false;
   selectedItem = 'All';
+  permission: string = 'view';
 
   constructor(
     private codeService: CodeService,
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private toasterService: NbToastrService
+    private toasterService: NbToastrService,
+    private authService: AuthenticationService,
   ) { }
 
   ngOnInit(): void {
+    this.checkPermission();
     this.formGroup = this.formBuilder.group({
       id: this.formBuilder.control('', []),
       description: this.formBuilder.control('', [Validators.required, Validators.minLength(3)]),
@@ -73,7 +77,25 @@ export class CodeCreateComponent implements OnInit {
       this.title = "Create Codes";
     }
   }
-
+  checkPermission() {
+    if (this.authService.isAdmin()) {
+      this.permission = 'write'
+    } else {
+      const user = this.authService.currentUserValue;
+      const menus = user.menus;
+      for (let i = 0; i < menus.length; i++) {
+        const menu = menus[i];
+        if (menu.menu.link == "code") {
+          this.permission = menu.permission
+        }
+      }
+    }
+    if (this.permission == "none") {
+      this.router.navigate(['/company/no-permission']);
+    } else if (this.permission == "view") {
+      this.router.navigate(['/company/no-permission']);
+    }
+  }
   loadCode(id: number) {
     this.codeService.getOne(id).subscribe(code => {
       const item = code.item;

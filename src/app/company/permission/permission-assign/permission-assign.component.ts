@@ -262,6 +262,8 @@ export class PermissionAssignComponent implements OnInit {
     this.submitted = true;
     this.userService.permission(this.selected_user, this.selected_role, this.menuList).subscribe( 
       data=> {
+        const user = this.authService.currentUserValue
+        if(user.id == data.user.item.id) this.authService.setUserValue(data.user.item)
         this.toasterService.success('', 'changed!');
         this.submitted = false;
         const params = JSON.stringify({ cid: this.company });

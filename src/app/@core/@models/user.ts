@@ -12,4 +12,7 @@ export class User {
     position: string;
     birthday: Date;
     company: string;
+    chat_alert: boolean;
+    sound: boolean;
+    alert_fadetime: number;
 }

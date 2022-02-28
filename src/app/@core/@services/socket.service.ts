@@ -19,7 +19,6 @@ export class SocketService extends Socket {
       url: environment.baseUrl,
       options: {
         query: query,
-        reconnection: false,
         transportOptions: {
           polling: {
             extraHeaders: {

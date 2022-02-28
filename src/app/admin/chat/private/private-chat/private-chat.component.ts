@@ -22,19 +22,10 @@ export class PrivateChatComponent implements OnInit {
   alive:boolean = true;
   baseUrl = environment.baseUrl;
   selectedUser:any = null;
+  permission:string = 'view';
+  revealState:boolean = false;
 
-  messages: any[] = [
-    {
-      text: 'Welcome!',
-      date: new Date(),
-      reply: false,
-      dateFormat: 'h:mm a',
-      user: {
-        name: 'Bot',
-        avatar: 'https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/robot-face.png',
-      },
-    },
-  ];
+  messages: any[] = [];
   constructor(
     private chatService: ChatService,
     private router: Router, 
@@ -46,6 +37,7 @@ export class PrivateChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.me = this.authService.currentUserValue;
+    this.checkPermission();
     this.chatService.getContact(this.me.id).subscribe((result) => {
       this.contacts = result.map(item=>{
         const user = item.admin_user || item.user
@@ -57,6 +49,7 @@ export class PrivateChatComponent implements OnInit {
       .pipe(
         filter(({ tag }) => tag === 'contact-context-menu'),
         map(({ item: { title } }) => title),
+        takeWhile(() => this.alive),
       )
       .subscribe(title => {
         if(!this.tempUser) return;
@@ -68,6 +61,9 @@ export class PrivateChatComponent implements OnInit {
             this.contacts = this.viewUsers = this.contacts.filter(user=>{
               if(user.contactId!=this.tempUser.contactId) return user
             })
+            this.messages = [];
+            this.tempUser = null;
+            this.selectedUser = null;
             this.toasterService.success('', 'Contact is successfully deleted!')
           })
         }else if(title==='Delete conversation') {
@@ -93,6 +89,7 @@ export class PrivateChatComponent implements OnInit {
                     },
                   });
                 })
+                this.tempUser = null;
               })
             }
           })
@@ -106,7 +103,7 @@ export class PrivateChatComponent implements OnInit {
   }
 
   contextMenuItems = [
-    { title: 'Delete this user' },
+    { title: 'Delete this contact' },
     { title: 'Delete conversation' },
   ];
 
@@ -116,13 +113,17 @@ export class PrivateChatComponent implements OnInit {
   tempUser:any = null;
 
   onChange($event) {
+    if($event.target.value=="") {
+      this.onSearchClose();
+      return;
+    };
     if(!this.searchStatus) this.searchStatus = true;
     if(!this.searching) this.searching = true;
     if(this.timer !== null) {
       clearTimeout(this.timer);        
     }
     this.timer = setTimeout(()=> {
-      this.chatService.getUserList(this.me.id, $event.target.value).subscribe((users) => {
+      this.chatService.getUserList(this.me, $event.target.value).subscribe((users) => {
         this.searching = false;
         this.viewUsers = users.reduce((result, user)=>{
           const company = user.company?user.company.name:'Admin';
@@ -147,13 +148,40 @@ export class PrivateChatComponent implements OnInit {
     this.tempUser = user;
   }
 
+  checkPermission() {
+    if (this.authService.isAdmin()) {
+      this.permission = 'write'
+    } else {
+      const menus = this.me.menus;
+      for (let i = 0; i < menus.length; i++) {
+        const menu = menus[i];
+        if (menu.menu.link == "chat/conversations") {
+          this.permission = menu.permission
+        }
+      }
+      if (this.permission == "none") {
+        this.router.navigate(['/company/dashboard']);
+      } else if (this.permission == "view") {
+        this.router.navigate(['/company/no-permission']);
+      }
+    }
+  }
+
   processOnline() {
     this.contacts = this.contacts.map(user=>{
       const company = user.company?user.company.name:'Admin';
-      if(this.onlineUsers[user.id+'_'+company]) return {...user, socketId: this.onlineUsers[user.id+'_'+company].id};
-      else return {...user, socketId: null};
+      if(this.onlineUsers[user.id+'_'+company]) return {...user, socketId: this.onlineUsers[user.id+'_'+company].id, status: this.onlineUsers[user.id+'_'+company].status};
+      else return {...user, socketId: null, status: 'control'};
     })
-    this.viewUsers = this.contacts;
+    // this.viewUsers = this.contacts;
+  }
+  processIncomeMsg(sender) {
+    this.contacts = this.contacts.map(user=>{
+      const company = user.company?user.company.name:'Admin';
+      const income = user.income || 0;
+      if(sender.userId == user.id && sender.company == company) return {...user, income: income+1}
+      else return user;
+    })
   }
   onSearchClose() {
     this.searching = false;
@@ -184,14 +212,15 @@ export class PrivateChatComponent implements OnInit {
           },
         });
       })
+      this.revealState = true;
+      this.onSearchClose();
     })
     const filterContact = this.contacts.find(contact=>{
       const company = contact.company?contact.company.name:'Admin';
       return user.id==contact.id && company==selectedCompany;
     })
-    filterContact.income = 0;
-    this.viewUsers = this.contacts;
-    this.chatService.setReadMessage(this.me.id, user.id, isSelectedAdmin)
+    if(filterContact) filterContact.income = 0;
+    // this.viewUsers = this.contacts;
   }
   initRoom() {
     // Get unread messages
@@ -211,17 +240,20 @@ export class PrivateChatComponent implements OnInit {
       this.viewUsers = this.contacts;
     })
     // Get online users
-    this.chatService.emit('getConnectedUsers', null);
+    this.chatService.emit('getUserList', null);
     this.chatService.listen('userList').pipe(takeWhile(() => this.alive))
     .subscribe((userList:any) => {
       this.onlineUsers = userList;
       this.processOnline();
+      this.viewUsers = this.contacts;
     });
     //Get private message
     this.chatService.listen('privateMessage')
     .pipe(takeWhile(() => this.alive))
     .subscribe((message:any) => {
       const selectedCompany = this.selectedUser&&this.selectedUser.company?this.selectedUser.company.name:'Admin';
+      const isSelectedAdmin = selectedCompany=='Admin'?true:false;
+      //If the selected user send the message
       if(this.selectedUser && message.sender.userId == this.selectedUser.id && message.sender.company == selectedCompany){
         this.messages.push({
           text: message.message,
@@ -234,14 +266,39 @@ export class PrivateChatComponent implements OnInit {
             avatar: message.sender.avatar==""?message.sender.avatar:this.baseUrl+'/'+message.sender.avatar,
           },
         });
+        setTimeout(()=>{
+          this.chatService.setRead(this.me.id, message.sender.userId, isSelectedAdmin).subscribe(result=>{})
+        }, 1000)
       }else{
-        this.contacts = this.contacts.map(user=>{
+        const index = this.contacts.findIndex(user=>{
           const company = user.company?user.company.name:'Admin';
-          const income = user.income || 0;
-          if(message.sender.userId == user.id && message.sender.company == company) return {...user, income: income+1}
-          else return {...user, income: 0}
+          return message.sender.userId == user.id && message.sender.company == company
         })
-        this.viewUsers = this.contacts;
+        if(index<0) {
+          this.chatService.emitAndRetreive('getConnectedUsers', null, (data)=>{
+            this.onlineUsers = data;
+            const sender = {id: message.sender.userId, company: message.sender.company=='Admin'?null:message.sender.company}
+            this.chatService.addContact(this.me.id, sender).subscribe(result=>{
+              this.contacts = result.map(item=>{
+                const user = item.admin_user || item.user;
+                const company = user.company?user.company.name:'Admin';
+                const income = user.income || 0;
+  
+                let returnObj = {};
+                
+                if(this.onlineUsers[user.id+'_'+company]) returnObj = {...user, contactId: item.id, socketId: this.onlineUsers[user.id+'_'+company].id, status: this.onlineUsers[user.id+'_'+company].status};
+                else returnObj = {...user, contactId: item.id, socketId: null, status: 'control'};
+  
+                if(message.sender.userId == user.id && message.sender.company == company) return {...returnObj, income: income+1}
+                else return {...returnObj, income: 0}
+              });
+              this.viewUsers = this.contacts;
+            })
+          });
+        }else{
+          this.processIncomeMsg(message.sender)
+          this.viewUsers = this.contacts;
+        }
       }
     });
   }
@@ -260,9 +317,11 @@ export class PrivateChatComponent implements OnInit {
     if(index<0) {
       this.chatService.addContact(this.me.id, this.selectedUser).subscribe(result=>{
         this.contacts = result.map(item=>{
-          return item.admin_user || item.user
+          const user = item.admin_user || item.user
+          const company = user.company?user.company.name:'Admin';
+          if(this.onlineUsers[user.id+'_'+company]) return {...user, contactId: item.id, socketId: this.onlineUsers[user.id+'_'+company].id, status: this.onlineUsers[user.id+'_'+company].status};
+          else return {...user, contactId: item.id, socketId: null, status: 'control'};
         });
-        this.processOnline();
       })
     }
     this.messages.push({

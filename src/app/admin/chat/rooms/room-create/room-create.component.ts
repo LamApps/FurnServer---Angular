@@ -21,7 +21,7 @@ export class RoomCreateComponent implements OnInit {
 
   formGroup: FormGroup;
   submitted: boolean = false;
-
+  adminFlag: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -33,9 +33,10 @@ export class RoomCreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.adminFlag = this.authService.isAdmin();
     this.formGroup = this.formBuilder.group({
       id: this.formBuilder.control('', []),
-      name: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
+      name: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
       password: this.formBuilder.control('', [Validators.minLength(4), Validators.maxLength(20)]),
       type: this.formBuilder.control(0, [Validators.required])
     });
@@ -51,7 +52,8 @@ export class RoomCreateComponent implements OnInit {
             this.setViewMode(FormMode.ADD);
           }
         } catch (e) {
-          this.router.navigate(['/admin/dashboard']);
+          if(this.adminFlag) this.router.navigate(['/admin/dashboard']);
+          else this.router.navigate(['/company/dashboard']);
         }
       }
     });
@@ -91,7 +93,6 @@ export class RoomCreateComponent implements OnInit {
 
   loadRoom(id: number) {
     this.roomsService.get(id).subscribe(room => {
-      console.log(room)
       this.formGroup.setValue({ 
         id: room.id,
         name: room.name,
@@ -103,15 +104,17 @@ export class RoomCreateComponent implements OnInit {
 
   submit(): void {
     const room = this.formGroup.value;
-    const user = this.authService.currentUserValue.id;
-    const sendData = {...room, user, flag:1}
+    const user = this.authService.currentUserValue;
+    const flag = this.adminFlag?1:2;
+    const sendData = flag===1?{...room, user:user.id, flag}:{...room, user:user.id, flag, type: user.company.id}
     this.submitted = true;
     if (this.mode == FormMode.ADD) {
       this.roomsService.add(sendData).subscribe(
         data => {
           this.toasterService.success('', 'Room created!');
           this.submitted = false;
-          this.router.navigate(['/admin/chat/rooms']);
+          if(this.adminFlag) this.router.navigate(['/admin/chat/rooms']);
+          else this.router.navigate(['/company/chat/rooms']);
         },
         error => {
           this.toasterService.danger('', error.message);
@@ -123,7 +126,8 @@ export class RoomCreateComponent implements OnInit {
         data => {
           this.toasterService.success('', 'Room updated!');
           this.submitted = false;
-          this.router.navigate(['/admin/chat/rooms']);
+          if(this.adminFlag) this.router.navigate(['/admin/chat/rooms']);
+          else this.router.navigate(['/company/chat/rooms']);
         },
         error => {
           this.toasterService.danger('', error.message);
@@ -134,7 +138,8 @@ export class RoomCreateComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/admin/chat/rooms']);
+    if(this.adminFlag) this.router.navigate(['/admin/chat/rooms']);
+    else this.router.navigate(['/company/chat/rooms']);
   }
 
 }

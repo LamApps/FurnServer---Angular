@@ -104,7 +104,7 @@ export class CodeListComponent implements OnInit {
       const menus = user.menus;
       for (let i = 0; i < menus.length; i++) {
         const menu = menus[i];
-        if (menu.menu.link == "apps/invoice/email/list") {
+        if (menu.menu.link == "code") {
           this.permission = menu.permission
         }
       }

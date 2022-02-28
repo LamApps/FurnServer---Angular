@@ -23,6 +23,7 @@ import {
   NbFormFieldModule,
   NbContextMenuModule,
   NbSpinnerModule,
+  NbTabsetModule,
 } from '@nebular/theme';
 import { FormsModule as ngFormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -121,6 +122,7 @@ const PAGES_COMPONENTS = [
     NbFormFieldModule,
     NbContextMenuModule,
     NbSpinnerModule,
+    NbTabsetModule,
     Ng2SmartTableModule,
     ReactiveFormsModule,
     NgpImagePickerModule,

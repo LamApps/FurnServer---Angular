@@ -5,7 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService, NbToastrService } from '@nebular/theme';
 
 import { LayoutService, RippleService } from '../../../@core/utils';
 import { map, filter, takeUntil } from 'rxjs/operators';
@@ -14,6 +14,8 @@ import { AuthenticationService } from 'app/@core/@services/authentication.servic
 import { User } from 'app/@core/@models/user';
 import { environment } from 'environments/environment';
 import * as store from 'store2';
+import { ChatService } from '../../../@core/@services/chat.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -23,7 +25,7 @@ import * as store from 'store2';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   public readonly materialTheme$: Observable<boolean>;
-
+  private audio = new Audio('https://upload.wikimedia.org/wikipedia/commons/3/34/Sound_Effect_-_Door_Bell.ogg');
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: User;
@@ -42,8 +44,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ];
 
   currentTheme = 'material-light';
-
   userMenu = this.getMenuItems();
+  msgCount = 0;
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
@@ -51,6 +53,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private authService: AuthenticationService,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
+              private chatService: ChatService,
+              private router: Router,
+              private toasterService: NbToastrService,
               private rippleService: RippleService) {
     this.materialTheme$ = this.themeService.onThemeChange()
       .pipe(
@@ -87,7 +92,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             icon: 'loader-outline',
           },
           {
-            title: 'Inactive',
+            title: 'Busy',
             icon: 'slash-outline',
           },
         ],
@@ -140,17 +145,51 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         filter(({ tag }) => tag === 'user-context-menu'),
         map(({ item: { title } }) => title),
+        takeUntil(this.destroy$),
       )
       .subscribe(title => {
-        if(title=="Active") this.status = 'success';
-        else if(title=="Away") this.status = 'warning';
-        else this.status = 'danger';
+        this.onStatusChange(title);
       });
+
+    //Get private message
+    this.chatService.listen('privateMessage')
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((message:any) => {
+      try{
+        if(this.user.sound) this.audio.play();
+      }catch(e){}
+      const currentUrl = this.router.url.split('?')[0];
+      if(currentUrl!=='/admin/chat/conversations' && currentUrl!=='/company/chat/conversations'){
+        if(this.user.chat_alert){
+          const viewMsg = message.message.length>50?message.message.slice(0,50)+'...':message.message;
+          const toastrRef = this.toasterService.success(viewMsg, 'New message from '+message.sender.name, {duration: this.user.alert_fadetime * 1000});
+        }
+        this.msgCount++;
+      }
+    });
+
+
+    this.chatService.getUnreadMessages(this.user.id).subscribe(result=>{
+      this.msgCount = result.length;
+    })
+    
   }
 
   ngOnChanges() {
   }
 
+  onChatActionClick() {
+    this.msgCount = 0;
+    const url = store.get('adminuser')?'admin/chat/conversations':'company/chat/conversations'
+    this.router.navigate([url]);
+  }
+
+  onStatusChange(title: string){
+    if(title=="Active") this.status = 'success';
+    else if(title=="Away") this.status = 'warning';
+    else if(title=="Busy") this.status = 'danger';
+    this.chatService.emit('statusChange', this.status);
+  }
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

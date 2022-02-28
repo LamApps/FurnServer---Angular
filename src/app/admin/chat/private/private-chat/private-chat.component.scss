@@ -1,5 +1,12 @@
+nb-reveal-card {
+    height: calc(100vh - 185px) !important;
+    margin: 0 !important;
+}
 nb-chat {
-    height: calc(100vh - 220px) !important;
+    height: calc(100vh - 275px) !important;
+}
+#private-user-list {
+    height: calc(100vh - 315px) !important;
 }
 nb-card-body {
     padding: 0.5rem;
@@ -9,9 +16,6 @@ li.list-group-item {
 }
 li.list-group-item.selected {
     background: #f9f9f9 !important;
-}
-#chat-user-list {
-    height: calc(100vh - 220px) !important;
 }
 .user-status-icon {
     font-size: 1.2rem;
