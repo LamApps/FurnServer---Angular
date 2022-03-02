@@ -89,7 +89,7 @@ export class RolesListComponent implements OnInit {
       this.settings = { ...this.settings, actions: { add: true, edit: true, delete: true }}
     } else {
       const user = this.authService.currentUserValue;
-      const menus = user.menus;
+      const menus = user.role.menus;
       for (let i = 0; i < menus.length; i++) {
         const menu = menus[i];
         if (menu.menu.link == "permissions/roles/list") {
@@ -132,11 +132,14 @@ export class RolesListComponent implements OnInit {
     if (confirm('Are you sure wants to delete role?') && $event.data.id) {
       this.companyRoleService
         .delete($event.data.id)
-        .subscribe((res) => {
-          if (res) {
+        .subscribe((res:any) => {
+          if (res.flag=='success') {
             this.toastrService.success('', 'Role deleted!');
             this.loadData();
-          } else {
+          } else if(res.flag=='exist') {
+            const users = res.payload.map(item=>item.username).join(', ')
+            this.toastrService.danger(users, "You can't delete this role until you remove it from these users.", {duration:0});
+          }else{
             this.toastrService.danger('', 'Something went wrong.');
           }
         });

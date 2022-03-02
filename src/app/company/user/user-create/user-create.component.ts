@@ -153,11 +153,6 @@ export class UserCreateComponent implements OnInit {
   loadRoleList() {
     this.companyRoleService.getCompanyRoles(this.company).subscribe(
       data => {
-        this.roleList.push({
-          id: -1,
-          name: "Custom",
-          menus: []
-        })
         data.map(item => {
           this.roleList.push(item);
         });

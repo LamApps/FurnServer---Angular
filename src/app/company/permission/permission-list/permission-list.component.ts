@@ -93,7 +93,7 @@ export class PermissionListComponent implements OnInit {
       this.settings = { ...this.settings, actions: { add: false, edit: false, delete: false }}
     } else {
       const user = this.authService.currentUserValue;
-      const menus = user.menus;
+      const menus = user.role.menus;
       for (let i = 0; i < menus.length; i++) {
         const menu = menus[i];
         if (menu.menu.link == "permissions/list") {

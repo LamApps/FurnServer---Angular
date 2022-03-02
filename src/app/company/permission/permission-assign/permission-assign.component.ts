@@ -13,7 +13,7 @@ import { UserService } from 'app/@core/@services/user.service';
   styleUrls: ['./permission-assign.component.scss']
 })
 export class PermissionAssignComponent implements OnInit {
-  private permission = "view";
+  permission = "view";
   
   submitted: boolean = false;
 
@@ -46,8 +46,8 @@ export class PermissionAssignComponent implements OnInit {
           const cid = data.cid
           if (cid) {
             this.company = cid;
-            this.loadMenuList(cid);
             this.loadUserList();
+            this.loadMenuList(cid);
             this.loadRoleList();
           } else {
             this.router.navigate(['/company/dashboard']);
@@ -61,9 +61,10 @@ export class PermissionAssignComponent implements OnInit {
 
   checkPermission() {
     if (this.authService.isAdmin()) {
+      this.permission = 'write'
     } else {
       const user = this.authService.currentUserValue;
-      const menus = user.menus;
+      const menus = user.role.menus;
       for (let i = 0; i < menus.length; i++) {
         const menu = menus[i];
         if (menu.menu.link == "permissions/assign") {
@@ -74,9 +75,6 @@ export class PermissionAssignComponent implements OnInit {
         this.router.navigate(['/company/no-permission']);
       } else if (this.permission == "view") {
         this.router.navigate(['/company/no-permission']);
-      } else if (this.permission == "read") {
-        this.router.navigate(['/company/no-permission']);
-      } else {
       }
     }
   }
@@ -84,13 +82,14 @@ export class PermissionAssignComponent implements OnInit {
   loadUserList() { 
     this.userService.list_company(this.company).subscribe(
       data => {
+        console.log(data)
         data.map(item=> {
           this.userList.push(item);
         });
         this.selected_user = this.userList[0].id;
-        this.selected_role = this.userList[0].role.id;
+        this.selected_role = this.userList[0].role?this.userList[0].role.id:0;
         
-        this.getPermission(this.selected_role);
+        this.getPermission(this.selected_user);
       }
     );
   }
@@ -98,15 +97,10 @@ export class PermissionAssignComponent implements OnInit {
   loadRoleList() {
     this.companyRoleService.getCompanyRoles(this.company).subscribe(
       data => {
-        this.roleList.push({
-          id: -1,
-          name: "Custom",
-          menus: []
-        })
         data.map(item => {
           this.roleList.push(item);
         });
-        this.getPermission(this.selected_role);
+        this.getPermission(this.selected_user);
       }
     )
   }
@@ -121,22 +115,22 @@ export class PermissionAssignComponent implements OnInit {
         this.companyMenuList.sort((a, b) => {
           return a.link.localeCompare(b.link)
         })
-        this.getPermission(this.selected_role);
+        this.getPermission(this.selected_user);
       }
     )
   }
 
-  getPermission(rid) {
+  getPermission(uid) {
     if (!this.companyMenuList || this.companyMenuList.length == 0) return;
-    // if (!this.userList || this.userList.length == 0) return;
+    if (!this.userList || this.userList.length == 0) return;
     if (!this.roleList || this.roleList.length == 0) return;
-    // let id = 0;
-    // for (let i = 0; i < this.userList.length; i++) {
-    //   if (this.userList[i].id == uid) {
-    //     id = i;
-    //     break;
-    //   }
-    // }
+    let rid = 0;
+    for (let i = 0; i < this.userList.length; i++) {
+      if (this.userList[i].id == uid) {
+        rid = this.userList[i].role.id;
+        break;
+      }
+    }
     // var userMenuList = [];
     // this.companyMenuList.forEach(menu => {
     //   var exist = false;
@@ -153,7 +147,13 @@ export class PermissionAssignComponent implements OnInit {
     //     userMenuList.push({...menu, permission: 'view', company_permission: menu.permission});
     //   }
     // })
+    this.selected_role = rid;
+
+    this.getRolePermission(rid);
     // this.menuList = userMenuList;
+  }
+
+  getRolePermission(rid) {
     let id = 0;
     for (let i = 0; i < this.roleList.length; i++) {
       if (this.roleList[i].id == rid) {
@@ -179,37 +179,6 @@ export class PermissionAssignComponent implements OnInit {
     })
     this.menuList = roleMenuList;
     this.checkCompanyPermission();
-  }
-
-  getRolePermission(rid) {
-    if (rid == -1) {
-      // this.getPermission(this.selected_user);
-    } else {
-      let id = 0;
-      for (let i = 0; i < this.roleList.length; i++) {
-        if (this.roleList[i].id == rid) {
-          id = i;
-          break;
-        }
-      }
-      var roleMenuList = []; 
-      this.companyMenuList.forEach(menu => {
-        var exist = false;
-        var role_menu;
-        for (let i = 0; i < this.roleList[id].menus.length; i++) {
-          if (this.roleList[id].menus[i].menu.id == menu.id) {
-            exist = true;
-            role_menu = this.roleList[id].menus[i];
-          }
-        }
-        if (exist) {
-          roleMenuList.push({...menu, permission: role_menu.permission, company_permission: menu.permission});
-        } else {
-          roleMenuList.push({...menu, permission: 'view', company_permission: menu.permission});
-        }
-      })
-      this.menuList = roleMenuList;
-    }
   }
 
   onChangeUser($event) {
@@ -262,12 +231,19 @@ export class PermissionAssignComponent implements OnInit {
     this.submitted = true;
     this.userService.permission(this.selected_user, this.selected_role, this.menuList).subscribe( 
       data=> {
+        console.log(data)
         const user = this.authService.currentUserValue
         if(user.id == data.user.item.id) this.authService.setUserValue(data.user.item)
         this.toasterService.success('', 'changed!');
         this.submitted = false;
-        const params = JSON.stringify({ cid: this.company });
-        this.router.navigate([`/company/permissions/assign`], { queryParams: { data: encodeURI(params) }});
+        this.userList = [];
+        this.roleList = [];
+        this.companyMenuList = [];
+        this.menuList = [];
+        this.loadUserList();
+        this.loadMenuList(this.company);
+        this.loadRoleList();
+
       }, 
       error => {
         this.toasterService.danger('', error);

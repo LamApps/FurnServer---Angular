@@ -83,7 +83,7 @@
             </nb-card>
         </div>
         <div class="mt-4">
-            <button nbButton matRipple 
+            <button nbButton matRipple *ngIf="permission=='write'"
               status="primary" 
               class="col-3"
               [disabled]="submitted || menuList.length == 0 || userList.length == 0"

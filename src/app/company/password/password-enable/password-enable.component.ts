@@ -16,7 +16,7 @@ import { AuthenticationService } from 'app/@core/@services/authentication.servic
 export class PasswordEnableComponent implements OnInit {
   private alive = true;
   private company;
-  private permission = "view";
+  permission = "view";
 
   formGroup: FormGroup;
   submitted: boolean = false;
@@ -64,10 +64,10 @@ export class PasswordEnableComponent implements OnInit {
     if (this.authService.isAdmin()) {
     } else {
       const user = this.authService.currentUserValue;
-      const menus = user.menus;
+      const menus = user.role.menus;
       for (let i = 0; i < menus.length; i++) {
         const menu = menus[i];
-        if (menu.menu.link == "apps/invoice/email/list") {
+        if (menu.menu.link == "apps/invoice/password/enable") {
           this.permission = menu.permission
         }
       }
@@ -75,9 +75,6 @@ export class PasswordEnableComponent implements OnInit {
         this.router.navigate(['/company/no-permission']);
       } else if (this.permission == "view") {
         this.router.navigate(['/company/no-permission']);
-      } else if (this.permission == "read") {
-        this.router.navigate(['/company/no-permission']);
-      } else {
       }
     }
   }
@@ -129,7 +126,7 @@ export class PasswordEnableComponent implements OnInit {
       data => {
         this.toasterService.success('', 'changed!');
         this.submitted = false;
-        this.router.navigate([`/company/dashboard`]);
+        this.cancel();
       },
       error => {
         this.toasterService.danger('', error);
@@ -139,6 +136,7 @@ export class PasswordEnableComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate([`/company/dashboard`]);
+    const params = JSON.stringify({ cid: this.company });
+    this.router.navigate([`/company/apps/invoice/password/list`], { queryParams : { data: encodeURI(params) } });
   }
 }

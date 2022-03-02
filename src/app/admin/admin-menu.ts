@@ -30,7 +30,7 @@ export class AdminMenu {
 				result = { ...result, link: menu.link }
 				
 				const user = this.authService.currentUserValue;
-				const user_menus = user.menus;
+				const user_menus = user.role.menus;
 				for (let i = 0; i < user_menus.length; i++) {
 					if ('/company/' + user_menus[i].menu.link == menu.link) {
 						permission = user_menus[i].permission;

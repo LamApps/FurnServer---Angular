@@ -299,10 +299,10 @@ export class RoomChatComponent implements OnInit {
     if (this.authService.isAdmin()) {
       this.permission = 'write'
     } else {
-      const menus = this.me.menus;
+      const menus = this.me.role.menus;
       for (let i = 0; i < menus.length; i++) {
         const menu = menus[i];
-        if (menu.menu.link == "chat/rooms/enter") {
+        if (menu.menu.link == "chat/rooms") {
           this.permission = menu.permission
         }
       }

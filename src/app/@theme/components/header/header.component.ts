@@ -102,6 +102,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    document.body.addEventListener('touchstart', this.unlockAudio, false)
+    document.body.addEventListener('click', this.unlockAudio, false)
     this.currentTheme = this.themeService.currentTheme;
     this.user = this.authService.currentUserValue;
     if (this.user.photo != "") {
@@ -156,6 +159,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this.destroy$))
     .subscribe((message:any) => {
       try{
+        console.log(this.audio)
         if(this.user.sound) this.audio.play();
       }catch(e){}
       const currentUrl = this.router.url.split('?')[0];
@@ -176,6 +180,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnChanges() {
+  }
+
+  unlockAudio = ()=>{
+    try {
+      this.audio.play();
+      this.audio.pause();
+      this.audio.currentTime = 0;
+      document.body.removeEventListener('touchstart', this.unlockAudio, false)
+      document.body.removeEventListener('click', this.unlockAudio, false)
+    }catch(e){
+    }
   }
 
   onChatActionClick() {

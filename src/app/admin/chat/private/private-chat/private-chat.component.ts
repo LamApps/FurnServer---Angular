@@ -85,7 +85,7 @@ export class PrivateChatComponent implements OnInit {
                     reply: replyFlag,
                     type: 'text',
                     user: {
-                      name: replyFlag?'':this.selectedUser.firstname+' '+this.selectedUser.lastname,
+                      name: replyFlag?this.me.firstname+' '+this.me.lastname:this.selectedUser.firstname+' '+this.selectedUser.lastname,
                       avatar: replyFlag?null:this.baseUrl+'/'+this.selectedUser.photo,
                     },
                   });
@@ -153,7 +153,7 @@ export class PrivateChatComponent implements OnInit {
     if (this.authService.isAdmin()) {
       this.permission = 'write'
     } else {
-      const menus = this.me.menus;
+      const menus = this.me.role.menus;
       for (let i = 0; i < menus.length; i++) {
         const menu = menus[i];
         if (menu.menu.link == "chat/conversations") {
@@ -208,7 +208,7 @@ export class PrivateChatComponent implements OnInit {
           reply: replyFlag,
           type: 'text',
           user: {
-            name: replyFlag?'':this.selectedUser.firstname+' '+this.selectedUser.lastname,
+            name: replyFlag?this.me.firstname+' '+this.me.lastname:this.selectedUser.firstname+' '+this.selectedUser.lastname,
             avatar: replyFlag?null:this.baseUrl+'/'+this.selectedUser.photo,
           },
         });
@@ -324,7 +324,7 @@ export class PrivateChatComponent implements OnInit {
       reply: true,
       type: 'text',
       user: {
-        name: "",
+        name: this.me.firstname+' '+this.me.lastname,
       },
     });
   }

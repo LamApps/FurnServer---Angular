@@ -52,6 +52,7 @@ export class AuthenticationService {
 				.pipe(map(response => {
 					if (response.status === 200) {
 						let user = response.user
+						console.log(user)
 						store.set('adminuser', false)
 						localStorage.setItem('currentUser', JSON.stringify(user))
 						this.currentUserSubject.next(user)
