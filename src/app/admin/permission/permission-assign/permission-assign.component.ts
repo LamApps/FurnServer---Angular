@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { COSMIC_THEME, NbToastrService } from '@nebular/theme';
-import { DATABASE_PATTERN } from 'app/@auth/components';
-import { Company } from 'app/@core/@models/company';
-import { CompanyService } from 'app/@core/@services/company.service';
-import { MenuService } from 'app/@core/@services/menu.service';
+import { DATABASE_PATTERN } from '../../../@auth/components';
+import { Company } from '../../../@core/@models/company';
+import { CompanyService } from '../../../@core/@services/company.service';
+import { MenuService } from '../../../@core/@services/menu.service';
 
 @Component({
   selector: 'ngx-permission-assign',

@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import { NbToastrService } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
 
 @Component({
   selector: 'ngx-uuid',

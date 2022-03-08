@@ -6,12 +6,12 @@ import { Observable, Observer, Subject} from 'rxjs';
 import { NbToastrService } from '@nebular/theme';
 import {EMAIL_PATTERN, NUMBERS_PATTERN} from '../../../@auth/components';
 import { NbTokenService} from '@nebular/auth';
-import { UserService } from 'app/@core/@services/user.service';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
+import { UserService } from '../../../@core/@services/user.service';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
 import { DatePipe } from '@angular/common';
-import { environment } from 'environments/environment';
+import { environment } from '../../../../environments/environment';
 import { NbDialogService } from '@nebular/theme';
-import { ResetPasswordComponent } from 'app/@components/reset-password/reset-password'
+import { ResetPasswordComponent } from '../../../@components/reset-password/reset-password'
 
 @Component({
   selector: 'ngx-user',

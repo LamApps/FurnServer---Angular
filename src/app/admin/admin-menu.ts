@@ -1,8 +1,8 @@
 import { NbMenuItem } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
-import * as store from 'store2';
+import { AuthenticationService } from '../@core/@services/authentication.service';
+import store from 'store2';
 import { NbIconLibraries } from '@nebular/theme';
 
 @Injectable()

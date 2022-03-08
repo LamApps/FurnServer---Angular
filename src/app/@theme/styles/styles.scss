@@ -1,35 +1,33 @@
-/*!
- * Copyright (c) Akveo 2019. All Rights Reserved.
- * Licensed under the Single Application / Multi Application License.
- * See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
- */
+@use 'sass:meta';
+
+// themes - our custom or/and out of the box themes
+@use 'themes' as *;
+
+// framework component themes (styles tied to theme variables)
+@use '@nebular/theme/styles/globals' as *;
+@use '@nebular/auth/styles/globals' as *;
+
+// loading progress bar theme
+@use 'pace.theme' as *;
+
+@use 'layout' as *;
+@use 'overrides' as *;
+
+@use './material/angular-material' as *;;
+@use './material/material-overrides' as *;;
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto:200,300,400,500,600,700,800&display=swap');
 
-// themes - our custom or/and out of the box themes
-@import 'themes';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/grid';
 
-// framework component themes (styles tied to theme variables)
-@import '~@nebular/theme/styles/globals';
-@import '~@nebular/auth/styles/all';
-
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/grid';
-
-@import './material/angular-material';
-
-// loading progress bar theme
-@import './pace.theme';
-
-@import './layout';
-@import './overrides';
-@import './material/material-overrides';
 
 // install the framework and custom global styles
 @include nb-install() {
+
   @include angular-material();
 
   // framework global styles

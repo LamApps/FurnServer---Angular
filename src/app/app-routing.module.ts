@@ -17,18 +17,18 @@ const routes: Routes = [
   {
     path: 'admin',
     canActivate: [AuthGuard],
-    loadChildren: () => import('app/admin/admin.module')
+    loadChildren: () => import('../app/admin/admin.module')
       .then(m => m.AdminModule),
   },
   {
     path: 'company',
     canActivate: [AuthGuard],
-    loadChildren: () => import('app/company/company.module')
+    loadChildren: () => import('../app/company/company.module')
       .then(m => m.CompanyModule),
   },
   {
     path: 'auth',
-    loadChildren: () => import('app/@auth/auth.module')
+    loadChildren: () => import('../app/@auth/auth.module')
       .then(m => m.AuthModule),
   },
   { path: '', redirectTo: 'admin', pathMatch: 'full' },

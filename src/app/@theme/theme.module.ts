@@ -1,9 +1,3 @@
-/*
- * Copyright (c) Akveo 2019. All Rights Reserved.
- * Licensed under the Single Application / Multi Application License.
- * See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
- */
-
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
@@ -18,12 +12,10 @@ import {
   NbButtonModule,
   NbSelectModule,
   NbIconModule,
-  NbSpinnerModule,
   NbThemeModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
-import { AuthModule } from '../@auth/auth.module';
 
 import {
   FooterComponent,
@@ -32,7 +24,6 @@ import {
   TinyMCEComponent,
 } from './components';
 import {
-  MeasureConverterPipe,
   CapitalizePipe,
   PluralPipe,
   RoundPipe,
@@ -44,10 +35,9 @@ import {
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
 } from './layouts';
-import { InitUserService } from './services/init-user.service';
-
 import { MATERIAL_LIGHT_THEME } from './styles/material/theme.material-light';
 import { MATERIAL_DARK_THEME } from './styles/material/theme.material-dark';
+import { InitUserService } from './services/init-user.service';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -61,7 +51,6 @@ const NB_MODULES = [
   NbButtonModule,
   NbSelectModule,
   NbIconModule,
-  NbSpinnerModule,
   NbEvaIconsModule,
 ];
 const COMPONENTS = [
@@ -75,7 +64,6 @@ const COMPONENTS = [
 ];
 const PIPES = [
   CapitalizePipe,
-  MeasureConverterPipe,
   PluralPipe,
   RoundPipe,
   TimingPipe,
@@ -83,7 +71,7 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, MatRippleModule, AuthModule, ...NB_MODULES],
+  imports: [CommonModule, MatRippleModule, ...NB_MODULES],
   exports: [CommonModule, MatRippleModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })
@@ -96,10 +84,7 @@ export class ThemeModule {
           {
             name: 'material-light',
           },
-          [
-            MATERIAL_LIGHT_THEME,
-            MATERIAL_DARK_THEME,
-          ],
+          [ MATERIAL_LIGHT_THEME, MATERIAL_DARK_THEME ],
         ).providers,
         InitUserService,
       ],

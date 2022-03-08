@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {  NbToastrService } from '@nebular/theme';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
-import { CompanyRoleService } from 'app/@core/@services/company-role.service';
-import { CompanyService } from 'app/@core/@services/company.service';
-import { MenuService } from 'app/@core/@services/menu.service';
-import { UserService } from 'app/@core/@services/user.service';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
+import { CompanyRoleService } from '../../../@core/@services/company-role.service';
+import { CompanyService } from '../../../@core/@services/company.service';
+import { MenuService } from '../../../@core/@services/menu.service';
+import { UserService } from '../../../@core/@services/user.service';
 
 @Component({
   selector: 'ngx-permission-assign',

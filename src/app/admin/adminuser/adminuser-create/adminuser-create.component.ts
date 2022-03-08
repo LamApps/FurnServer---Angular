@@ -17,8 +17,8 @@ import { AuthenticationService } from '../../../@core/@services/authentication.s
 import { D0Types } from '@swimlane/ngx-charts';
 import { DatePipe } from '@angular/common';
 import { NbDialogService } from '@nebular/theme';
-import { ResetPasswordComponent } from 'app/@components/reset-password/reset-password';
-import { createPasswordStrengthValidator } from 'app/@components/validation-message/validation-message.component';
+import { ResetPasswordComponent } from '../../../@components/reset-password/reset-password';
+import { createPasswordStrengthValidator } from '../../../@components/validation-message/validation-message.component';
 
 export enum FormMode {
   VIEW = 'View',

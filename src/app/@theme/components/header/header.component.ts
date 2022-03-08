@@ -10,10 +10,10 @@ import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeServ
 import { LayoutService, RippleService } from '../../../@core/utils';
 import { map, filter, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
-import { User } from 'app/@core/@models/user';
-import { environment } from 'environments/environment';
-import * as store from 'store2';
+import { AuthenticationService } from '../../../../app/@core/@services/authentication.service';
+import { User } from '../../../../app/@core/@models/user';
+import { environment } from '../../../../environments/environment';
+import store from 'store2';
 import { ChatService } from '../../../@core/@services/chat.service';
 import { Router } from '@angular/router';
 
@@ -115,25 +115,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userMenu = this.getMenuItems();
 
-    const { xl } = this.breakpointService.getBreakpointsMap();
-    this.themeService.onMediaQueryChange()
-      .pipe(
-        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+    // const { xl } = this.breakpointService.getBreakpointsMap();
+    // this.themeService.onMediaQueryChange()
+    //   .pipe(
+    //     map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
+    //     takeUntil(this.destroy$),
+    //   )
+    //   .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
 
-    this.themeService.onThemeChange()
-      .pipe(
-        map(({ name }) => name),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(themeName => {
-        this.currentTheme = themeName;
-        this.rippleService.toggle(themeName.startsWith('material'));
-      });
+    // this.themeService.onThemeChange()
+    //   .pipe(
+    //     map(({ name }) => name),
+    //     takeUntil(this.destroy$),
+    //   )
+    //   .subscribe(themeName => {
+    //     this.currentTheme = themeName;
+    //     this.rippleService.toggle(themeName.startsWith('material'));
+    //   });
 
       this.authService.currentUser
+      .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.user = this.authService.currentUserValue;
         if (!this.user) { return }
@@ -184,9 +185,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   unlockAudio = ()=>{
     try {
-      this.audio.play();
-      this.audio.pause();
-      this.audio.currentTime = 0;
+      const playPromise = this.audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(_ => {
+          this.audio.pause();
+          this.audio.currentTime = 0;
+        })
+        .catch(error => {
+        });
+      }
       document.body.removeEventListener('touchstart', this.unlockAudio, false)
       document.body.removeEventListener('click', this.unlockAudio, false)
     }catch(e){

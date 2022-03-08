@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbThemeService } from '@nebular/theme';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { CompanyService } from 'app/@core/@services/company.service';
-import { CompanyPasswordService } from 'app/@core/@services/company-password.service';
+import { CompanyService } from '../../../@core/@services/company.service';
+import { CompanyPasswordService } from '../../../@core/@services/company-password.service';
 
 export enum FormMode {
   VIEW = 'View',

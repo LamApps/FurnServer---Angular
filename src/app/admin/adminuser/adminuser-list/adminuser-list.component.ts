@@ -3,7 +3,7 @@ import { AdminuserService } from '../../../@core/@services/adminuser.service';
 import { Router } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import { NbToastrService } from '@nebular/theme';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
 
 @Component({
   selector: 'ngx-user-list',

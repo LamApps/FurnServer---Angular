@@ -14,7 +14,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AuthModule } from './@auth/auth.module';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { SocketIoModule } from 'ngx-socket-io';
 
 import {
@@ -40,7 +39,6 @@ import {
     NbEvaIconsModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
-    BsDatepickerModule.forRoot(),
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),

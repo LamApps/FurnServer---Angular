@@ -5,13 +5,10 @@
  */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AnalyticsService } from './@core/utils';
-import { InitUserService } from './@theme/services/init-user.service';
 import { Subject } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
-import { AdminuserService } from './@core/@services/adminuser.service';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { CodeService } from 'app/@core/@services/code.service';
+import { filter, takeUntil } from 'rxjs/operators';
+import { CodeService } from '../app/@core/@services/code.service';
 
 @Component({
   selector: 'ngx-app',
@@ -22,14 +19,12 @@ export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(private analytics: AnalyticsService,
-              private userService: AdminuserService,
-              private initUserService: InitUserService,
               private codeService: CodeService,
               private router: Router,
               private route: ActivatedRoute,
           ) {
               this.initUser();
-              this.executeScript();
+              // this.executeScript();
   }
 
   ngOnInit(): void {
@@ -39,7 +34,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private componentBeforeNavigation = null;
   private executeScript() {
     this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
+      filter(event => event instanceof NavigationEnd),
+      takeUntil(this.destroy$),
     ).subscribe((event: NavigationEnd) => {
       let currentRoute = this.route;
       while (currentRoute.firstChild) currentRoute = currentRoute.firstChild;

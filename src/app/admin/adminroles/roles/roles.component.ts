@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { RolesService } from 'app/@core/@services/roles.service';
+import { RolesService } from '../../../@core/@services/roles.service';
 
 export enum FormMode {
   VIEW = 'View',

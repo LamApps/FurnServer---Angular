@@ -6,7 +6,7 @@ import { RoomsService } from '../../../../@core/@services/rooms.service';
 import { AuthenticationService } from '../../../../@core/@services/authentication.service';
 import { NbToastrService, NbMenuService } from '@nebular/theme';
 import { map, filter, takeWhile } from 'rxjs/operators';
-import { environment } from 'environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'ngx-room-chat',

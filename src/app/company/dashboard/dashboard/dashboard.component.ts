@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
 
 @Component({
   selector: 'ngx-dashboard',

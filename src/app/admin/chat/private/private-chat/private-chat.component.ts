@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ChatService } from '../../../../@core/@services/chat.service';
 import { AuthenticationService } from '../../../../@core/@services/authentication.service';
 import { NbToastrService, NbMenuService } from '@nebular/theme';
-import { environment } from 'environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'ngx-private-chat',

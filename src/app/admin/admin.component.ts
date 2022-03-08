@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
 import { NbMenuItem } from '@nebular/theme';
 import { AdminMenu } from './admin-menu';
-import { CompanyService } from 'app/@core/@services/company.service';
+import { CompanyService } from '../../app/@core/@services/company.service';
 
 @Component({
   selector: 'ngx-pages',

@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbThemeService } from '@nebular/theme';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { CompanyService } from 'app/@core/@services/company.service';
-import { PasswordService } from 'app/@core/@services/password.service';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
+import { CompanyService } from '../../../@core/@services/company.service';
+import { PasswordService } from '../../../@core/@services/password.service';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
 
 @Component({
   selector: 'ngx-password-enable',

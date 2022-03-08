@@ -15,7 +15,7 @@ import { share } from 'rxjs/operators';
 export class UserStore {
   private user: User;
 
-  protected userState$ = new BehaviorSubject(this.user);
+  protected userState$ = new BehaviorSubject(null);
 
   getUser(): User {
     return this.user;

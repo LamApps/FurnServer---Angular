@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { RoomsService } from '../../../../@core/@services/rooms.service'
 import { CompanyService } from '../../../../@core/@services/company.service'
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
+import { AuthenticationService } from '../../../../@core/@services/authentication.service';
 
 export enum FormMode {
   VIEW = 'View',

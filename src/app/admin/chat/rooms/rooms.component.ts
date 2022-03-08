@@ -5,7 +5,6 @@ import { takeWhile } from 'rxjs/operators';
 import { NbToastrService } from '@nebular/theme';
 import { ChatService } from '../../../@core/@services/chat.service';
 import { AuthenticationService } from '../../../@core/@services/authentication.service';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'ngx-rooms',

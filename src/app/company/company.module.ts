@@ -51,8 +51,7 @@ import { UserCreateComponent } from './user/user-create/user-create.component';
 import { UuidComponent } from './device/uuid/uuid.component';
 import { UserComponent } from './user/user/user.component';
 import { NgpImagePickerModule } from 'ngp-image-picker';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { ComponentsModule } from 'app/@components/components.module';
+import { ComponentsModule } from '../../app/@components/components.module';
 import { SessionListComponent } from './session/session-list/session-list.component';
 import { DashboardListComponent } from './user/dashboard/dashboard-list/dashboard-list.component';
 import { DashboardEditComponent } from './user/dashboard/dashboard-edit/dashboard-edit.component';
@@ -122,7 +121,6 @@ const PAGES_COMPONENTS = [
     NgpImagePickerModule,
     ComponentsModule,
     AuthModule.forRoot(),
-    BsDatepickerModule.forRoot(),
     ...materialModules
   ],
   declarations: [

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
-import { CompanyService } from 'app/@core/@services/company.service';
-import { MenuService } from 'app/@core/@services/menu.service';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
+import { CompanyService } from '../../../@core/@services/company.service';
+import { MenuService } from '../../../@core/@services/menu.service';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({

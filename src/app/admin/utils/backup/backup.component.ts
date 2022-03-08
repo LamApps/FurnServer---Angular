@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { BackupService } from 'app/@core/@services/backup.service';
+import { BackupService } from '../../../@core/@services/backup.service';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({

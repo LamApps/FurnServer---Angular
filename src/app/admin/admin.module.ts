@@ -58,8 +58,7 @@ import { RolesListComponent } from './adminroles/roles-list/roles-list.component
 import { RolesCreateComponent } from './adminroles/roles-create/roles-create.component';
 
 import { NgpImagePickerModule } from 'ngp-image-picker';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { ComponentsModule } from 'app/@components/components.module';
+import { ComponentsModule } from '../../app/@components/components.module';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { PermissionListComponent } from './permission/permission-list/permission-list.component';
 import { PermissionCreateComponent } from './permission/permission-create/permission-create.component';
@@ -128,7 +127,6 @@ const PAGES_COMPONENTS = [
     NgpImagePickerModule,
     ComponentsModule,
     AuthModule.forRoot(),
-    BsDatepickerModule.forRoot(),
     ...materialModules
   ],
   declarations: [

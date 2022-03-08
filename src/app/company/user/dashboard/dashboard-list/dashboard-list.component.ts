@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataSource } from 'ng2-smart-table/lib/lib/data-source/data-source';
 import { NbToastrService } from '@nebular/theme';
-import { UserService } from 'app/@core/@services/user.service';
+import { UserService } from '../../../../@core/@services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

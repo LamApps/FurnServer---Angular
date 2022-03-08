@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { User } from '../@models/user';
 import { HttpService } from '../backend/common/api/http.service';
 
-import * as store from 'store2';
+import store from 'store2';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {

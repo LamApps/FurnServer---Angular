@@ -11,9 +11,9 @@ import { environment } from '../../../../../environments/environment';
 import { DataSource } from 'ng2-smart-table/lib/lib/data-source/data-source';
 import { ServerDataSource } from 'ng2-smart-table';
 import { Router } from '@angular/router';
-import * as store from 'store2';
+import store from 'store2';
 
-@Injectable()
+@Injectable({providedIn:'root'})
 export class HttpService {
 
   get apiUrl(): string {

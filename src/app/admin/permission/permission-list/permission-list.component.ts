@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { MenuService } from 'app/@core/@services/menu.service';
+import { MenuService } from '../../../@core/@services/menu.service';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({

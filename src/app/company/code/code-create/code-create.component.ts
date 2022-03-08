@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CodeService } from 'app/@core/@services/code.service';
+import { CodeService } from '../../../@core/@services/code.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
 
 export enum FormMode {
   VIEW = 'View',

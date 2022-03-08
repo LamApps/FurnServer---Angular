@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import { NbToastrService } from '@nebular/theme';
-import { AuthenticationService } from 'app/@core/@services/authentication.service';
+import { AuthenticationService } from '../../../@core/@services/authentication.service';
 
 import { CodeService } from '../../../@core/@services/code.service';
 

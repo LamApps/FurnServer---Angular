@@ -13,7 +13,7 @@ import { DataSource } from 'ng2-smart-table/lib/lib/data-source/data-source';
 import { AuthResult } from '../../../interfaces/common/authresult';
 import { Token } from '../../../interfaces/common/token';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UsersApi {
   private readonly apiController: string = 'users';
 

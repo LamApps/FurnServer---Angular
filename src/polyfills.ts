@@ -1,9 +1,3 @@
-/*
- * Copyright (c) Akveo 2019. All Rights Reserved.
- * Licensed under the Single Application / Multi Application License.
- * See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
- */
-
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -22,14 +16,7 @@
 
 /***************************************************************************************************
 * BROWSER POLYFILLS
-*/
-
-
-/** IE10 and IE11 requires the following for NgClass support on SVG elements */
-import 'classlist.js';  // Run `npm install --save classlist.js`.
-
-/** IE10 and IE11 requires the following to support `@angular/animation`. */
-import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+*/  // Run `npm install --save classlist.js`.  // Run `npm install --save web-animations-js`.
 
 
 /** Evergreen browsers require these. **/
@@ -37,14 +24,10 @@ import 'core-js/es6/reflect';
 import 'core-js/es7/reflect';
 
 
-/** ALL Firefox browsers require the following to support `@angular/animation`. **/
-// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
-
-
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
+import 'zone.js';  // Included with Angular CLI.
 
 
 /***************************************************************************************************

@@ -4,9 +4,9 @@
  * See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
  */
 
-@import '~bootstrap/scss/mixins/breakpoints';
-@import '~@nebular/theme/styles/global/breakpoints';
-@import '../../styles/themes';
+ @use '../../styles/themes' as *;
+ @use '@nebular/theme/styles/global/breakpoints' as *;
+ @import 'bootstrap/scss/mixins/breakpoints';
 
 @include nb-install-component() {
   display: flex;
@@ -26,6 +26,7 @@
     border: none !important;
   }
 
+
   nb-user {
     cursor: pointer;
   }
@@ -34,6 +35,10 @@
     padding: 0.3rem 0.3rem !important;
     border-radius: 1rem !important;
     border: solid 1px #333;
+  }
+
+  ::ng-deep #mainAvatar .user-name {
+    color: #fff !important;
   }
 
   ::ng-deep nb-search button {
@@ -63,6 +68,10 @@
       white-space: nowrap;
       text-decoration: none;
     }
+
+    ::ng-deep nb-icon {
+      color: #fff !important;
+    }
   }
 
   @include media-breakpoint-down(sm) {
@@ -73,7 +82,7 @@
   }
 
   @include media-breakpoint-down(is) {
-    nb-select, .logo {
+    .logo {
       display: none;
     }
     .logo-container {

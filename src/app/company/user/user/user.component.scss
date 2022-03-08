@@ -4,8 +4,9 @@
  * See LICENSE_SINGLE_APP / LICENSE_MULTI_APP in the 'docs' folder for license information on type of purchased license.
  */
 
- @import '~@nebular/theme/styles/core/mixins';
- @import '../../../@theme/styles/themes';
+ @import '@nebular/theme/styles/core/mixins';
+ @import '../../../@theme/styles/themes.scss';
+ 
  @include nb-install-component() {
    button[nbButton] {
      margin: 0.25rem;

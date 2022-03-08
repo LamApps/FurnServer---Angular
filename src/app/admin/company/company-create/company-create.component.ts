@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CompanyService } from 'app/@core/@services/company.service';
+import { CompanyService } from '../../../@core/@services/company.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { createTimeoutValidator } from 'app/@theme/components';
+import { createTimeoutValidator } from '../../../@theme/components';
 
 export enum FormMode {
   VIEW = 'View',

@@ -12,9 +12,9 @@ import { CompanyService } from '../../../@core/@services/company.service';
 import { AuthenticationService } from '../../../@core/@services/authentication.service';
 import { DatePipe } from '@angular/common';
 import { NbDialogService } from '@nebular/theme';
-import { ResetPasswordComponent } from 'app/@components/reset-password/reset-password';
-import { createPasswordStrengthValidator, createTimeoutValidator } from 'app/@theme/components';
-import { CompanyRoleService } from 'app/@core/@services/company-role.service';
+import { ResetPasswordComponent } from '../../../@components/reset-password/reset-password';
+import { createPasswordStrengthValidator, createTimeoutValidator } from '../../../@theme/components';
+import { CompanyRoleService } from '../../../@core/@services/company-role.service';
 
 export enum FormMode {
   VIEW = 'View',

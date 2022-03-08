@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AppsService } from 'app/@core/@services/apps.service';
+import { AppsService } from '../../../@core/@services/apps.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { CompanyService } from '../../../@core/@services/company.service';

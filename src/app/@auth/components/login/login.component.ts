@@ -16,14 +16,14 @@ import {
 import { getDeepFromObject } from '../../helpers';
 import { NbThemeService, NbDateService } from '@nebular/theme';
 import { EMAIL_PATTERN, NUMBERS_PATTERN, USERNAME_PATTERN } from '../constants';
-import { UsersApi } from 'app/@core/backend/common/api/users.api';
+import { UsersApi } from '../../../../app/@core/backend/common/api/users.api';
 // import { AdminusersApi } from 'app/@core/backend/common/api/users.api';
-import { AuthenticationService } from 'app/@core/@services/authentication.service'
-import * as store from 'store2';
-import { UserService } from 'app/@core/@services/user.service';
+import { AuthenticationService } from '../../../../app/@core/@services/authentication.service'
+import store from 'store2';
+import { UserService } from '../../../../app/@core/@services/user.service';
 import { HttpClient } from '@angular/common/http';
-import { createPasswordStrengthValidator } from 'app/@components/validation-message/validation-message.component';
-import { ChatService } from 'app/@core/@services/chat.service';
+import { createPasswordStrengthValidator } from '../../../../app/@components/validation-message/validation-message.component';
+import { ChatService } from '../../../../app/@core/@services/chat.service';
 
 @Component({
   selector: 'ngx-login',

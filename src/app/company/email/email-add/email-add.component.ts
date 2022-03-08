@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
-import { EmailService } from 'app/@core/@services/email.service';
-import { EMAIL_PATTERN } from 'app/@auth/components';
+import { EmailService } from '../../../@core/@services/email.service';
+import { EMAIL_PATTERN } from '../../../@auth/components';
 
 export enum FormMode {
   VIEW = 'View',
