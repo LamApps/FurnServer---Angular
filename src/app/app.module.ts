@@ -15,6 +15,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { AuthModule } from './@auth/auth.module';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SocketIoModule } from 'ngx-socket-io';
+import { NbDateFnsDateModule } from '@nebular/date-fns';
 
 import {
   NbChatModule,
@@ -43,6 +44,9 @@ import {
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
     NbDatepickerModule.forRoot(),
+    NbDateFnsDateModule.forRoot({
+      format: 'MM/dd/yyyy'
+    }),
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),

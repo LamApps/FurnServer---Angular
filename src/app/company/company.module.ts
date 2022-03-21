@@ -17,8 +17,10 @@ import {
   NbRadioModule,
   NbSelectModule,
   NbUserModule,
-  NbMenuModule
+  NbMenuModule,
+  NbAccordionModule
 } from '@nebular/theme';
+
 import { FormsModule as ngFormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ThemeModule } from '../@theme/theme.module';
@@ -64,7 +66,7 @@ import { RolesListComponent } from './permission/roles-list/roles-list.component
 import { RolesAddComponent } from './permission/roles-add/roles-add.component';
 import { CodeListComponent } from './code/code-list/code-list.component';
 import { CodeCreateComponent } from './code/code-create/code-create.component';
-
+import { SalesOrderComponent } from './furnserve/sales/sales-order/sales-order.component';
 
 const materialModules = [
   MatFormFieldModule,
@@ -98,6 +100,7 @@ const PAGES_COMPONENTS = [
   SessionListComponent,
   DashboardListComponent,
   DashboardEditComponent,
+  SalesOrderComponent
 ];
 
 @NgModule({
@@ -116,6 +119,7 @@ const PAGES_COMPONENTS = [
     NbIconModule,
     ngFormsModule,
     NbMenuModule,
+    NbAccordionModule,
     Ng2SmartTableModule,
     ReactiveFormsModule,
     NgpImagePickerModule,

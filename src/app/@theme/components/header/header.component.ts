@@ -115,23 +115,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userMenu = this.getMenuItems();
 
-    // const { xl } = this.breakpointService.getBreakpointsMap();
-    // this.themeService.onMediaQueryChange()
-    //   .pipe(
-    //     map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-    //     takeUntil(this.destroy$),
-    //   )
-    //   .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+    const { xl } = this.breakpointService.getBreakpointsMap();
+    this.themeService.onMediaQueryChange()
+      .pipe(
+        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
 
-    // this.themeService.onThemeChange()
-    //   .pipe(
-    //     map(({ name }) => name),
-    //     takeUntil(this.destroy$),
-    //   )
-    //   .subscribe(themeName => {
-    //     this.currentTheme = themeName;
-    //     this.rippleService.toggle(themeName.startsWith('material'));
-    //   });
+    this.themeService.onThemeChange()
+      .pipe(
+        map(({ name }) => name),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(themeName => {
+        this.currentTheme = themeName;
+        this.rippleService.toggle(themeName.startsWith('material'));
+      });
 
       this.authService.currentUser
       .pipe(takeUntil(this.destroy$))

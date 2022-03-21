@@ -1,0 +1,7 @@
+<ngx-one-column-layout>
+    <nb-select *ngIf="isAdmin" fullWidth status="primary" [selected]="currentCompany" (selectedChange)="changeCompany($event)" class="mb-3">
+        <nb-option *ngFor="let company of companies" [value]="company.id"> {{ company.name }}</nb-option>
+    </nb-select>
+    <nb-menu [items]="menu"></nb-menu>
+    <router-outlet></router-outlet>
+  </ngx-one-column-layout>

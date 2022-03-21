@@ -81,7 +81,7 @@ export class UserComponent implements OnInit, OnDestroy {
     });
   }
   
-  numericOnly(event): boolean {  
+  numericOnly(event): boolean {
     let newValue = this.mobile.value.replace(/\D/g,'')
     if (newValue.length >= 4) {
       newValue = newValue.slice(0, 3) + "-" + newValue.slice(3)

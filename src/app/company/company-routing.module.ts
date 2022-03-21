@@ -34,6 +34,8 @@ import { RoomsComponent } from '../admin/chat/rooms/rooms.component';
 import { RoomCreateComponent } from '../admin/chat/rooms/room-create/room-create.component';
 import { RoomChatComponent } from '../admin/chat/rooms/room-chat/room-chat.component';
 import { PrivateChatComponent } from '../admin/chat/private/private-chat/private-chat.component';
+//Furnserve
+import { SalesOrderComponent } from './furnserve/sales/sales-order/sales-order.component';
 
 const routes: Routes = [{
   path: '',
@@ -265,6 +267,20 @@ const routes: Routes = [{
             {
               path: 'list',
               component: PrivateChatComponent,
+            },
+          ]
+        },
+      ]
+    },
+    {
+      path: 'furnserve', 
+      children: [
+        {
+          path: 'sales',
+          children: [
+            {
+              path: 'sales-order',
+              component: SalesOrderComponent,
             },
           ]
         },

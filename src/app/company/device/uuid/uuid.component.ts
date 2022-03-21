@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UUIDService } from 'app/@core/@services/uuid.service';
+import { UUIDService } from '../../../../app/@core/@services/uuid.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 
