@@ -197,14 +197,19 @@ export class SalesOrderComponent implements OnInit {
       },
       po_no: {
         title: 'PO#',
+        type: 'html',
         valuePrepareFunction: (value, row) => {
           // DATA FROM HERE GOES TO renderComponent
-          if(value=="") return value;
-          else return value+' - '+row.pl_lines;
+          if(value=="") '<div class="wider">'+value+'</div>';
+          else return '<div class="wider">'+value+' - '+row.pl_lines+'</div>';
         },
       },
       sl_model: {
         title: 'Model#',
+        type: 'html',
+        valuePrepareFunction : (value) => {
+          return '<div class="widest">'+value+'</div>';
+        },
       },
       sl_fabric: {
         title: 'Fabric',
