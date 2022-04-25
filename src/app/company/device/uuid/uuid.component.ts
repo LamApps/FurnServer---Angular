@@ -30,14 +30,18 @@ export class UuidComponent implements OnInit {
   ) { }
 
   get last_date_verified() { return this.formGroup.get('last_date_verified'); }
+  get unique_id() { return this.formGroup.get('unique_id'); }
+  get uuid() { return this.formGroup.get('uuid'); }
+  get description() { return this.formGroup.get('description'); }
+  get version() { return this.formGroup.get('version'); }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      id: this.formBuilder.control('', []),
+      id: this.formBuilder.control(''),
       uuid: this.formBuilder.control('', [Validators.required]),
       unique_id: this.formBuilder.control('', [Validators.required]),
-      description: this.formBuilder.control('', ),
-      version: this.formBuilder.control('', ),
+      description: this.formBuilder.control(''),
+      version: this.formBuilder.control(''),
       last_date_verified: this.formBuilder.control('', [Validators.required]),
       active: this.formBuilder.control(true),
     });
@@ -80,8 +84,8 @@ export class UuidComponent implements OnInit {
     }
   }
   getLatestUniqueId() {
-    this.uuidService.getLatestId().subscribe(uid => {
-      const luid = ('000' + (uid + 1)).substr(-3);
+    this.uuidService.getLatestId(this.company).subscribe(uid => {
+      const luid = ('000' + uid).substr(-3);
       this.unique_id.setValue(luid);
     });
   }
@@ -98,13 +102,6 @@ export class UuidComponent implements OnInit {
       });
     });
   }
-
-
-  get unique_id() { return this.formGroup.get('unique_id'); }
-  get uuid() { return this.formGroup.get('uuid'); }
-  get description() { return this.formGroup.get('description'); }
-  get version() { return this.formGroup.get('version'); }
-
   
   submit(): void {
     const uuid = { ...this.formGroup.value, company: this.company };

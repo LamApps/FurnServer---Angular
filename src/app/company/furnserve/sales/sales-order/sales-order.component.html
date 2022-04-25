@@ -97,57 +97,65 @@
       <button nbButton status="success" size="small" (click)="onBackBtnClick()" class="m-0"><nb-icon icon="chevron-left-outline"></nb-icon> Back to list</button>
       <div class="ml-auto mr-auto">Sales Order</div>
   </nb-card-header>
-  <nb-card-body>
+  <nb-card-body id="orderData">
     <div class="d-flex flex-wrap align-items-center">
       <div class="field-wrapper flex-grow-1 mr-1 mb-1">
         <div class="field-title">Sales Order #</div>
-        <div>123123</div>
+        <div>{{header?.sa_no.slice(0,2)+'-'+header?.sa_no.slice(2)}}</div>
       </div>
       <div class="field-wrapper flex-grow-1 mr-1 mb-1">
         <div class="field-title">Customer #</div>
-        <div>123123</div>
+        <div>{{header?.cust_num}}</div>
       </div>
       <div class="field-wrapper mr-1 mb-1">
         <div class="field-title">SA1</div>
-        <div>123123</div>
+        <div>{{header?.slspr_cd}}</div>
       </div>
-      <div class="field-wrapper mr-1 mb-1">
+      <div class="field-wrapper mr-1 mb-1" *ngIf="header?.slspr2_cd&&header?.slspr2_cd!=''">
         <div class="field-title">SA2</div>
-        <div>123123</div>
+        <div>{{header?.slspr2_cd}}</div>
       </div>
-      <div class="field-wrapper mr-1 mb-1">
+      <div class="field-wrapper mr-1 mb-1" *ngIf="header?.slspr3_cd&&header?.slspr3_cd!=''">
         <div class="field-title">SA3</div>
-        <div>123123</div>
+        <div>{{header?.slspr3_cd}}</div>
       </div>
-      <div class="field-wrapper mr-1 mb-1">
+      <div class="field-wrapper mr-1 mb-1" *ngIf="header?.slspr4_cd&&header?.slspr4_cd!=''">
         <div class="field-title">SA4</div>
-        <div>123123</div>
+        <div>{{header?.slspr4_cd}}</div>
       </div>
-      <div class="field-wrapper mr-1 mb-1">
+      <div class="field-wrapper mr-1 mb-1" *ngIf="header?.slspr5_cd&&header?.slspr5_cd!=''">
         <div class="field-title">SA5</div>
-        <div>123123</div>
+        <div>{{header?.slspr5_cd}}</div>
       </div>
-      <div class="field-wrapper flex-grow-1 mr-1 mb-1">
+      <div class="field-wrapper mr-1 mb-1" *ngIf="header?.slspr6_cd&&header?.slspr6_cd!=''">
+        <div class="field-title">SA6</div>
+        <div>{{header?.slspr6_cd}}</div>
+      </div>
+      <div class="field-wrapper mr-1 mb-1" *ngIf="header?.slspr7_cd&&header?.slspr7_cd!=''">
+        <div class="field-title">SA7</div>
+        <div>{{header?.slspr7_cd}}</div>
+      </div>
+      <div class="field-wrapper flex-grow-1 mr-1 mb-1" *ngIf="header?.project&&header?.project!=''">
         <div class="field-title">Project #</div>
-        <div>123123</div>
+        <div>{{header?.project}}</div>
       </div>
-      <div class="field-wrapper flex-grow-1 mr-1 mb-1">
+      <div class="field-wrapper flex-grow-1 mr-1 mb-1" *ngIf="header?.ss_refID&&header?.ss_refID!=''">
         <div class="field-title">Ref #</div>
-        <div>123123</div>
+        <div>{{header?.ss_refID}}</div>
       </div>
-      <div class="field-wrapper flex-grow-1 mr-1 mb-1">
+      <div class="field-wrapper flex-grow-1 mr-1 mb-1" *ngIf="header?.ss_gov_num&&header?.ss_gov_num!=''">
         <div class="field-title">Your #</div>
-        <div>123123</div>
+        <div>{{header?.ss_gov_num}}</div>
       </div>
       <div class="field-wrapper flex-grow-1 mr-1 mb-1">
         <div class="field-title">Delivery/Pickup</div>
-        <div>123123</div>
+        <div>{{header?.ss_HowRcv}}</div>
       </div>
       <div class="field-wrapper flex-grow-1 mr-1 mb-1">
         <div class="field-title">Sale Date</div>
-        <div>123123</div>
+        <div>{{header?.ss_order_dt}}</div>
       </div>
-      <button nbButton ghost status="primary" size="small"><nb-icon icon="download-outline"></nb-icon></button>
+      <button nbButton ghost status="primary" size="small" (click)="openPDF()"><nb-icon icon="download-outline"></nb-icon></button>
       <button nbButton ghost status="primary" size="small"><nb-icon icon="printer-outline"></nb-icon></button>
     </div>
     <div class="row">
@@ -160,57 +168,57 @@
             <div class="d-flex mb-1">
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">First Name</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_first_name}}</div>
               </div>
               <div class="field-wrapper flex-grow-1">
                 <div class="field-title">Last Name</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_last_name}}</div>
               </div>
             </div>
             <div class="d-flex mb-1">
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">Address</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_add1}}</div>
               </div>
             </div>
             <div class="d-flex mb-1">
-              <div class="field-wrapper flex-grow-1 mr-1">
+              <div class="field-wrapper flex-grow-1 mr-1" *ngIf="billTo?.rc_add2&&billTo?.rc_add2!=''">
                 <div class="field-title">Apt, Suite, Bldg</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_add2}}</div>
               </div>
             </div>
             <div class="d-flex mb-1">
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">City</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_city}}</div>
               </div>
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">State</div>
-                <div>123123</div>
+                <div>{{billTo?.state}}</div>
               </div>
               <div class="field-wrapper">
                 <div class="field-title">Zip</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_zip}}</div>
               </div>
             </div>
             <div class="d-flex mb-1">
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">Mobile</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_phone && billTo?.rc_phone.slice(0,3)+'-'+billTo?.rc_phone.slice(3,6)+'-'+billTo?.rc_phone.slice(6)}}</div>
               </div>
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">Home</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_phone2 && billTo?.rc_phone2.slice(0,3)+'-'+billTo?.rc_phone2.slice(3,6)+'-'+billTo?.rc_phone2.slice(6)}}</div>
               </div>
               <div class="field-wrapper flex-grow-1">
                 <div class="field-title">Mobile2</div>
-                <div>123123</div>
+                <div></div>
               </div>
             </div>
             <div class="d-flex">
               <div class="field-wrapper flex-grow-1">
                 <div class="field-title">Email</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_email}}</div>
               </div>
             </div>
           </div>
@@ -225,57 +233,57 @@
             <div class="d-flex mb-1">
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">First Name</div>
-                <div>123123</div>
+                <div>{{shipTo?.si_first_name}}</div>
               </div>
               <div class="field-wrapper flex-grow-1">
                 <div class="field-title">Last Name</div>
-                <div>123123</div>
+                <div>{{shipTo?.si_last_name}}</div>
               </div>
             </div>
             <div class="d-flex mb-1">
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">Address</div>
-                <div>123123</div>
+                <div>{{shipTo?.si_add1}}</div>
               </div>
             </div>
             <div class="d-flex mb-1">
-              <div class="field-wrapper flex-grow-1 mr-1">
+              <div class="field-wrapper flex-grow-1 mr-1" *ngIf="shipTo?.si_add2&&shipTo?.si_add2!=''">
                 <div class="field-title">Apt, Suite, Bldg</div>
-                <div>123123</div>
+                <div>{{shipTo?.si_add2}}</div>
               </div>
             </div>
             <div class="d-flex mb-1">
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">City</div>
-                <div>123123</div>
+                <div>{{shipTo?.si_city}}</div>
               </div>
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">State</div>
-                <div>123123</div>
+                <div>{{shipTo?.state}}</div>
               </div>
               <div class="field-wrapper">
                 <div class="field-title">Zip</div>
-                <div>123123</div>
+                <div>{{shipTo?.si_zip}}</div>
               </div>
             </div>
             <div class="d-flex mb-1">
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">Mobile</div>
-                <div>123123</div>
+                <div>{{shipTo?.si_phone && shipTo?.si_phone.slice(0,3)+'-'+shipTo?.si_phone.slice(3,6)+'-'+shipTo?.si_phone.slice(6)}}</div>
               </div>
               <div class="field-wrapper flex-grow-1 mr-1">
                 <div class="field-title">Home</div>
-                <div>123123</div>
+                <div>{{shipTo?.si_phone2 && shipTo?.si_phone2.slice(0,3)+'-'+shipTo?.si_phone2.slice(3,6)+'-'+shipTo?.si_phone2.slice(6)}}</div>
               </div>
               <div class="field-wrapper flex-grow-1">
                 <div class="field-title">Mobile2</div>
-                <div>123123</div>
+                <div></div>
               </div>
             </div>
             <div class="d-flex">
               <div class="field-wrapper flex-grow-1">
                 <div class="field-title">Email</div>
-                <div>123123</div>
+                <div>{{billTo?.rc_email}}</div>
               </div>
             </div>
           </div>
@@ -286,8 +294,8 @@
           <div class="order-group-header bg-warning p-1">
             Delivery Instructions
           </div>
-          <div class="order-group-body">
-
+          <div class="order-group-body p-1">
+            {{shipTo?.si_instruct}}
           </div>
         </div>
       </div>
@@ -296,8 +304,11 @@
           <div class="order-group-header bg-warning p-1">
             Sales Comments
           </div>
-          <div class="order-group-body">
-
+          <div class="order-group-body p-1">
+            <div *ngFor="let comment of comments; let i = index">
+              <p *ngIf="i%2==0; else commentDivBlock">{{comment?.sc_comment}}</p>
+              <ng-template #commentDivBlock>{{comment?.sc_comment}}</ng-template>
+            </div>
           </div>
         </div>
       </div>
@@ -313,13 +324,13 @@
         <div class="d-flex mb-1">
           <div class="field-wrapper flex-grow-1">
             <div class="field-title">Payment Type</div>
-            <div>123123</div>
+            <div>{{header?.acct_type}}</div>
           </div>
         </div>
         <div class="d-flex mb-1">
           <div class="field-wrapper flex-grow-1">
             <div class="field-title">Payment Description</div>
-            <div>123123</div>
+            <div></div>
           </div>
         </div>
       </div>
@@ -327,7 +338,7 @@
         <div class="d-flex mb-1">
           <div class="field-wrapper flex-grow-1 bg-danger">
             <div class="field-title text-white">Balance Due</div>
-            <div class="text-white">123123</div>
+            <div class="text-white">{{header?.ss_balance}}</div>
           </div>
         </div>
       </div>
@@ -335,23 +346,23 @@
         <div class="d-flex mb-1">
           <div class="field-wrapper flex-grow-1">
             <div class="field-title">Subtotal</div>
-            <div>123123</div>
+            <div>{{header?.ss_subtot | currency:' ':true:'1.2-2'}}</div>
           </div>
         </div>
         <div class="d-flex mb-1">
-          <div class="field-wrapper flex-grow-1 mr-1">
+          <div class="field-wrapper mr-1">
             <div class="field-title">Tax %</div>
-            <div>123123</div>
+            <div>{{header?.ss_percent}}</div>
           </div>
           <div class="field-wrapper flex-grow-1">
             <div class="field-title">Tax</div>
-            <div>123123</div>
+            <div>{{header?.ss_tax | currency:' ':true:'1.2-2'}}</div>
           </div>
         </div>
         <div class="d-flex mb-1">
           <div class="field-wrapper flex-grow-1">
             <div class="field-title">Total</div>
-            <div>123123</div>
+            <div>{{header?.ss_total | currency:' ':true:'1.2-2'}}</div>
           </div>
         </div>
 
@@ -366,7 +377,8 @@
         <ng2-smart-table
         (userRowSelect)="onUserRowSelect($event)"
         [settings]="settings"
-        [source]="source">
+        [source]="source"
+        id="searchResultTable">
         </ng2-smart-table>
     </nb-card-body>
   </nb-card>

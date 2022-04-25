@@ -5,14 +5,14 @@
         <nb-card-body>
         <div [formGroup]="formGroup" aria-labelledby="title">
             <div class="form-control-group mt-3">
-                <label for="input-database" class="col-md-3">Database</label>
+                <label for="input-database" class="col-md-3">Login Database(s)</label>
                 <input  nbInput
                         fullWidth
                         id="input-database"
                         formControlName="database"
                         [status]="database.dirty ? (database.invalid  ? 'danger' : 'success') : 'basic'"
                         [attr.aria-invalid]="database.invalid && database.touched ? true : null"
-                        placeholder="Enter Database"
+                        placeholder="Enter Login Database(s)"
                         (keyup)="databseFormat($event)"
                         (focusout)="focusoutDatabase()"
                         class="col-md-9">

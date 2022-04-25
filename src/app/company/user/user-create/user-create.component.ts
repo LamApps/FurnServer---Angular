@@ -33,10 +33,10 @@ export class UserCreateComponent implements OnInit {
   submitted: boolean = false;
   companyList: Company[] = [];
   company;
+  companyDatabase: string[] = [];
   database_list: string[] = [];
   roleList = [];
   selected_database: string = "";
-
   protected readonly unsubscribe$ = new Subject<void>();
 
   get database() { return this.formGroup.get('database'); }
@@ -134,6 +134,14 @@ export class UserCreateComponent implements OnInit {
   loadCompanyList() { 
     this.companyService.list().subscribe(
       data => {
+        const company = data.find(item=>item.id == this.company);
+        this.formGroup.controls['database'].setValue(company.databases);
+        if(company.databases!=''){
+          const splitArray = company.databases.split(',');
+          this.companyDatabase = splitArray;
+          this.database_list = splitArray;
+          this.selected_database = splitArray[0];
+        }
         data.map(item=> {
           this.companyList.push(item);
         });
@@ -153,6 +161,7 @@ export class UserCreateComponent implements OnInit {
   loadRoleList() {
     this.companyRoleService.getCompanyRoles(this.company).subscribe(
       data => {
+        if(data.length>0) this.formGroup.controls['role'].setValue(data[0].id)
         data.map(item => {
           this.roleList.push(item);
         });
@@ -224,13 +233,14 @@ export class UserCreateComponent implements OnInit {
   databseFormat(event): boolean {  
     let curValue = this.database.value
     let dbs = curValue.split(",")
-    var newValue = ""
+    let newArray = [];
     for (let db of dbs) {
       let ndb = db.replace(/\D/g,'')
-      if (ndb == "") continue
-      if (newValue != "") newValue = newValue + ","
-      newValue = newValue + ndb
+      if (ndb == "") continue;
+      if (!this.companyDatabase.includes(ndb)) continue;
+      if(newArray.indexOf(ndb)==-1) newArray.push(ndb);
     }
+    let newValue = newArray.join(',');
     if (curValue.slice(curValue.length - 1) == ",") {
       newValue = newValue + ","
     }
@@ -294,7 +304,6 @@ export class UserCreateComponent implements OnInit {
 
   submit(): void {
     var user = this.formGroup.value;
-    console.log(user);
     this.submitted = true;
     const timeout = user.timeout.toString().split(":");
     if (timeout.length == 2) {

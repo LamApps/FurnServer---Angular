@@ -67,6 +67,8 @@ import { RolesAddComponent } from './permission/roles-add/roles-add.component';
 import { CodeListComponent } from './code/code-list/code-list.component';
 import { CodeCreateComponent } from './code/code-create/code-create.component';
 import { SalesOrderComponent } from './furnserve/sales/sales-order/sales-order.component';
+import { LocationListComponent } from './furnserve/configurator/company/location-list/location-list.component';
+import { LocationCreateComponent } from './furnserve/configurator/company/location-create/location-create.component';
 
 const materialModules = [
   MatFormFieldModule,
@@ -100,7 +102,9 @@ const PAGES_COMPONENTS = [
   SessionListComponent,
   DashboardListComponent,
   DashboardEditComponent,
-  SalesOrderComponent
+  SalesOrderComponent,
+  LocationListComponent,
+  LocationCreateComponent,
 ];
 
 @NgModule({

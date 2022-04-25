@@ -41,6 +41,8 @@
 }
 .order-group-body {
     padding: 5px;
+    max-height: 330px;
+    overflow-y: auto;
 }
 [class*="col-"] {
     padding-left: 5px !important;
@@ -52,9 +54,43 @@
     overflow-x:auto;
 }
 
-::ng-deep #detail-table .ng2-smart-titles {
+::ng-deep #detail-table .ng2-smart-titles, ::ng-deep #searchResultTable .ng2-smart-titles {
     background: #009d27;
+    text-align: center;
 }
-::ng-deep #detail-table .ng2-smart-sort-link {
+::ng-deep #detail-table .ng2-smart-sort-link, ::ng-deep #searchResultTable .ng2-smart-sort-link {
     color: white !important;
+}
+::ng-deep #searchResultTable .wide {
+    width: 70px;
+}
+::ng-deep #searchResultTable .wide1 {
+    width: 100px;
+}
+::ng-deep #searchResultTable .wider, ::ng-deep #detail-table .wider {
+    width: 130px;
+}
+::ng-deep #searchResultTable .widest {
+    width: 180px;
+}
+::ng-deep #searchResultTable tbody > tr > td, ::ng-deep #detail-table tbody > tr > td{
+    text-align: center;
+}
+
+::ng-deep #searchResultTable tbody tr {
+    background: #f1f1f1 !important;
+    cursor: pointer;
+}
+::ng-deep #searchResultTable tbody tr:hover {
+    background: #d0ffd6 !important;
+}
+::ng-deep #searchResultTable table tr th, ::ng-deep #detail-table table tr th{
+    border: solid 1px #0c852a;
+}
+::ng-deep #searchResultTable table tr td, ::ng-deep #detail-table table tr td{
+    border: solid 1px #d1d1d1;
+}
+
+::ng-deep #detail-table .negative {
+    background: rgba(243, 69, 69, 0.3) !important;
 }

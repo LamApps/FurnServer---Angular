@@ -26,7 +26,7 @@ export class AdminMenu {
 						break;
 					}
 				}
-				if (permission == 'none') return undefined;
+				if (permission == 'none' && !this.authService.isAdmin()) return undefined;
 				result = { ...result, link: menu.link }
 				
 				const user_menus = user.role.menus;
@@ -37,7 +37,7 @@ export class AdminMenu {
 							break;
 						}
 					}
-					if (permission == 'none') return undefined;
+					if (permission == 'none' && !this.authService.isAdmin()) return undefined;
 					result = { ...result, link: menu.link }
 				}
 			} else {
@@ -463,6 +463,11 @@ export class AdminMenu {
 										queryParams: { data: encodeURI(params) },
 									},
 								]
+								},
+								{
+								title: 'Company',
+								link: `/company/furnserve/configurator/company`,
+								queryParams: { data: encodeURI(params) },
 								}
 							]
 						},
@@ -838,6 +843,7 @@ export class AdminMenu {
 						children: [
 						{ 
 							title: 'Devices',
+							link: '/company/apps/invoice/devices',
 							icon: 'smartphone-outline',
 							children: [
 							{
@@ -856,6 +862,7 @@ export class AdminMenu {
 						{
 							title: 'Password',
 							icon: 'lock-outline',
+							link: `/company/apps/invoice/password`,
 							children: [
 							{
 								title: 'Enable Password',

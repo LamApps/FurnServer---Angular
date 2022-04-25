@@ -1,0 +1,214 @@
+<nb-card>
+  <nb-card-header>Edit Company Profile</nb-card-header>
+  <nb-card-body>
+    <div [formGroup]="formGroup" aria-labelledby="title">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="form-control-group mt-3">
+            <label for="input-name" class="col-md-3">Name</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-name"
+                    formControlName="name"
+                    [status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="name.invalid && name.touched ? true : null"
+                    placeholder="Enter Company Name"
+                    class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+              <label for="input-description" class="col-md-3">Description</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-description"
+                      formControlName="description"
+                      [status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : 'basic'"
+                      [attr.aria-invalid]="description.invalid && description.touched ? true : null"
+                      placeholder="Enter Description"
+                      class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+              <label for="input-address" class="col-md-3">Address</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-address"
+                      formControlName="address"
+                      [status]="address.dirty ? (address.invalid  ? 'danger' : 'success') : 'basic'"
+                      [attr.aria-invalid]="address.invalid && address.touched ? true : null"
+                      placeholder="Enter Address"
+                      class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-city" class="col-md-3">City</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-city"
+                    formControlName="city"
+                    [status]="city.dirty ? (city.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="city.invalid && city.touched ? true : null"
+                    placeholder="Enter City"
+                    class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-state" class="col-md-3">State</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-state"
+                    formControlName="state"
+                    maxlength="2"
+                    [status]="state.dirty ? (state.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="state.invalid && state.touched ? true : null"
+                    placeholder="Enter State"
+                    (keyup)="stateInput($event)"
+                    class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-zip" class="col-md-3">Zip</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-zip"
+                    formControlName="zip"
+                    maxlength="6"
+                    [status]="zip.dirty ? (zip.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="zip.invalid && zip.touched ? true : null"
+                    placeholder="Enter Zip"
+                    (keyup)="zipInput($event)"
+                    class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-phone" class="col-md-3">Phone #</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-phone"
+                    formControlName="phone"
+                    [status]="phone.dirty ? (phone.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="phone.invalid && phone.touched ? true : null"
+                    placeholder="Enter Phone Number"
+                    (keyup)="phoneInput($event)"
+                    class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-email" class="col-md-3">Email</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-email"
+                    formControlName="email"
+                    [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="email.invalid && email.touched ? true : null"
+                    placeholder="Enter Email"
+                    class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-website" class="col-md-3">Website</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-website"
+                    formControlName="website"
+                    [status]="website.dirty ? (website.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="website.invalid && website.touched ? true : null"
+                    placeholder="Enter Website"
+                    class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-hours" class="col-md-3" style="vertical-align: top;">Open Hours</label>
+            <textarea  nbInput
+                    fullWidth
+                    id="input-hours"
+                    formControlName="hours"
+                    [status]="hours.dirty ? (hours.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="hours.invalid && hours.touched ? true : null"
+                    placeholder="Enter Open Hours"
+                    class="col-md-9"></textarea>
+          </div>
+          <div class="form-control-group mt-3" style="display:flex;">
+            <label for="select-timezone" class="col-md-3">Time Zone</label>
+            <select 
+                    class="col-md-9 form-control" 
+                    id="select-timezone" 
+                    style="position: relative"
+                    formControlName="timezone">
+                <option *ngFor="let zone of timezoneArr" [value]="zone.value">{{ zone.text }}</option>
+            </select>
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-account" class="col-md-3">Corporate Account #</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-account"
+                    formControlName="account"
+                    [status]="account.dirty ? (account.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="account.invalid && account.touched ? true : null"
+                    placeholder="Enter Coporate Account"
+                    class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-soprint" class="col-md-3">SO Print Template</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-soprint"
+                    formControlName="soprint"
+                    [status]="soprint.dirty ? (soprint.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="soprint.invalid && soprint.touched ? true : null"
+                    placeholder="Enter SO Print Template"
+                    class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <label for="input-delprint" class="col-md-3">SO Delivery Print Template</label>
+            <input  nbInput
+                    fullWidth
+                    id="input-delprint"
+                    formControlName="delprint"
+                    [status]="delprint.dirty ? (delprint.invalid  ? 'danger' : 'success') : 'basic'"
+                    [attr.aria-invalid]="delprint.invalid && delprint.touched ? true : null"
+                    placeholder="Enter SO Delivery Print Template"
+                    class="col-md-9">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-control-group mt-3" style="display:flex;">
+            <label for="select-database" class="col-md-3">Database</label>
+            <select 
+                    class="col-md-9 form-control" 
+                    id="select-database" 
+                    style="position: relative"
+                    formControlName="database">
+                <option *ngFor="let database of databaseList" [value]="database">{{ database }}</option>
+            </select>
+          </div>
+          <div class="form-control-group mt-3">
+              <label for="input-location" class="col-md-3">Location</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-location"
+                      formControlName="location"
+                      [status]="location.dirty ? (location.invalid  ? 'danger' : 'success') : 'basic'"
+                      [attr.aria-invalid]="location.invalid && location.touched ? true : null"
+                      placeholder="Enter location"
+                      maxlength="2"
+                      class="col-md-9">
+          </div>
+          <div class="form-control-group mt-3">
+            <ngp-image-picker
+              [_imageSrc]="image"
+              [_config]="imagePickerConf"
+              ($imageChanged)="onImageChange($event)"
+            ></ngp-image-picker>
+          </div>
+          <div class="mt-4">
+            <button nbButton matRipple 
+              status="primary" 
+              class="col-3" 
+              (click)="submit()" 
+              [disabled]="submitted || !formGroup.valid"
+              [class.btn-pulse]="submitted">
+                Submit
+            </button>
+            <button nbButton matRipple status="primary" class="col-3 ml-3" (click)="cancel()" outline>
+                Cancel
+            </button>    
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

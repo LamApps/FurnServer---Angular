@@ -16,6 +16,7 @@ import { AuthModule } from './@auth/auth.module';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SocketIoModule } from 'ngx-socket-io';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
+import { CommonModule } from '@angular/common';
 
 import {
   NbChatModule,
@@ -33,7 +34,7 @@ import {
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
+    CommonModule,
     AppRoutingModule,
     AuthModule.forRoot(),
 

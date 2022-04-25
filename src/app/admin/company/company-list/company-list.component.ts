@@ -41,6 +41,9 @@ export class CompanyListComponent implements OnInit {
       timeout: {
         title: 'Company Timeout'
       },
+      databases: {
+        title: 'Databases'
+      },
       active: {
         title: 'Active',
         filter: {

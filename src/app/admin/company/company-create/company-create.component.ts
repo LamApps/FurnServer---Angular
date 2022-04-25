@@ -36,6 +36,7 @@ export class CompanyCreateComponent implements OnInit {
       name: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
       code: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
       timeout: this.formBuilder.control('', [Validators.required, createTimeoutValidator()]),
+      databases: this.formBuilder.control('', [Validators.required]),
       active: this.formBuilder.control(true),
     });
 
@@ -60,6 +61,7 @@ export class CompanyCreateComponent implements OnInit {
   get name() { return this.formGroup.get('name'); }
   get code() { return this.formGroup.get('code'); }
   get timeout() { return this.formGroup.get('timeout'); }
+  get databases() { return this.formGroup.get('databases'); }
 
   title: string;
   mode: FormMode;
@@ -70,6 +72,14 @@ export class CompanyCreateComponent implements OnInit {
     } else if (this.mode == FormMode.ADD) {
       this.title = "Create Company";
     }
+  }
+
+  databaseInput() {
+    let newValue = this.databases.value.replace(/[^,0-9]/g, '');
+    newValue = newValue.replace(/,,+/g, ',');
+    this.databases.setValue(newValue)
+    this.databases.updateValueAndValidity()
+    return true
   }
 
   loadCompany(id: any) {
@@ -90,6 +100,7 @@ export class CompanyCreateComponent implements OnInit {
         code: company.code,
         timeout: timeout,
         active: company.active,
+        databases: company.databases,
       });
     });
   } 

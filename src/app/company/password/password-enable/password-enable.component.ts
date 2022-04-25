@@ -62,6 +62,7 @@ export class PasswordEnableComponent implements OnInit {
 
   checkPermission() {
     if (this.authService.isAdmin()) {
+      this.permission = 'write';
     } else {
       const user = this.authService.currentUserValue;
       const menus = user.role.menus;

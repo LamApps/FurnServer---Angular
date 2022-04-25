@@ -48,7 +48,18 @@
                       placeholder="00:00"
                       class="col-md-9">
             </div>
-
+            <div class="form-control-group mt-3">
+              <label for="input-databases" class="col-md-3">Databases</label>
+              <input  nbInput
+                      fullWidth
+                      id="input-databases"
+                      formControlName="databases"
+                      [status]="databases.dirty ? (databases.invalid  ? 'danger' : 'success') : 'basic'"
+                      [attr.aria-invalid]="databases.invalid && databases.touched ? true : null"
+                      placeholder="1,2,3,4,5,..."
+                      (keyup)="databaseInput()"
+                      class="col-md-9">
+            </div>
             <div class="form-control-group mt-3">
               <label class="col-md-3">Active</label>
               <nb-checkbox formControlName="active" id="check-active" class="col-md-9 px-0"></nb-checkbox>

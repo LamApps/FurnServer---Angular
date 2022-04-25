@@ -16,9 +16,9 @@ export class CodeListComponent implements OnInit {
   settings = {
     mode: 'external',
     actions: {
-      add: false,
-      edit: false,
-      delete: false,
+      add: true,
+      edit: true,
+      delete: true,
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',

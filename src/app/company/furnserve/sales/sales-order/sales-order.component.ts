@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpHeaders } from '@angular/common/http';
-import { takeWhile } from 'rxjs/operators';
+import { LocalDataSource } from 'ng2-smart-table'
 import { NbToastrService } from '@nebular/theme';
 import { AuthenticationService } from '../../../../@core/@services/authentication.service';
 import { SalesOrderService } from '../../../../@core/@services/sales-order.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'ngx-sales-order',
@@ -20,29 +21,40 @@ export class SalesOrderComponent implements OnInit {
   submitted: boolean = false;
   revealState:boolean = false;
   private savedData:any = null;
+  private currentPage:number = 1;
 
   settings = {
     mode: 'external',
     actions: false,
     hideSubHeader: true,
+    // pager: { display: false },
     columns: {
       sa_no: {
         title: 'SO#',
+        type: 'html',
         valuePrepareFunction : (sa_no) => {
           let txt = sa_no.slice(0,2)+'-'+sa_no.slice(2);
-          return txt;
+          return '<div class="wide">'+txt+'</div>';
         },
       },
       cust_num: {
         title: 'Customer#',
+        type: 'html',
+        valuePrepareFunction : (value) => {
+          return '<div class="wide1">'+value+'</div>';
+        },
       },
       ss_name: {
         title: 'Name',
+        type: 'html',
+        valuePrepareFunction : (value) => {
+          return '<div class="wider">'+value+'</div>';
+        },
       },
       ss_order_dt: {
         title: 'Date',
         valuePrepareFunction : (ss_order_dt) => {
-          let txt = new Date(ss_order_dt).toLocaleDateString();
+          let txt = new Date(ss_order_dt+"T00:00:00").toLocaleDateString('en-US');
           return txt;
         },
       },
@@ -50,10 +62,18 @@ export class SalesOrderComponent implements OnInit {
         title: 'Slspr'
       },
       ss_addr1: {
-        title: 'Address'
+        title: 'Address',
+        type: 'html',
+        valuePrepareFunction : (value) => {
+          return '<div class="widest">'+value+'</div>';
+        },
       },
       ss_city: {
         title: 'City',
+        type: 'html',
+        valuePrepareFunction : (value) => {
+          return '<div class="wide1">'+value+'</div>';
+        },
       },
       ss_state: {
         title: 'State',
@@ -107,53 +127,89 @@ export class SalesOrderComponent implements OnInit {
     mode: 'external',
     actions: false,
     hideSubHeader: true,
+    rowClassFunction: (row) =>{
+      if(row.data.sl_qty > 0){
+        return '';
+      }else {
+        return 'negative';
+      }
+    },
     columns: {
-      sa_no: {
+      sl_line: {
         title: 'Line#',
       },
-      cust_num: {
+      sku_cd: {
         title: 'SKU/GL',
+        type: 'html',
+        valuePrepareFunction: (value, row) => {
+          // DATA FROM HERE GOES TO renderComponent
+          let returnTxt;
+          if(value==""){
+            if(row?.gl_acct_no=="") returnTxt = "";
+            else returnTxt = row?.gl_acct_no.slice(0,2)+'-'+row?.gl_acct_no.slice(2);
+          }else{
+            returnTxt = value.slice(0,3)+'-'+value.slice(3,8)+'-'+value.slice(8,12)+'-'+value.slice(12);
+          }
+          return '<div class="wider">'+returnTxt+'</div>';
+        },
       },
-      ss_name: {
+      sl_qty: {
         title: 'Qty',
       },
-      ss_order_dt: {
+      sl_uprice: {
         title: 'Unit Price',
+        valuePrepareFunction: (value) => {
+          return value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        },
       },
-      slspr_cd: {
-        title: 'Amount'
+      sl_amount: {
+        title: 'Amount',
+        valuePrepareFunction: (value) => {
+          return value.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        },
       },
-      ss_addr1: {
+      sl_desc: {
         title: 'Description'
       },
-      ss_city: {
+      sl_availqty: {
         title: 'Avl',
       },
-      ss_state: {
+      sl_chqty: {
         title: 'Chg',
       },
-      ss_zip: {
+      sl_setqty: {
         title: 'Set',
       },
-      ss_total: {
+      sl_delqty: {
         title: 'Del',
       },
-      ss_delamt: {
+      sl_confirm: {
         title: 'Status',
       },
-      ss_delopen: {
+      sl_confirmdt: {
         title: 'Date',
+        valuePrepareFunction: (value, row) => {
+          // DATA FROM HERE GOES TO renderComponent
+          if(row?.sl_confirm=="Charged") return new Date(row?.sl_chargedt+"T00:00:00").toLocaleDateString('en-US')
+          else if(row?.sl_confirm=="Confirmed") return new Date(value+"T00:00:00").toLocaleDateString('en-US')
+          else if(row?.sl_confirm=="Cancelled") return new Date(row?.sl_canceldt+"T00:00:00").toLocaleDateString('en-US')
+        },
       },
-      ss_gov_num: {
+      po_no: {
         title: 'PO#',
+        valuePrepareFunction: (value, row) => {
+          // DATA FROM HERE GOES TO renderComponent
+          if(value=="") return value;
+          else return value+' - '+row.pl_lines;
+        },
       },
-      ss_acct: {
+      sl_model: {
         title: 'Model#',
       },
-      ss_coa: {
+      sl_fabric: {
         title: 'Fabric',
       },
-      ss_HowRcv: {
+      sl_finish: {
         title: 'Finish',
       },
       stax_cd: {
@@ -162,7 +218,7 @@ export class SalesOrderComponent implements OnInit {
     }
   };
 
-  source = [];
+  source;
 
   // source = [{
   //   "sa_no": "20001998",
@@ -186,6 +242,106 @@ export class SalesOrderComponent implements OnInit {
   // }];
 
   source1 = [];
+//   source1 = [{
+//     "sku_cd": "21023100109501",
+//     "so_no": 106401,
+//     "sl_line": 1,
+//     "sl_uprice": 2099.0,
+//     "sl_amount": 2099.0,
+//     "sl_logid": "AMBER",
+//     "sl_logdate": "2022-03-15",
+//     "sl_qty": 0,
+//     "sl_desc": "Rec Sofa",
+//     "gl_acct_no": "",
+//     "sl_gldesc": "",
+//     "sl_type": "R",
+//     "sl_ss#": 0,
+//     "dept_no": "210",
+//     "vn_no": "23100",
+//     "sl_trans": "21023100109501",
+//     "sell_cd": "02",
+//     "sl_extint01": 0,
+//     "stax_cd": "WV",
+//     "re_reason": "",
+//     "sl_deliver": "Tentative",
+//     "slspr_cd": "MSC",
+//     "sl_percent": 6.0,
+//     "sl_confirm": "Confirmed",
+//     "sl_chqty": 0.0,
+//     "sl_canqty": 0.0,
+//     "sl_delqty": 0.0,
+//     "sl_setqty": 0.0,
+//     "sl_availqty": 0.0,
+//     "cust_num": "360426",
+//     "sal_no": "02106401   1",
+//     "acct_type": "WR",
+//     "sl_takeqty": 0.0,
+//     "sl_callqty": 0.0,
+//     "sl_tentqty": 0.0,
+//     "sl_tentdt": null,
+//     "po_no": "",
+//     "pl_lines": 0,
+//     "sl_chgamt": 0.0,
+//     "category_cd": "",
+//     "sl_confirmdt": "2022-03-15",
+//     "sl_dcost": 524.0,
+//     "sl_fcost": 0.0,
+//     "sl_reason": "",
+//     "gf_num": 0,
+//     "sl_fixed": false,
+//     "sl_extchar01": "",
+//     "sl_extchar02": "",
+//     "sl_chargedt": null,
+//     "sl_canceldt": null,
+//     "sl_u1char": "",
+//     "sl_u2char": "",
+//     "sl_u1log": false,
+//     "sl_u2log": false,
+//     "sl_u1int": 0,
+//     "vehicle_cd": "",
+//     "sl_deldate": null,
+//     "sl_comment": false,
+//     "sl_groupflag": "",
+//     "sl_groupline": 0,
+//     "slspr2_cd": "",
+//     "slspr3_cd": "",
+//     "sl_consign_type": "",
+//     "sl_groupsku": "",
+//     "sl_view_order": 1.0,
+//     "sl_origprice": 0.0,
+//     "sl_link_order": 1.0,
+//     "sl_logtime": "26737",
+//     "sl_createdt": "2022-03-15",
+//     "sl_createtime": "69957",
+//     "sl_createid": "APP",
+//     "sl_regular_price": 0.0,
+//     "room_cd": "",
+//     "sl_approval": "",
+//     "st_approvedate": null,
+//     "slspr4_cd": "",
+//     "slspr5_cd": "",
+//     "slspr6_cd": "",
+//     "slspr7_cd": "",
+//     "grp_cd": "",
+//     "rm_cd": "",
+//     "sl_salestype": "R",
+//     "box_cd": "",
+//     "cr_salno": "",
+//     "CreateProgID": "doUCFTrigger sfoe2.p",
+//     "LogProgID": "SOLQtySet so-027.p",
+//     "logProgEnviron": "",
+//     "Must_ShipDt": null,
+//     "Must_ShipQty": null,
+//     "sl_EditDate": "2022-03-15",
+//     "sl_editTime": 69957,
+//     "sl_PrintSeq": 1
+// },];
+
+  header:any;
+  billTo:any;
+  shipTo:any;
+  comments:any;
+
 
   constructor(
     private authService: AuthenticationService,
@@ -242,8 +398,8 @@ export class SalesOrderComponent implements OnInit {
       lastname: this.fb.control(this.savedData?.lastname || '', []),
       phone: this.fb.control(this.savedData?.phone || '', [Validators.minLength(12), Validators.maxLength(12)]),
       your: this.fb.control(this.savedData?.your || '', [Validators.minLength(8), Validators.maxLength(8)]),
-      begindate: this.fb.control(this.savedData?new Date(this.savedData?.begindate):new Date(), [Validators.minLength(10), Validators.maxLength(10)]),
-      enddate: this.fb.control(this.savedData?new Date(this.savedData?.enddate):new Date(), [Validators.minLength(10), Validators.maxLength(10)]),
+      begindate: this.fb.control(this.savedData?.begindate?new Date(this.savedData?.begindate):null, [Validators.minLength(10), Validators.maxLength(10)]),
+      enddate: this.fb.control(this.savedData?.enddate?new Date(this.savedData?.enddate):null, [Validators.minLength(10), Validators.maxLength(10)]),
       location: this.fb.control(this.savedData?.location || '', [Validators.minLength(2), Validators.maxLength(2)]),
       accounttype: this.fb.control(this.savedData?.accounttype || '', [Validators.minLength(2), Validators.maxLength(2)]),
       person: this.fb.control(this.savedData?.person || '', [Validators.minLength(3), Validators.maxLength(3)]),
@@ -254,29 +410,25 @@ export class SalesOrderComponent implements OnInit {
   ngOnDestroy() {
     this.alive = false;
   }
-  // checkPermission() {
-  //   if (this.authService.isAdmin()) {
-  //     this.settings = { ...this.settings, actions: { add: true, edit: true, delete: true }}
-  //   } else {
-  //     const user = this.authService.currentUserValue;
-  //     const menus = user.role.menus;
-  //     for (let i = 0; i < menus.length; i++) {
-  //       const menu = menus[i];
-  //       if (menu.menu.link == "code") {
-  //         this.permission = menu.permission
-  //       }
-  //     }
-  //     if (this.permission == "none") {
-  //       this.router.navigate(['/company/no-permission']);
-  //     } else if (this.permission == "view") {
-  //       this.router.navigate(['/company/no-permission']);
-  //     } else if (this.permission == "read") {
-  //       this.settings = { ...this.settings, actions: { add: false, edit: false, delete: false }}
-  //     } else {
-  //       this.settings = { ...this.settings, actions: { add: true, edit: true, delete: true }}
-  //     }
-  //   }
-  // }
+  checkPermission() {
+    if (this.authService.isAdmin()) {
+      this.permission = 'write'
+    } else {
+      const user = this.authService.currentUserValue;
+      const menus = user.role.menus;
+      for (let i = 0; i < menus.length; i++) {
+        const menu = menus[i];
+        if (menu.menu.link == "furnserve/sales/sales-order") {
+          this.permission = menu.permission
+        }
+      }
+      if (this.permission == "none") {
+        this.router.navigate(['/company/no-permission']);
+      } else if (this.permission == "view") {
+        this.router.navigate(['/company/no-permission']);
+      }
+    }
+  }
 
   phoneInput(event): boolean {
     let newValue = this.phone.value.replace(/\D/g,'')
@@ -335,17 +487,29 @@ export class SalesOrderComponent implements OnInit {
     }
     this.so.setValue(newValue)
     this.so.updateValueAndValidity()
+    let charCode = (event.which) ? event.which : event.keyCode;
+
+    if(newValue.length>=9 && ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105))) this.submit();
     return true
   }
 
   onUserRowSelect(event) {
+    this.currentPage = this.source.getPaging().page;
+    // this.revealState = true;
+    // return;
+    
     this.salesService.getOrderDetail(this.company, event.data.sa_no).subscribe((result: any) => {
-      
+      this.source1 = result.TT_so_lines;
+      this.header = result.TT_so_header[0];
+      this.billTo = result.TT_ar_cust[0];
+      this.shipTo = result.TT_so_delinst[0];
+      this.comments = result.TT_so_comments;
+
+      this.revealState = true;
     });
-    this.revealState = true;
   }
   onBackBtnClick() {
-
+    setTimeout(() => this.source.setPage(this.currentPage), 0);
     this.revealState = false;
   }
 
@@ -357,18 +521,72 @@ export class SalesOrderComponent implements OnInit {
     }else{
       localStorage.removeItem('salesSearch'+'_'+this.authService.currentUserValue.id+'_'+myCompanyId);
     }
-
-    searchData.begindate = searchData.begindate.toLocaleDateString();
-    searchData.enddate = searchData.enddate.toLocaleDateString();
     searchData.so = searchData.so.replace('-','');
+    if(searchData.so!="") {
+      this.submitted = true;
+      this.salesService.getOrderDetail(this.company, searchData.so).subscribe((result: any) => {
+        this.submitted = false;
+        let name;
+        let isEmpty = true;
+        for (name in result) {
+          if (result.hasOwnProperty(name)) {
+            isEmpty = false;
+            break;
+          }
+        }
+        if(isEmpty){
+          this.toastrService.danger('', 'Please enter a vaild SO #.');
+          return;
+        }
+        this.source1 = result.TT_so_lines || [];
+        this.header = result.TT_so_header?result.TT_so_header[0]:[];
+        this.billTo = result.TT_ar_cust?result.TT_ar_cust[0]:[];
+        this.shipTo = result.TT_so_delinst?result.TT_so_delinst[0]:[];
+        this.comments = result.TT_so_comments || {};
+  
+        this.revealState = true;
+        searchData.accounttype = searchData.begindate = searchData.customer = searchData.enddate = searchData.lastname = searchData.location = searchData.person = searchData.phone = searchData.your = '';
+        this.salesService.salesSearch(this.company, searchData).subscribe((result: any) => {
+          this.source = new LocalDataSource(result);
+        },
+        err => {
+          this.toastrService.danger('', 'An error occured!');
+        });
+      },
+      err => {
+        this.toastrService.danger('', 'An error occured!');
+        this.submitted = false;
+      });
+
+      return;
+    }else if(searchData.so=="" && searchData.accounttype=="" && searchData.begindate==null && searchData.customer=="" && searchData.enddate==null && searchData.lastname=="" && searchData.location=="" && searchData.person=="" && searchData.phone=="" && searchData.your=="") {
+      this.toastrService.danger('', 'Please filter your results from above before searching');
+      return;
+    }
+
+    if(searchData.begindate) searchData.begindate = searchData.begindate.toLocaleDateString('en-US');
+    if(searchData.enddate) searchData.enddate = searchData.enddate.toLocaleDateString('en-US');
+    
     this.submitted = true;
     this.salesService.salesSearch(this.company, searchData).subscribe((result: any) => {
-        this.source = result;
+        this.source = new LocalDataSource(result);
         this.submitted = false;
       },
       err => {
         this.toastrService.danger('', 'An error occured!');
         this.submitted = false;
       });
+  }
+  public openPDF(): void {
+    let DATA: any = document.getElementById('orderData');
+    html2canvas(DATA).then((canvas) => {
+      let fileWidth = 208;
+      let fileHeight = (canvas.height * fileWidth) / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png');
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight);
+      PDF.save('angular-demo.pdf');
+    });
   }
 }
