@@ -44,7 +44,14 @@ export class RoomsService {
           })
         );
     }
-
+    getLog(id: number): Observable<any> {
+      return this.api.get(`${this.apiController}/log/${id}`)
+        .pipe(
+          map(data=> {
+            return data.item;
+          })
+        );
+    }
     removeBannedUser(roomid:number) {
       return this.api.get(`${this.apiController}/remove-banned/${roomid}`);
     }

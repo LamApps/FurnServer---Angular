@@ -21,6 +21,7 @@ export class RoomChatComponent implements OnInit {
   baseUrl = environment.baseUrl;
   selectedUser:any = 'all';
   me:any;
+  roomId: number;
   permission:string = 'view';
 
   constructor(
@@ -135,9 +136,9 @@ export class RoomChatComponent implements OnInit {
       if (params['data']) {
         try {
           const data = JSON.parse(decodeURI(params['data']));
-          const roomid = data.id;
-          if (roomid) {
-            this.roomsService.getBannedUsers(roomid).subscribe(result=>{
+          this.roomId = data.id;
+          if (this.roomId) {
+            this.roomsService.getBannedUsers(this.roomId).subscribe(result=>{
               const index = result.findIndex(item=>{
                 const user = item.adminuser||item.user;
                 const isAdmin = this.me.company?false:true;
@@ -152,7 +153,7 @@ export class RoomChatComponent implements OnInit {
                 this.bannedUsers = result.map(item=>{
                   return {id: item.id, user: item.adminuser || item.user}
                 });
-                this.loadRoom(roomid);
+                this.loadRoom(this.roomId);
               }
             })
           } else {
@@ -188,13 +189,13 @@ export class RoomChatComponent implements OnInit {
   }
   loadRoom(id: number) {
     this.roomsService.getPublic(id).subscribe(room => {
-      this.formGroup.setValue({ 
+      this.formGroup.setValue({
         id: room.id,
         password: '',
       });
       if(room.password === '1') this.permitted = false;
       else if(room.password === '0') {
-        this.initRoom();
+        this.initRoom(id);
       }
       else this.permitted = false;
       this.roomName = room.name;
@@ -204,8 +205,25 @@ export class RoomChatComponent implements OnInit {
   get password() { return this.formGroup.get('password'); }
   get roomid() { return this.formGroup.get('id').value; }
 
-  initRoom() {
+  initRoom(roomid: number) {
     this.permitted = true;
+    this.roomsService.getLog(roomid).subscribe(log => {
+      const logs = log.logs;
+      this.messages = logs.map((item)=>{
+        const sender = item.sender || item.sender_admin;
+        const reply = this.me.firstname == sender.firstname && this.me.lastname == sender.lastname && this.me.photo == sender.photo;
+        return {
+          text: item.message,
+          date: new Date(item.sended),
+          reply: reply,
+          dateFormat: 'MM/dd/YYYY h:mm a',
+          user: {
+            name: sender.firstname + ' '+ sender.lastname,
+            avatar: this.baseUrl+'/'+sender.photo,
+          },
+        }
+      })
+    })
     this.chatService.emit('joinRoom', {
       roomId: this.roomid, 
     });
@@ -226,7 +244,7 @@ export class RoomChatComponent implements OnInit {
         incomeMsg = {
           text: message.message,
           date: new Date(),
-          dateFormat: 'h:mm a',
+          dateFormat: 'MM/dd/YYYY h:mm a',
           reply: false,
           type: 'text',
           user: {
@@ -251,7 +269,7 @@ export class RoomChatComponent implements OnInit {
         this.messages.push({
           text: message.message,
           date: new Date(),
-          dateFormat: 'h:mm a',
+          dateFormat: 'MM/dd/YYYY h:mm a',
           reply: false,
           type: 'text',
           user: {
@@ -325,8 +343,9 @@ export class RoomChatComponent implements OnInit {
   }
   onClearMessages() {
     this.chatService.emit('clearRoomMessages', null);
-    if(this.selectedUser=='all') this.messages = [];
-    else this.publicMessages = [];
+    // if(this.selectedUser=='all') this.messages = [];
+    // else this.publicMessages = [];
+    this.messages = [];
     this.publicUnreads = 0;
   }
   onVerticalMenuClick(user) {
@@ -337,7 +356,23 @@ export class RoomChatComponent implements OnInit {
     const isSelectedAdmin = user.company=='Admin'?true:false;
     if(user=='all'){
       this.publicUnreads = 0;
-      this.messages = this.publicMessages;
+      this.roomsService.getLog(this.roomId).subscribe(log => {
+        const logs = log.logs;
+        this.messages = logs.map((item)=>{
+          const sender = item.sender || item.sender_admin;
+          const reply = this.me.firstname == sender.firstname && this.me.lastname == sender.lastname && this.me.photo == sender.photo;
+          return {
+            text: item.message,
+            date: new Date(item.sended),
+            reply: reply,
+            dateFormat: 'MM/dd/YYYY h:mm a',
+            user: {
+              name: sender.firstname + ' '+ sender.lastname,
+              avatar: this.baseUrl+'/'+sender.photo,
+            },
+          }
+        })
+      })
     }else{
       this.chatService.getChatLog(this.me.id, user.userId, isSelectedAdmin).subscribe(result=>{
         this.messages = [];
@@ -371,7 +406,7 @@ export class RoomChatComponent implements OnInit {
       this.messages.push({
         text: event.message,
         date: new Date(),
-        dateFormat: 'h:mm a',
+        dateFormat: 'MM/dd/YYYY h:mm a',
         reply: true,
         type: 'text',
         user: {
@@ -383,7 +418,7 @@ export class RoomChatComponent implements OnInit {
       this.messages.push({
         text: event.message,
         date: new Date(),
-        dateFormat: 'h:mm a',
+        dateFormat: 'MM/dd/YYYY h:mm a',
         reply: true,
         type: 'text',
         user: {
@@ -400,7 +435,7 @@ export class RoomChatComponent implements OnInit {
     this.roomsService.verify(sendData).subscribe(
       data => {
         this.submitted = false;
-        if(data) this.initRoom();
+        if(data) this.initRoom(this.roomId);
         else this.toasterService.danger('', 'Incorrect password!');
       },
       error => {

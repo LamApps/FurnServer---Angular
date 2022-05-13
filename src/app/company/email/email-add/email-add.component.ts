@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { EmailService } from '../../../@core/@services/email.service';
 import { EMAIL_PATTERN } from '../../../@auth/components';
+import { Editor } from 'ngx-editor';
 
 export enum FormMode {
   VIEW = 'View',
@@ -16,11 +17,12 @@ export enum FormMode {
   templateUrl: './email-add.component.html',
   styleUrls: ['./email-add.component.scss']
 })
-export class EmailAddComponent implements OnInit {
+export class EmailAddComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup;
   submitted: boolean = false;
   company;
+  editor: Editor;
 
   constructor(
     private emailService: EmailService,
@@ -31,6 +33,7 @@ export class EmailAddComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.editor = new Editor();
     this.formGroup = this.formBuilder.group({
       id: this.formBuilder.control(''),
       email: this.formBuilder.control('', [Validators.pattern(EMAIL_PATTERN), Validators.required]),
@@ -67,7 +70,9 @@ export class EmailAddComponent implements OnInit {
       }
     });
   }
-
+  ngOnDestroy(): void {
+    this.editor.destroy();
+  }
   title: string;
   mode: FormMode;
   setViewMode(viewMode: FormMode) {
@@ -104,6 +109,7 @@ export class EmailAddComponent implements OnInit {
 
   submit(): void {
     const email = { ...this.formGroup.value, company: this.company };
+    console.log(email)
     this.submitted = true;
     if (this.mode == FormMode.ADD) {
       this.emailService.add(email).subscribe(

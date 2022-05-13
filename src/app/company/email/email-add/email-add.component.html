@@ -66,16 +66,15 @@
 
             <div class="form-control-group mt-3">
               <label for="input-name-format" class="col-md-3 align-top">Body</label>
-              <textarea nbInput
-                      fullWidth
-                      id="input-name-format"
-                      formControlName="body"
-                      [status]="body.dirty ? (body.invalid  ? 'danger' : 'success') : 'basic'"
-                      [attr.aria-invalid]="body.invalid && body.touched ? true : null"
-                      placeholder="Enter body"
-                      class="col-md-9"
-                      rows="7">
-              </textarea>
+              <div class="NgxEditor__Wrapper">
+                <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+                <ngx-editor
+                  [editor]="editor"
+                  formControlName="body"
+                  [disabled]="false"
+                  [placeholder]="'Type here...'"
+                ></ngx-editor>
+              </div>
             </div>
             <div class="form-control-group mt-3">
               <label class="col-md-3">Active</label>

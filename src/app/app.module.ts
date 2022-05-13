@@ -53,7 +53,7 @@ import {
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
-    SocketIoModule,
+    SocketIoModule
   ],
   bootstrap: [AppComponent],
   providers: [],

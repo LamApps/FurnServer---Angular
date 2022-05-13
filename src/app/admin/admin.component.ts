@@ -46,11 +46,12 @@ export class AdminComponent implements OnInit, OnDestroy {
           	return 0;
             });
         this.companies = [{id:0, name: 'Admin'}, ...sortedCompanies];
-          this.initMenu(this.currentCompany, false)
+        this.initMenu(this.currentCompany, false)
       }
     );
   }
   initMenu(companyId:number, fromSelect: boolean) {
+
     let company = this.isAdmin?(companyId>0?this.companies.find(item=>item.id===companyId):{id:0, name: 'Admin'}):this.companies.find(item=>item.id===companyId);
     this.pagesMenu.getMenu(company)
     .subscribe(menu => {
@@ -60,9 +61,17 @@ export class AdminComponent implements OnInit, OnDestroy {
             const currentRoute = this.router.url=='/admin/dashboard'?'/company/dashboard':this.router.url.split('?')[0];  
             const params = JSON.stringify({ cid: companyId });
             this.router.navigate([currentRoute], { queryParams : { data: encodeURI(params) } });
-          }else this.router.navigate(['/admin/dashboard']);
+          }else {
+            this.router.navigate(['/admin/dashboard']);
+          }
+        }else{
+          if(companyId==0) {
+            if(this.isAdmin) this.router.navigate(['/admin/dashboard']);
+            else this.router.navigate(['/company/dashboard']);
+          }
         }
       });
+    
   }
   changeCompany(event:any){
     this.currentCompany = event;

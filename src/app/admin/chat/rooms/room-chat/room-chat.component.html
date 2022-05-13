@@ -59,7 +59,7 @@
                 </nb-tabset>
             </nb-card-body>
             <nb-card-footer class="text-center" *ngIf="permission=='write'&&roomCreator&&roomCreator.id===this.me.id&&((!roomCreator.company&&!this.me.company)||(roomCreator.company&&this.me.company&&roomCreator.company.id==this.me.company.id))">
-                <button nbButton status="primary" size="small" shape="round" (click)="onClearMessages()"><nb-icon icon="trash-2-outline"></nb-icon> Clear messages</button>  
+                <button nbButton status="primary" size="small" shape="round" (click)="onClearMessages()"><nb-icon icon="trash-2-outline"></nb-icon> Clear</button>  
             </nb-card-footer>
         </nb-card>
     </div>

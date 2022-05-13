@@ -1,6 +1,13 @@
 <nb-card>
-    <nb-card-header>
-      UUIDS
+    <nb-card-header class="d-flex justify-content-between">
+      <div>UUIDS</div>
+      <div>
+        Rows per page: <select (change)="onChangePage($event)">
+          <option>10</option>
+          <option>50</option>   
+          <option>100</option>
+        </select>
+      </div>
     </nb-card-header>
   
     <nb-card-body>

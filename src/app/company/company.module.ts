@@ -69,6 +69,7 @@ import { CodeCreateComponent } from './code/code-create/code-create.component';
 import { SalesOrderComponent } from './furnserve/sales/sales-order/sales-order.component';
 import { LocationListComponent } from './furnserve/configurator/company/location-list/location-list.component';
 import { LocationCreateComponent } from './furnserve/configurator/company/location-create/location-create.component';
+import { NgxEditorModule } from 'ngx-editor';
 
 const materialModules = [
   MatFormFieldModule,
@@ -129,6 +130,7 @@ const PAGES_COMPONENTS = [
     NgpImagePickerModule,
     ComponentsModule,
     AuthModule.forRoot(),
+    NgxEditorModule,
     ...materialModules
   ],
   declarations: [

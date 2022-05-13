@@ -200,8 +200,8 @@ export class SalesOrderComponent implements OnInit {
         type: 'html',
         valuePrepareFunction: (value, row) => {
           // DATA FROM HERE GOES TO renderComponent
-          if(value=="") '<div class="wider">'+value+'</div>';
-          else return '<div class="wider">'+value+' - '+row.pl_lines+'</div>';
+          if(value=="") '<div class="wide1">'+value+'</div>';
+          else return '<div class="wide1">'+value+' - '+row.pl_lines+'</div>';
         },
       },
       sl_model: {

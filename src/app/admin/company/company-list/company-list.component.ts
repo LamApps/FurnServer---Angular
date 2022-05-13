@@ -3,6 +3,7 @@ import { CompanyService } from '../../../@core/@services/company.service';
 import { Router } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import { NbToastrService } from '@nebular/theme';
+import { LocalDataSource } from 'ng2-smart-table'
 
 @Component({
   selector: 'ngx-company-list',
@@ -78,7 +79,7 @@ export class CompanyListComponent implements OnInit {
 
   loadData() {
     this.companyService.list().subscribe((result) => {
-      this.source = [];
+      const data = [];
       for (let i = 0; i < result.length; i++) {
         const hour = Math.floor(parseInt(result[i].timeout) / 60);
         const minute = parseInt(result[i].timeout) % 60;
@@ -89,14 +90,17 @@ export class CompanyListComponent implements OnInit {
                           minimumIntegerDigits: 2,
                           useGrouping: false
                         }) + " Min(s)"
-        this.source.push({
+        data.push({
           ...result[i],
           timeout: timeout
         })
       }
+      this.source = new LocalDataSource(data)
     })
   }
-
+  onChangePage($event){
+    this.source.setPaging(1, $event.target.value)
+  }
   createUser() {
     this.router.navigate(['/admin/companies/create']);
   }

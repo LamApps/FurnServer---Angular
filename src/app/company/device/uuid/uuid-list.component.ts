@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import { NbToastrService } from '@nebular/theme';
 import { DatePipe } from '@angular/common';
+import { LocalDataSource } from 'ng2-smart-table'
 import { AuthenticationService } from '../../../@core/@services/authentication.service';
 
 @Component({
@@ -69,6 +70,9 @@ export class UuidListComponent {
           },
         },
       },
+    },
+    pager: {
+      perPage: 100,
     }
   };
 
@@ -108,7 +112,9 @@ export class UuidListComponent {
   ngOnDestroy() {
     this.alive = false;
   }
-
+  onChangePage($event){
+    this.source.setPaging(1, $event.target.value)
+  }
   checkPermission() {
     if (this.authService.isAdmin()) {
       this.settings = { ...this.settings, actions: { add: true, edit: true, delete: true }}
@@ -135,9 +141,10 @@ export class UuidListComponent {
 
   loadData() {
     this.uuidService.list(this.company).subscribe((result) => {
-      this.source = result.map(one => {
+      const data = result.map(one => {
         return { ...one }
       })
+      this.source = new LocalDataSource(data);
     })
   }
 

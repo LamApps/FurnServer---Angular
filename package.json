@@ -60,6 +60,7 @@
     "ng2-smart-table": "^1.6.0",
     "ngp-image-picker": "^1.4.0",
     "ngx-echarts": "^4.2.2",
+    "ngx-editor": "^12.3.0",
     "ngx-socket-io": "^4.1.0",
     "normalize.css": "6.0.0",
     "pace-js": "1.0.2",
