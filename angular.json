@@ -93,7 +93,10 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "furnserve:build"
+            "browserTarget": "furnserve:build",
+            "sslKey": "./ssl-key/ca.key",
+            "sslCert": "./ssl-key/ca.pem",
+            "ssl": true
           },
           "configurations": {
             "production": {

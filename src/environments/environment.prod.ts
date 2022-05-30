@@ -5,8 +5,8 @@
  */
 export const environment = {
   production: true,
-  baseUrl: 'http://newfurnserve.com:4201',
-  apiUrl: 'http://newfurnserve.com:4201/api',
+  baseUrl: 'https://newfurnserve.com:4201',
+  apiUrl: 'https://newfurnserve.com:4201/api',
   testUser: {
     token: {},
     email: '',

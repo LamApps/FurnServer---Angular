@@ -10,8 +10,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:4201',
-  apiUrl: 'http://localhost:4201/api',
+  baseUrl: 'https://localhost:4201',
+  apiUrl: 'https://localhost:4201/api',
   testUser: {
     // tslint:disable
     token: {

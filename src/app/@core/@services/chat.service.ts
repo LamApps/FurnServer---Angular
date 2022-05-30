@@ -5,7 +5,7 @@ import { SocketService } from './socket.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import store from 'store2';
-import { environment } from 'environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ChatService {

@@ -186,8 +186,23 @@ export class AdminMenu {
 				},
 			];
 
+			const supportMenu: NbMenuItem[] = [
+				{
+				title: 'Support',
+				icon: 'cast-outline',
+				link: '/admin/support',
+				children: [
+					{
+						title: 'Sessions',
+						link: '/admin/support/sessions',
+					},
+					
+				]
+				},
+			];
+
 			return new Observable(observer => {
-				observer.next([...dashboardMenu, ...userMenu, ...companyMenu, ...permissionMenu, ...appMenu, ...utilsMenu, ...codeMenu, ...chatMenu]);
+				observer.next([...dashboardMenu, ...userMenu, ...companyMenu, ...permissionMenu, ...appMenu, ...utilsMenu, ...codeMenu, ...chatMenu, ...supportMenu]);
 				observer.complete();
 			})  
 	

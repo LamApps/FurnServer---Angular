@@ -71,6 +71,8 @@ import { RoomsComponent } from './chat/rooms/rooms.component';
 import { RoomCreateComponent } from './chat/rooms/room-create/room-create.component';
 import { RoomChatComponent } from './chat/rooms/room-chat/room-chat.component';
 import { PrivateChatComponent } from './chat/private/private-chat/private-chat.component';
+import { SessionListComponent } from './support/sessions/session-list/session-list.component';
+import { ScreenViewComponent } from './support/sessions/screen-view/screen-view.component';
 
 const materialModules = [
   MatFormFieldModule,
@@ -143,6 +145,8 @@ const PAGES_COMPONENTS = [
     RoomCreateComponent,
     RoomChatComponent,
     PrivateChatComponent,
+    SessionListComponent,
+    ScreenViewComponent
   ],
   providers: [
     AdminMenu,
