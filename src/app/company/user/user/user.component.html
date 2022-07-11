@@ -57,13 +57,28 @@
         <input nbInput class="form-control" id="input-birthday" placeholder="Birthday" formControlName="birthday" (keyup)="onBirthdayChange()" maxlength="10">
       </div> 
 
-      <div class="form-group">
-        <nb-checkbox formControlName="chatalert" id="check-alert">Show incoming message alert</nb-checkbox>
-      </div>
+      <h2>Live Chat Options:</h2>
 
+      <div class="form-group">
+        <label for="select-role">Default Login Status</label>
+        <select (change)="changeStatus($event)"
+                class="form-control" 
+                id="select-role" 
+                formControlName="default_status">
+            <option value="success">Active</option>
+            <option value="warning">Away</option>
+            <option value="danger">Busy</option>
+            <option value="control">Offline</option>
+        </select>
+      </div>
+      
       <div class="form-group">
         <label for="input-fadetime">Alert fade time</label>
         <input type="number" [attr.disabled]="userForm.value['chatalert'] === true?null:'disabled'" nbInput class="form-control" id="input-fadetime" placeholder="Alert fade time" formControlName="alert_fadetime">
+      </div>
+
+      <div class="form-group">
+        <nb-checkbox formControlName="chatalert" id="check-alert">Show incoming message alert</nb-checkbox>
       </div>
 
       <div class="form-group">

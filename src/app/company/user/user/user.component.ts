@@ -43,6 +43,7 @@ export class UserComponent implements OnInit, OnDestroy {
   get position() { return this.userForm.get('position'); }
   get birthday() { return this.userForm.get('birthday'); }
   get password() { return this.userForm.get('password'); }
+  get default_status() { return this.userForm.get('default_status'); }
 
   constructor(private authService: AuthenticationService,
               private userService: UserService,
@@ -78,6 +79,7 @@ export class UserComponent implements OnInit, OnDestroy {
       chatalert: this.fb.control(false),
       sound: this.fb.control(true),
       alert_fadetime: this.fb.control(5, [Validators.min(0), Validators.max(120)]),
+      default_status: this.fb.control('success', []),
     });
   }
   
@@ -114,13 +116,18 @@ export class UserComponent implements OnInit, OnDestroy {
       chatalert: user.chat_alert,
       sound: user.sound,
       alert_fadetime: user.alert_fadetime,
+      default_status: user.default_status,
     });
     this.photo = user.photo;
     if (this.photo != "") {
       this.image = environment.baseUrl + '/' + this.photo;
     }
   }
-
+  changeStatus(e: any) {
+    this.default_status?.setValue(e.target.value, {
+      onlySelf: true,
+    });
+  }
   onBirthdayChange() {
     let newValue = this.birthday.value.replace(/\D/g,'')
     if (newValue.length >= 3) {

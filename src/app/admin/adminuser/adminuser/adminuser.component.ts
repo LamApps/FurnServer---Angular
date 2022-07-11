@@ -41,6 +41,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
   get position() { return this.userForm.get('position'); }
   get birthday() { return this.userForm.get('birthday'); }
   get password() { return this.userForm.get('password'); }
+  get default_status() { return this.userForm.get('default_status'); }
 
   constructor(private authService: AuthenticationService,
               private userService: AdminuserService,
@@ -92,6 +93,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       chatalert: this.fb.control(true),
       sound: this.fb.control(true),
       alert_fadetime: this.fb.control(5, [Validators.min(0), Validators.max(120)]),
+      default_status: this.fb.control('success', []),
     });
   }
 
@@ -113,6 +115,7 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       chatalert: user.chat_alert,
       sound: user.sound,
       alert_fadetime: user.alert_fadetime,
+      default_status: user.default_status,
     });
     this.onBirthdayChange();
     this.photo = user.photo;
@@ -126,6 +129,12 @@ export class AdminuserComponent implements OnInit, OnDestroy {
       .onClose.subscribe(password => {
         this.password.setValue(password)
       })
+  }
+
+  changeStatus(e: any) {
+    this.default_status?.setValue(e.target.value, {
+      onlySelf: true,
+    });
   }
 
   submit() {

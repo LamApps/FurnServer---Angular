@@ -33,28 +33,39 @@
                 <mat-form-field appearance="outline" class="col-is-12 col-sm-6 col-md-4 col-lg-3">
                     <mat-label>Your #</mat-label>
                     <input matInput formControlName="your"
+                          (keyup)="otherInput($event, 'your')"
                            placeholder="xxxxxxxx" maxlength="8">
                 </mat-form-field>
-                <mat-form-field appearance="outline" class="col-is-12 col-sm-6 col-md-4 col-lg-3">
-                    <mat-label>Beginning SO Date</mat-label>
-                    <input matInput formControlName="begindate"
-                            (keyup)="dateInput($event)"
-                            [nbDatepicker]="beginDate"
-                           placeholder="xx/xx/xxxx"
-                           maxlength="10"
-                           autocomplete="off">
-                    <nb-datepicker #beginDate></nb-datepicker>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="col-is-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="col-is-12 col-sm-6 col-md-4 col-lg-3">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                      <mat-label>Beginning SO Date</mat-label>
+                      <input matInput formControlName="begindate"
+                              (keyup)="dateInput($event, 'begin')"
+                              [nbDatepicker]="beginDate"
+                              placeholder="xx/xx/xxxx"
+                              maxlength="10"
+                              autocomplete="off">
+                              <nb-datepicker #beginDate></nb-datepicker>
+                      </mat-form-field>
+                    <button nbButton (click)="handleClose('begin')" status="danger" size="small" class="dateCloseBtn">
+                      <nb-icon icon="close"></nb-icon>
+                    </button>
+                </div>
+                <div class="col-is-12 col-sm-6 col-md-4 col-lg-3">
+                  <mat-form-field appearance="outline" style="width: 100%;">
                     <mat-label>Ending SO Date</mat-label>
                     <input matInput formControlName="enddate"
-                            (keyup)="dateInput($event)"
+                            (keyup)="dateInput($event, 'end')"
                             [nbDatepicker]="endDate"
                            placeholder="xx/xx/xxxx"
                            maxlength="10"
                            autocomplete="off">
                     <nb-datepicker #endDate></nb-datepicker>
-                </mat-form-field>
+                    </mat-form-field>
+                  <button nbButton (click)="handleClose('end')" status="danger" size="small" class="dateCloseBtn">
+                    <nb-icon icon="close"></nb-icon>
+                  </button>
+                </div>
                 <mat-form-field appearance="outline" class="col-is-12 col-sm-6 col-md-4 col-lg-3">
                     <mat-label>Location</mat-label>
                     <input matInput formControlName="location"
@@ -64,18 +75,20 @@
                 <mat-form-field appearance="outline" class="col-is-12 col-sm-6 col-md-4 col-lg-3">
                     <mat-label>Account Type</mat-label>
                     <input matInput formControlName="accounttype"
+                          (keyup)="otherInput($event, 'account')"
                            placeholder="xx" maxlength="2">
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="col-is-12 col-sm-6 col-md-4 col-lg-3">
                     <mat-label>Sales Person</mat-label>
                     <input matInput formControlName="person"
+                          (keyup)="otherInput($event, 'person')"
                            placeholder="xxx" maxlength="3">
                 </mat-form-field>
                 <div class="form-group col-is-12 col-sm-6 col-md-4 col-lg-3">
                     <nb-checkbox formControlName="showOpen" id="check-show">Show Open For Delivery SOs Only</nb-checkbox>
                 </div>
                 <div class="form-group col-is-12 col-sm-6 col-md-4 col-lg-3">
-                  <nb-checkbox formControlName="remember" id="check-remember">Remember values</nb-checkbox>
+                  <nb-checkbox formControlName="remember" id="check-remember" (checkedChange)="handleRemember($event)">Remember values</nb-checkbox>
               </div>
             </div>
             <div class="mt-1">
@@ -96,6 +109,14 @@
   <nb-card-header class="d-flex justify-content-between align-items-center">
       <button nbButton status="success" size="small" (click)="onBackBtnClick()" class="m-0"><nb-icon icon="chevron-left-outline"></nb-icon> Back to list</button>
       <div class="ml-auto mr-auto">Sales Order</div>
+      <div>
+        Rows per page: <select (change)="onChangePage($event, 'order')">
+          <option [selected]="pages2==10">10</option>
+          <option [selected]="pages2==25">25</option>   
+          <option [selected]="pages2==50">50</option>
+        </select>
+      </div>
+
   </nb-card-header>
   <nb-card-body id="orderData">
     <div class="d-flex flex-wrap align-items-center">
@@ -155,8 +176,8 @@
         <div class="field-title">Sale Date</div>
         <div>{{header?.ss_order_dt}}</div>
       </div>
-      <button nbButton ghost status="primary" size="small" (click)="openPDF()"><nb-icon icon="download-outline"></nb-icon></button>
-      <button nbButton ghost status="primary" size="small"><nb-icon icon="printer-outline"></nb-icon></button>
+      <button nbButton ghost status="primary" size="small" [nbContextMenu]="ctxItems" nbContextMenuTag="sales-download-menu"><nb-icon icon="download-outline"></nb-icon></button>
+      <button nbButton ghost status="primary" size="small" [nbContextMenu]="ctxItems" nbContextMenuTag="sales-print-menu"><nb-icon icon="printer-outline"></nb-icon></button>
     </div>
     <div class="row">
       <div class="col-is-12 col-sm-6 col-xl-3">
@@ -372,7 +393,16 @@
 </nb-card>
 <ng-template #elseBlock>
   <nb-card class="detailCard">
-    <nb-card-header>Search Result</nb-card-header>
+    <nb-card-header class="d-flex justify-content-between">
+      <div>Search Result</div>
+      <div>
+        Rows per page: <select (change)="onChangePage($event, 'search')">
+          <option [selected]="pages1==10">10</option>
+          <option [selected]="pages1==25">25</option>   
+          <option [selected]="pages1==50">50</option>
+        </select>
+      </div>
+    </nb-card-header>
     <nb-card-body>
         <ng2-smart-table
         (userRowSelect)="onUserRowSelect($event)"

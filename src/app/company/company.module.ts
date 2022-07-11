@@ -18,7 +18,8 @@ import {
   NbSelectModule,
   NbUserModule,
   NbMenuModule,
-  NbAccordionModule
+  NbAccordionModule,
+  NbContextMenuModule,
 } from '@nebular/theme';
 
 import { FormsModule as ngFormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -48,6 +49,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserCreateComponent } from './user/user-create/user-create.component';
 import { UuidComponent } from './device/uuid/uuid.component';
@@ -81,6 +83,7 @@ const materialModules = [
   MatRadioModule,
   MatButtonModule,
   MatButtonToggleModule,
+  MatIconModule,
 ];
 
 const PAGES_COMPONENTS = [
@@ -124,6 +127,7 @@ const PAGES_COMPONENTS = [
     NbIconModule,
     ngFormsModule,
     NbMenuModule,
+    NbContextMenuModule,
     NbAccordionModule,
     Ng2SmartTableModule,
     ReactiveFormsModule,

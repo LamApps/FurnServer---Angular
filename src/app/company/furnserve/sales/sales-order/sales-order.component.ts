@@ -7,6 +7,8 @@ import { AuthenticationService } from '../../../../@core/@services/authenticatio
 import { SalesOrderService } from '../../../../@core/@services/sales-order.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { NbMenuService } from '@nebular/theme';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-sales-order',
@@ -14,6 +16,7 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./sales-order.component.scss']
 })
 export class SalesOrderComponent implements OnInit {
+
   private alive = true;
   private company;
   private permission = "view";
@@ -22,6 +25,9 @@ export class SalesOrderComponent implements OnInit {
   revealState:boolean = false;
   private savedData:any = null;
   private currentPage:number = 1;
+
+  pages1 = 10;
+  pages2 = 10;
 
   settings = {
     mode: 'external',
@@ -223,7 +229,7 @@ export class SalesOrderComponent implements OnInit {
     }
   };
 
-  source;
+  source = new LocalDataSource();
 
   // source = [{
   //   "sa_no": "20001998",
@@ -246,7 +252,7 @@ export class SalesOrderComponent implements OnInit {
   //   "stax_cd": "NT"
   // }];
 
-  source1 = [];
+  source1 = new LocalDataSource();
 //   source1 = [{
 //     "sku_cd": "21023100109501",
 //     "so_no": 106401,
@@ -347,6 +353,7 @@ export class SalesOrderComponent implements OnInit {
   shipTo:any;
   comments:any;
 
+  ctxItems = [{ title: 'STORE' }, { title: 'DELIVERY' }, { title: 'CUSTOMER'}];
 
   constructor(
     private authService: AuthenticationService,
@@ -355,6 +362,7 @@ export class SalesOrderComponent implements OnInit {
     private route: ActivatedRoute,
     private toastrService: NbToastrService,
     private salesService: SalesOrderService,
+    private nbMenuService: NbMenuService,
   ) { }
 
   get so() { return this.searchForm.get('so'); }
@@ -380,7 +388,6 @@ export class SalesOrderComponent implements OnInit {
         try {
           const data = JSON.parse(decodeURI(params['data']))
           const cid = data.cid
-          console.log(cid)
           if (cid) {
             this.company = cid;
           } else {
@@ -394,20 +401,26 @@ export class SalesOrderComponent implements OnInit {
       }
     });
     this.initSearchForm();
+    this.nbMenuService.onItemClick()
+      .pipe(
+        filter(({ tag }) => tag === 'sales-download-menu'),
+        map(({ item: { title } }) => title),
+      )
+      .subscribe(title => {console.log(title)});
   }
 
   initSearchForm() {
     this.searchForm = this.fb.group({
       so: this.fb.control(this.savedData?.so || '', [Validators.minLength(9), Validators.maxLength(9)]),
-      customer: this.fb.control(this.savedData?.customer || '', [Validators.minLength(6), Validators.maxLength(6)]),
+      customer: this.fb.control(this.savedData?.customer || '', [Validators.maxLength(6)]),
       lastname: this.fb.control(this.savedData?.lastname || '', []),
       phone: this.fb.control(this.savedData?.phone || '', [Validators.minLength(12), Validators.maxLength(12)]),
-      your: this.fb.control(this.savedData?.your || '', [Validators.minLength(8), Validators.maxLength(8)]),
+      your: this.fb.control(this.savedData?.your || '', [Validators.maxLength(8)]),
       begindate: this.fb.control(this.savedData?.begindate?new Date(this.savedData?.begindate):null, [Validators.minLength(10), Validators.maxLength(10)]),
       enddate: this.fb.control(this.savedData?.enddate?new Date(this.savedData?.enddate):null, [Validators.minLength(10), Validators.maxLength(10)]),
       location: this.fb.control(this.savedData?.location || '', [Validators.minLength(2), Validators.maxLength(2)]),
       accounttype: this.fb.control(this.savedData?.accounttype || '', [Validators.minLength(2), Validators.maxLength(2)]),
-      person: this.fb.control(this.savedData?.person || '', [Validators.minLength(3), Validators.maxLength(3)]),
+      person: this.fb.control(this.savedData?.person || '', [Validators.maxLength(3)]),
       showOpen: this.fb.control(this.savedData?.showOpen || false, []),
       remember: this.fb.control(this.savedData?.remember || false, []),
     });
@@ -435,7 +448,7 @@ export class SalesOrderComponent implements OnInit {
     }
   }
 
-  phoneInput(event): boolean {
+  phoneInput(event): void {
     let newValue = this.phone.value.replace(/\D/g,'')
     if (newValue.length >= 4) {
       newValue = newValue.slice(0, 3) + "-" + newValue.slice(3)
@@ -448,10 +461,12 @@ export class SalesOrderComponent implements OnInit {
     }
     this.phone.setValue(newValue)
     this.phone.updateValueAndValidity()
-    return true
+    if(event.key === 'Enter' && this.submitted===false) {
+      if(newValue!='' && this.phone.valid) this.submit();
+    }
   }
 
-  dateInput(event): boolean {
+  dateInput(event, flag): void {
     let newValue = event.target.value.replace(/\D/g,'');
     if (newValue.length >= 3) {
       newValue = newValue.slice(0, 2) + "/" + newValue.slice(2)
@@ -462,27 +477,47 @@ export class SalesOrderComponent implements OnInit {
     if (newValue.length >= 10) {
       newValue = newValue.slice(0, 10)
     }
+    if (newValue=="") {
+      if (flag=='begin') this.begindate.setValue(new Date());
+      else this.enddate.setValue(new Date());
+    }
     event.target.value = newValue;
-    return true;
+    if(event.key === 'Enter' && this.submitted===false) {
+      if(newValue.length===10) this.submit();
+    }
   }
 
-  nameInput(event):boolean {
+  nameInput(event):void {
     let newValue = this.lastname.value.replace(/\d/g,'');
     this.lastname.setValue(newValue)
     this.lastname.updateValueAndValidity()
-    return true;
+    if(event.key === 'Enter' && this.submitted===false) {
+      if(newValue.length>=2) this.submit();
+    }
   }
 
-  numberInput(event, flag: string):boolean {
+  numberInput(event, flag: string):void {
     let obj = (flag=='customer')?this.customer:this.location;
     let newValue = obj.value.replace(/\D/g,'');
     obj.setValue(newValue)
     obj.updateValueAndValidity()
-    return true;
-
+    if(event.key === 'Enter' && this.submitted===false) {
+      if(flag=='customer') {
+        if(newValue!='') this.submit();
+      }else if(flag=='location') {
+        if(newValue!='' && obj.valid) this.submit();
+      }
+    }
   }
 
-  soInput(event):boolean {
+  otherInput(event, flag):void {
+    if(event.key === 'Enter' && this.submitted===false) {
+      if(flag=="your" && this.your.value!='') this.submit();
+      else if(flag=="account" && this.accounttype.value.length>=2) this.submit();
+      else if(flag=="person" && this.person.value!='') this.submit();
+    }
+  }
+  soInput(event):void {
     let newValue = this.so.value.replace(/\D/g,'')
     if (newValue.length >= 3) {
       newValue = newValue.slice(0, 2) + "-" + newValue.slice(2)
@@ -495,7 +530,6 @@ export class SalesOrderComponent implements OnInit {
     let charCode = (event.which) ? event.which : event.keyCode;
 
     if(newValue.length>=9 && ((charCode >= 48 && charCode <= 57) || (charCode >= 96 && charCode <= 105))) this.submit();
-    return true
   }
 
   onUserRowSelect(event) {
@@ -504,7 +538,8 @@ export class SalesOrderComponent implements OnInit {
     // return;
     
     this.salesService.getOrderDetail(this.company, event.data.sa_no).subscribe((result: any) => {
-      this.source1 = result.TT_so_lines;
+      this.source1.load(result.TT_so_lines);
+      this.source1.setPaging(1, this.pages2);
       this.header = result.TT_so_header[0];
       this.billTo = result.TT_ar_cust[0];
       this.shipTo = result.TT_so_delinst[0];
@@ -514,19 +549,45 @@ export class SalesOrderComponent implements OnInit {
     });
   }
   onBackBtnClick() {
-    setTimeout(() => this.source.setPage(this.currentPage), 0);
+    setTimeout(() => this.source.setPaging(this.currentPage, this.pages1), 0);
     this.revealState = false;
   }
 
-  submit() {
-    let searchData = this.searchForm.value;
+  handleClose(flag) {
+    if(flag=="begin") this.begindate.setValue(null);
+    else this.enddate.setValue(null);
+  }
+
+  handleRemember(checked: boolean) {
+    const searchData = this.searchForm.value;
     const myCompanyId = this.authService.currentUserValue.company?this.authService.currentUserValue.company.id:0;
-    if(searchData.remember){
+    if(checked) {
+      searchData.remember = true;
       localStorage.setItem('salesSearch'+'_'+this.authService.currentUserValue.id+'_'+myCompanyId, JSON.stringify(searchData));
     }else{
+      searchData.remember = false;
       localStorage.removeItem('salesSearch'+'_'+this.authService.currentUserValue.id+'_'+myCompanyId);
     }
+  }
+
+  onChangePage(event, flag) {
+    if(flag=="search") {
+      this.pages1 = event.target.value;
+      this.source.setPaging(this.currentPage, event.target.value);
+    }
+    else {
+      this.pages2 = event.target.value;
+      this.source1.setPaging(1, event.target.value);
+    }
+  }
+    
+
+  submit() {
+    let searchData = this.searchForm.value;
     searchData.so = searchData.so.replace('-','');
+    searchData.phone = searchData.phone.replace(/-/g,'');
+    this.revealState = false;
+
     if(searchData.so!="") {
       this.submitted = true;
       this.salesService.getOrderDetail(this.company, searchData.so).subscribe((result: any) => {
@@ -543,19 +604,24 @@ export class SalesOrderComponent implements OnInit {
           this.toastrService.danger('', 'Please enter a vaild SO #.');
           return;
         }
-        this.source1 = result.TT_so_lines || [];
+        this.source1.load(result.TT_so_lines);
+        this.source1.setPaging(1, this.pages2);
         this.header = result.TT_so_header?result.TT_so_header[0]:[];
         this.billTo = result.TT_ar_cust?result.TT_ar_cust[0]:[];
         this.shipTo = result.TT_so_delinst?result.TT_so_delinst[0]:[];
         this.comments = result.TT_so_comments || {};
   
         this.revealState = true;
-        searchData.accounttype = searchData.begindate = searchData.customer = searchData.enddate = searchData.lastname = searchData.location = searchData.person = searchData.phone = searchData.your = '';
-        this.salesService.salesSearch(this.company, searchData).subscribe((result: any) => {
-          this.source = new LocalDataSource(result);
-        },
-        err => {
-          this.toastrService.danger('', 'An error occured!');
+        this.searchForm.setValue({
+          accounttype: '',
+          begindate: null,
+          enddate: null,
+          customer: '',
+          lastname: '',
+          location: '',
+          person: '',
+          phone: '',
+          your: ''
         });
       },
       err => {
@@ -574,7 +640,8 @@ export class SalesOrderComponent implements OnInit {
     
     this.submitted = true;
     this.salesService.salesSearch(this.company, searchData).subscribe((result: any) => {
-        this.source = new LocalDataSource(result);
+        this.source.load(result);
+        this.source.setPaging(1, this.pages1);
         this.submitted = false;
       },
       err => {

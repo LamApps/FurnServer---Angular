@@ -238,7 +238,7 @@ export class NgxLoginComponent implements OnInit {
       data => {
         this.submitted = false;
         this.chatService.connect(data);
-        this.chatService.emit('userLogin', {fullName: data.firstname+' '+data.lastname, company: data.company?data.company.name:'Admin', avatar: data.photo, userId: data.id})
+        this.chatService.emit('userLogin', {fullName: data.firstname+' '+data.lastname, company: data.company?data.company.name:'Admin', avatar: data.photo, userId: data.id, status: data.default_status})
         this.cd.detectChanges()
         setTimeout(() => {
           if (this.isAdmin) {

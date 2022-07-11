@@ -6,8 +6,8 @@
     height: 0.6rem !important;
   }
 ::-webkit-scrollbar-thumb {
-    background: #d1d1d1 !important;
-    border-radius: 0.3rem !important;;
+    background: #a1a1a1 !important;
+    border-radius: 0.3rem !important;
 }
 ::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
 ::ng-deep .mat-form-field-label-wrapper { top: -1.5em;}
@@ -61,6 +61,9 @@
 ::ng-deep #detail-table .ng2-smart-sort-link, ::ng-deep #searchResultTable .ng2-smart-sort-link {
     color: white !important;
 }
+::ng-deep #detail-table tr.ng2-smart-titles th {
+    padding: 10px !important;
+}
 ::ng-deep #searchResultTable .wide {
     width: 70px;
 }
@@ -93,4 +96,11 @@
 
 ::ng-deep #detail-table .negative {
     background: rgba(243, 69, 69, 0.3) !important;
+}
+.dateCloseBtn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2000;
 }

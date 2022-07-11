@@ -44,7 +44,7 @@
                         id="select-role" 
                         style="position: relative"
                         formControlName="roles">
-                    <option *ngFor="let roles of rolesList" [value]="roles.id">{{ roles.name }}</option>
+                    <option *ngFor="let roles of rolesList" [ngValue]="roles.id">{{ roles.name }}</option>
                 </select>
             </div>
             <div class="form-control-group mt-3">

@@ -23,6 +23,7 @@ export class ChatService {
         company: userCurrentValue.company?userCurrentValue.company.name:'Admin',
         avatar: userCurrentValue.photo,
         userId: userCurrentValue.id,
+        status: userCurrentValue.default_status,
       }
       this.socket.connect();
     }

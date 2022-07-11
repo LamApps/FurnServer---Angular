@@ -80,7 +80,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       { title: 'Profile', link: userLink, icon: 'person-outline'},
       { 
         title: 'Set Status',
-        expanded: true,
+        expanded: false,
         icon: 'person-done-outline',
         children: [
           {
@@ -95,6 +95,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
             title: 'Busy',
             icon: 'slash-outline',
           },
+          {
+            title: 'Offline',
+            icon: 'wifi-off-outline',
+          },
         ],
       },
       { title: 'Log out', link: '/auth/logout', icon: 'log-out-outline'},
@@ -107,6 +111,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     document.body.addEventListener('click', this.unlockAudio, false)
     this.currentTheme = this.themeService.currentTheme;
     this.user = this.authService.currentUserValue;
+    this.status = this.user.default_status;
     if (this.user.photo != "") {
       this.photo = environment.baseUrl + "/" + this.user.photo;
     } else {
@@ -210,6 +215,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if(title=="Active") this.status = 'success';
     else if(title=="Away") this.status = 'warning';
     else if(title=="Busy") this.status = 'danger';
+    else if(title=="Offline") this.status = 'control';
     this.chatService.emit('statusChange', this.status);
   }
   ngOnDestroy() {
